@@ -1,0 +1,42 @@
+<style>
+  .iframe_container {
+	  width:   300px;
+	  height:  300px;
+	  overflow:  auto;
+  }	   
+</style>
+<style> 
+    .input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color: black;
+  color: green;
+}
+</style>
+	<style>
+		@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+		body{
+			background-color: black;
+			color: <?php echo $textColor; ?>;
+			font-family: 'Ubuntu', sans-serif;
+			font-size: 16px;
+			line-height: 20px;	
+		}
+		h4{
+			font-size: 18px;
+			line-height: 22px;
+			color: #353535;
+		}
+		#log {
+			position: relative;
+			top: -34px;
+		}
+		#scrollLock{
+			width:2px;
+			height: 2px;
+			overflow:visible;
+		}
+	</style>
