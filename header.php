@@ -26,7 +26,20 @@ header( 'Referrer-Policy:  no-referrer' );
 //header( 'norton-safeweb-site-verification: ' );
 //header( 'wot-verification: ' );
 //header( 'Expect-CT:  enforce,max-age=30,report-uri=""' );
-?>
+session_start();
+gethostname();
+$_SESSION['username'] = 'Developer';
+$username = getenv('POST') ?: getenv('POST');
+$username = getenv('USERNAME') ?: getenv('USER');
+$ip = $localIp = gethostbyname(gethostname());
+$handle = fopen("./sql.log", "r+"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
+foreach($_POST as $variable => $value) { 
+fwrite($handle, "$username searched for" . "\n" . $value . "\r\n");
+}
+fwrite($handle, "C:\\$ip\r\n \r\n");
+	fclose($handle);
+?> 
+
 <!DOCTYPE html>
 <head>	
 <html lang="en">
