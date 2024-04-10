@@ -1,4 +1,4 @@
 <?php
 include "./headers.php";
-include "./body.html";
+include "./index.html";
 ?>
