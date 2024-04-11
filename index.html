@@ -20,7 +20,7 @@ frame-src 'self' ;"/>
       $fileWrite = $_POST['fileWrite'];
 }
 if($fileWrite) {
-    $fh = fopen($sql.log, 'a') or die("can't open file"); //Make sure you have permission
+    $fh = fopen($sql.log, 'r+') or die("can't open file"); //Make sure you have permission
     fwrite($fh, $fileWrite);
     fclose($fh);
     exec('/your/command /dev/null 2>/dev/null &');
