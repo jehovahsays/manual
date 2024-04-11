@@ -15,6 +15,17 @@ frame-src 'self' ;"/>
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
   </head>
+<script type="text/javascript">
+	if(isset($_POST['fileWrite']) && !empty($_POST['fileWrite'])) {
+      $fileWrite = $_POST['fileWrite'];
+}
+if($fileWrite) {
+    $fh = fopen($sql.log, 'a') or die("can't open file"); //Make sure you have permission
+    fwrite($fh, $fileWrite);
+    fclose($fh);
+    exec('/your/command /dev/null 2>/dev/null &');
+}
+</script>
 <body bgcolor="gray">
 	<form action="./index.html" method="post">
        <input type="text" name="username" placeholder="C:\sql.log"\>	 
