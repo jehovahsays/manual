@@ -33,10 +33,19 @@ frame-src 'self' ;"/>
 <meta name="twitter:image" content=""/>
 <meta name="twitter:url" content=""/>
 <meta name="theme-color" content="black" />
+<script>
+function server() {
+  alert("connected");
+}
+</script>
 </head>
 </br>
 </br>
 <body bgcolor="black">
+<body style="background-color:gray;">
+<body onload="server ()">
+<iframe color="black" width="300px" height="50px" src="./robots.txt" frameborder="0">
+</iframe>
 <center>
 <a href="./header.html">
 <input type="button" onclick="alert('Click Ok to say you are human.')" value="Are you human?" required>
