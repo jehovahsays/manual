@@ -1,2 +1,2 @@
 # root
-#root directory
+root directory
