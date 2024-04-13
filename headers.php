@@ -1,3 +1,32 @@
+<?php
+header_remove( 'X-Powered-By' );
+header( 'Cache-control: none, no-cache, private, max-age=0' );
+header( 'Pragma: no-cache' );
+header( 'Content-Type-Options: nosniff' );
+header( 'X-Content-Type-Options: nosniff' );
+header( 'XSS-Protection: 1; mode=block' );
+header( 'X-XSS-Protection: 1; mode=block' );
+header( 'Vary: Accept-Encoding' );
+header( 'viewport: width=device-width' );
+header( 'Accept-Language: en-US,en;q=0.5' );
+header( 'Connection: Keep-alive' );
+header( 'Host: localhost' );
+header( 'description: localhost' );
+header( 'keywords: localhost' );
+header( 'Vary: Accept-Encoding' );
+header( 'Expires: 0' );
+header( 'Referrer-Policy:  no-referrer' );
+//header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload' );
+//header( 'Public-Key-Pins: pin-sha256="";' );
+//header( 'Content-Security-Policy: default-src "self";');
+//include(realpath(getenv('DOCUMENT_ROOT')) .'/blackhole/blackhole.php');
+//header( 'Strict-Transport-Security: max-age=0; includeSubDomains; preload' );
+//header( 'google-site-verification: ' );
+//header( 'msvalidate.01: ' );
+//header( 'norton-safeweb-site-verification: ' );
+//header( 'wot-verification: ' );
+//header( 'Expect-CT:  enforce,max-age=30,report-uri=""' );
+?>
 <!DOCTYPE html>
 <head>	
 <html lang="en">
@@ -37,49 +66,4 @@ frame-src 'self' ;"/>
 <link rel="stylesheet" href="./index.css">
 <title>root@localhost</title>
 </head>
-<body bgcolor="gray">
-<!<body style="background-color:black;">
-<center>	
-<div style="text-align:left;">
-  <ul class="pages"> 
-    <li class="chat page">
-      <div class="chatArea">  
-        <ul class="messages">
-		<li>
-      <input class="inputMessage" autocomplete="false" placeholder="send chatroom a message"/>
-	  <br>
-    </li>		
-</li>		
-		</ul>	</ul>
-		
-<li class="login page">
-<table> 
-<tr> 
-<td> 
-<label for="name">
-<span class="box">	 
-<h6>C:\Users\Administrator>
-</h6>
-</span>
-</label> 
-</td>
-<td>
-<div class="form">
-<form action="/index.html?action=post" method="post">	 
-<input type="text" name="username" class="usernameInput" style="height: 50px;"  style="text-align:left;" type="text" maxlength="14" autocomplete="false" placeholder="" />
-</form>
-</div>
-</td> 
-</tr> 
-</table>
- <center> 
-<iframe width="400px" height="300px" src="./index.log" frameborder="0">
-</iframe>
-</center>
-</li>
-</ul>
-</center>	
-<script type="application/javascript"  src="./index.js">
-</script>
-</body>	
-</html>
+
