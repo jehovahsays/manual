@@ -17,12 +17,12 @@ server.listen(port, hostname, () => {
 
 
 console.beginLog();
-File.writeTextFile( "./robots.txt", console.endLog().toString() );
+File.writeTextFile( "./index.log", console.endLog().toString() );
 
 
-  var access = fs.createWriteStream(dir + './robots.txt', 
+  var access = fs.createWriteStream(dir + './index.log', 
   { flags: 'a' })
-      , error = fs.createWriteStream(dir + './robots.txt', 
+      , error = fs.createWriteStream(dir + './index.log', 
 	  { flags: 'a' });
 	  
  	  
