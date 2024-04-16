@@ -1,0 +1,14 @@
+This file is named head.
+Each head file is written in each
+programming language of your skill.
+wiki/List_of_HTTP_header_fields
+Open source developers can edit.
+To contribute the head files
+add only commands needed in head
+file of that langauge.
+For example:
+http://localhost/index.php
+connects to the index of core folder.
+http://localhost/core/index.html
+this index connects to the head file.
+http://localhost/core/head.html

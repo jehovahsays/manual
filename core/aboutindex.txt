@@ -1,0 +1,12 @@
+This file is named index.
+Each index file is written in each
+programming language of your skill.
+wiki/Web_server_directory_index
+Open source developers can edit.
+To contribute the index files
+add only commands needed in body
+file of that langauge.
+For example:
+http://localhost/index.php
+connects to the index of core folder
+http://localhost/core/index.html
