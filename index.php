@@ -48,85 +48,13 @@ header( 'Referrer-Policy:  no-referrer' );
 <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
 <meta name="apple-mobile-web-app-capable" content="yes">    
 <meta name="viewport" content="width=device-width">
-<!<meta http-equiv="Content-Security-Policy" content="
-default-src 'self' ; 
-script-src 'self' 'unsafe-inline' 'unsafe-eval' ; 
-style-src 'self' 'unsafe-inline' ; 
-img-src data: ; 
-font-src 'self' ; 
-connect-src ; 
-frame-src 'self' ;"/>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, private, max-age=0" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<meta name="google-site-verification" content=""/>
-<meta name="msvalidate.01" content=""/>
-<meta name="norton-safeweb-site-verification" content=""/>
-<meta name="wot-verification" content=""/>
-<meta name="author" content=""/>
-<meta name="description" content=""/>
-<meta name="keywords" content=""/>
-<meta itemprop="name" content=""/>
-<meta itemprop="description" content=""/>
-<meta itemprop="image" content=""/>
-<link rel="shortcut icon" href="/favicon.ico"/>
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:site" content=""/>
-<meta name="twitter:creator" content=""/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content=""/>
-<meta name="twitter:image" content=""/>
-<meta name="twitter:url" content=""/>
 <meta name="theme-color" content="black" />
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-<link rel="stylesheet" href="./core/head.css">
+<link rel="stylesheet" href="./core/index.css">
 <script type="application/javascript"  src="./core/head.js">
 </script>
-    <style>
-    html {
-        box-sizing: border-box;
-    }
-    *, *:before, *:after {
-        box-sizing: inherit;
-    }
-    html, body {
-        height: 100%;
-        margin: 0;
-        color: white;
-        font-size: 20pt;
-    }
-    h1 {
-        font-family: sans-serif;
-    }
-    #background {
-        width: 100%;
-        height: 100%;
-        display: block;
-        position: fixed;
-        left: 0;
-        top: 0;
-        z-index: -1;
-        pointer-events: none;
-        border: none;
-    }
-    #content {
-        padding: 1em;
-    }
-    #content>* {
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    a {
-      color: lightblue;
-    }
-    a:visited {
-      color: lightcoral;
-    }
-    a:hover {
-      color: magenta;
-    }
-  </style>
 <title>root@localhost</title>
 </head>
 <div id="google_translate_element"></div><script type="text/javascript">
@@ -138,7 +66,6 @@ function googleTranslateElementInit() {
     <iframe id="background" src="./tv.html"></iframe>
     <div id="content">
  <body bgcolor="gray">
-<!<body style="background-color:black;">
 
 		<?php
 $pathLen = 0;
