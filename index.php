@@ -79,8 +79,8 @@ frame-src 'self' ;"/>
 <meta name="twitter:url" content=""/>
 <meta name="theme-color" content="black" />
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-<link rel="stylesheet" href="./index.css">
-<script type="application/javascript"  src="./index.js">
+<link rel="stylesheet" href="./core/head.css">
+<script type="application/javascript"  src="./core/head.js">
 </script>
     <style>
     html {
@@ -129,6 +129,12 @@ frame-src 'self' ;"/>
   </style>
 <title>root@localhost</title>
 </head>
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, gaTrack: true, gaId: 'UA-60536321-1'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <iframe id="background" src="./tv.html"></iframe>
     <div id="content">
  <body bgcolor="gray">
@@ -159,13 +165,13 @@ function myScanDir($dir, $level, $rootLen)
 
     while (false !== ($entry = readdir($handle))) {
       if ($entry != "." && $entry != "..") {
-        if (is_dir($dir . "/" . $entry))
+        if (is_dir($dir . "/core/" . $entry))
         {
-          $allFiles[] = "D: " . $dir . "/" . $entry;
+          $allFiles[] = "D: " . $dir . "/core/" . $entry;
         }
         else
         {
-          $allFiles[] = "F: " . $dir . "/" . $entry;
+          $allFiles[] = "F: " . $dir . "/core/" . $entry;
         }
       }
     }
@@ -213,14 +219,6 @@ function myScanDir($dir, $level, $rootLen)
 </td> 
 </tr> 
 </table>
-
-
-
-<div id="google_translate_element"></div><script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, gaTrack: true, gaId: 'UA-60536321-1'}, 'google_translate_element');
-}
-</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
  <center> 
  <iframe width="400px" height="40px" src="./core/index.log" frameborder="0">
