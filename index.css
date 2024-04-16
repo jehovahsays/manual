@@ -1,11 +1,4 @@
-	/* Fix user-agent */
-{
-  border: 2px solid black;
-  padding: 25px;
-  /*background: url(index.gif);*/
-  background-repeat: no-repeat;
-  background-size: auto;
-}	
+	/* Fix user-agent */	
 	
 * {
   box-sizing: border-box;
@@ -66,7 +59,6 @@ div {
   width: 100%;
 }
 .page {
-  background-color: transparent;
   height: 100%;
   width: 100%;  
   position: absolute;

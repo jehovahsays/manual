@@ -1,17 +1,17 @@
-<!
+<?php
 session_start();
 gethostname();
 $_SESSION['username'] = 'root@localhost';
 $username = getenv('POST') ?: getenv('POST');
 $username = getenv('USERNAME') ?: getenv('USER');
 $ip = $localIp = gethostbyname(gethostname());
-$handle = fopen("./index.log", "r+"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
-foreach($_POST as $variable => <!$value) { 
+$handle = fopen("./core/index.log", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
+foreach($_POST as $variable => $value) { 
 fwrite($handle, "root@localhost:~# searched for" . "\n" . $value . "\r\n");
 }
 fclose($handle);
 ?>
-<!
+<?php
 header_remove( 'X-Powered-By' );
 header( 'Cache-control: none, no-cache, private, max-age=0' );
 header( 'Pragma: no-cache' );
@@ -59,6 +59,24 @@ frame-src 'self' ;"/>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, private, max-age=0" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
+<meta name="google-site-verification" content=""/>
+<meta name="msvalidate.01" content=""/>
+<meta name="norton-safeweb-site-verification" content=""/>
+<meta name="wot-verification" content=""/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<meta itemprop="name" content=""/>
+<meta itemprop="description" content=""/>
+<meta itemprop="image" content=""/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content=""/>
+<meta name="twitter:creator" content=""/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:image" content=""/>
+<meta name="twitter:url" content=""/>
 <meta name="theme-color" content="black" />
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 <link rel="stylesheet" href="./index.css">
@@ -111,13 +129,12 @@ frame-src 'self' ;"/>
   </style>
 <title>root@localhost</title>
 </head>
-
     <iframe id="background" src="./tv.html"></iframe>
     <div id="content">
- <body bgcolor="transparent">
-<body style="background-color:transparent;">
+ <body bgcolor="gray">
+<!<body style="background-color:black;">
 
-<!
+		<?php
 $pathLen = 0;
 
 function prePad($level)
@@ -162,18 +179,17 @@ function myScanDir($dir, $level, $rootLen)
       $fileName    = substr($value, 3);
       $linkName    = str_replace(" ", "%20", substr($value, $pathLen + 3));
       if (is_dir($fileName)) {
-        echo prePad($level) . $linkName . "<br><!\n";
+        echo prePad($level) . $linkName . "<br>\n";
         myScanDir($fileName, $level + 1, strlen($fileName));
       } else {
-        echo prePad($level) . "<a href=\"" . $linkName . "\" style=\"text-decoration:none;\"><!" . $displayName . "</a><br><!\n";
-     <! }
+        echo prePad($level) . "<a href=\"" . $linkName . "\" style=\"text-decoration:none;\">" . $displayName . "</a><br>\n";
+      }
     }
   }
 }
 
 ?>
-<center>
-</center>
+
 <center>	
 <div style="text-align:left;">
   <ul class="pages"> 		
@@ -190,8 +206,8 @@ function myScanDir($dir, $level, $rootLen)
 </td>
 <td>
 <div class="form">
-<form action="./index.html" <!method="post"!>	 
-<input type="text" name="startgame" class="usernameInput" style="height: 50px;"  style="text-align:left;" type="text" maxlength="14" autocomplete="false" placeholder="start game" />
+<form action="/index.php?action=post" method="post">	 
+<input type="text" name="username" class="usernameInput" style="height: 50px;"  style="text-align:left;" type="text" maxlength="14" autocomplete="false" placeholder="Start Game" />
 </form>
 </div>
 </td> 
@@ -207,8 +223,8 @@ function googleTranslateElementInit() {
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
  <center> 
- <!<iframe width="400px" height="100px" src="./video.mp4" frameborder="0">
-<!</iframe>
+ <iframe width="400px" height="40px" src="./core/index.log" frameborder="0">
+</iframe>
 </center>
 
 
@@ -217,13 +233,12 @@ function googleTranslateElementInit() {
 <p style="font-family:'Courier New', Courier, monospace; font-size:small;">
 
 
-<!
+<?php
   $root = './core/';
 
   $pathLen = strlen($root);
 
-  myScanDir($root, 0, strlen($root)); 
-?>
+  myScanDir($root, 0, strlen($root)); ?>
   
   
   
@@ -236,6 +251,6 @@ function googleTranslateElementInit() {
 </body>	
 </html> 
   
-<!
+<?PHP
 EXIT;
 ?>
