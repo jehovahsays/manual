@@ -1,8 +1,8 @@
 # root
 root core
 This logger creates html page from input form<br>
-i have not commanded the logger to write the doctype<br>
-thefore the logger will not write the html page yet.<br>
+i have not commanded the logger to write the doctype at the top of the file<br>
+thefore the logger will not write the message onto the html page yet.<br>
 you show me how to or wait until i learn how.<br>
 be brave and edit the root core repository with me.<br>
 there is a language translator embeded on both command line pages<br>
