@@ -1,5 +1,6 @@
 # root
 root core
+a web server and php server are required to make this logger work on your localhost.
 This logger creates html page from input form<br>
 i have not commanded the logger to write the doctype at the top of the file<br>
 thefore the logger will not write the message onto the html page yet.<br>
