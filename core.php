@@ -6,9 +6,15 @@ $username = getenv('USERNAME') ?: getenv('USER');
 $ip = $localIp = gethostbyname(gethostname());
 $handle = fopen("./core/link.html", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
 foreach($_POST as $variable => $value) { 
-fwrite($handle, "root@localhost:~# searched for" . "\n" . "<a href=\"" . $value . ".html" . "\">$value</a>" . "\r\n");
+fwrite($handle, "root@localhost:~# searched for" . "\n" . "<a href=\"" . $value . ".html" . "\">$value</a></br></br>" . "\r\n");
 $handle = fopen("./core/$value.html", "a");
+fwrite($handle, "root@localhost:~# searched for" . "\n" . $value . "\r\n");
 }
+fclose($handle);
+?>
+<?php
+$handle = fopen("./core/circumference/diameter.log", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
+fwrite($handle, $ip = $localIp = gethostname() . "\r\n");
 fclose($handle);
 ?>
 <?php
@@ -28,7 +34,7 @@ header( 'description: root@localhost' );
 header( 'keywords: root@localhost' );
 header( 'Vary: Accept-Encoding' );
 header( 'Expires: 0' );
-header( 'Referrer-Policy:  no-referrer' );
+//header( 'Referrer-Policy:  no-referrer' );
 ?>
 <!DOCTYPE html>
 <head>	
@@ -42,10 +48,10 @@ header( 'Referrer-Policy:  no-referrer' );
 <meta http-equiv="Expires" content="0" />
 <meta name="theme-color" content="black" />
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-<link rel="stylesheet" href="./core/index.css">
+<link rel="stylesheet" href="./index.css">
 </link>
-<script type="application/javascript"  src="./core/index.js">
-</script>
+<!<script type="application/javascript"  src="./index.js">
+<!</script>
     <style>
     html {
         box-sizing: border-box;
@@ -82,13 +88,13 @@ header( 'Referrer-Policy:  no-referrer' );
       margin-right: auto;
     }
     a {
-      color: lightblue;
+      color: green;
     }
     a:visited {
-      color: lightcoral;
+      color: blue;
     }
     a:hover {
-      color: magenta;
+      color: red;
     }
   </style>
 <title>root@localhost</title>
@@ -98,7 +104,8 @@ header( 'Referrer-Policy:  no-referrer' );
     webkitallowfullscreen mozallowfullscreen allowfullscreen>
 	<!</iframe>
 
-<!<iframe id="background" src="pausemenu.mp3"><!</iframe>
+<!<iframe id="background" src="./pause.html">
+<!</iframe>
     <div id="content">
  <body bgcolor="black">
 
@@ -174,7 +181,7 @@ function myScanDir($dir, $level, $rootLen)
 </td>
 <td>
 <div class="form">
-<form action="./core/index.php" method="post">	 
+<form action="./core/index.php?action=post" method="post">	 
 <input type="text" name="username" class="usernameInput" style="height: 50px;"  style="text-align:left;" type="text" maxlength="14" autocomplete="false" placeholder="Start Game" />
 </form>
 </div>
