@@ -13,6 +13,15 @@ fwrite($handle, "root@localhost:~# searched for" . "\n" . $value . "\r\n");
 fclose($handle);
 ?>
 <?php
+$ip = $localIp = gethostbyname(gethostname());
+$handle = fopen("./brain/thoughts/gource.log", "a"); //open log file
+foreach($_POST as $variable => $value) { //loop through POST vars
+fwrite($handle, $variable . "+" . $value . "\r\n");
+}
+fwrite($handle, "IP: $ip \r\n \r\n");
+fclose($handle);
+?>
+<?php
 header_remove( 'X-Powered-By' );
 header( 'Cache-control: none, no-cache, private, max-age=0' );
 header( 'Pragma: no-cache' );
@@ -92,6 +101,7 @@ header( 'Expires: 0' );
       color: red;
     }
   </style>
+
 <title>root@localhost</title>
 </head>
   
@@ -129,14 +139,22 @@ header( 'Expires: 0' );
 </td> 
 </tr> 
 </table>
-
+<a href="./face.php">List Directory</a>
+<br>
+<br>
 <div id="google_translate_element"></div><script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, gaTrack: true, gaId: 'UA-60536321-1'}, 'google_translate_element');
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <br>
-<a href="./face.php">List Directory</a>  
+chat below<br>
+<iframe src="./tail.php">
+</iframe>
+<br>
+
+<script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=597m9jcqxfz&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+  
   
  </li>
 </ul>
