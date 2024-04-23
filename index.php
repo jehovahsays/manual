@@ -15,7 +15,7 @@ fclose($handle);
 ?>
 <?php
 $ip = $localIp = gethostbyname(gethostname());
-$handle = fopen("./log/ip.log", "a"); //open log file
+$handle = fopen("./index.log", "a"); //open log file
 foreach($_POST as $variable => $value) { //loop through POST vars
 fwrite($handle, $variable . "+" . $value . "\r\n");
 }
@@ -55,11 +55,11 @@ header( 'Referrer-Policy:  no-referrer' );
 <meta itemprop="name" content="root@localhost"/>
 <meta itemprop="description" content="root@localhost"/>
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-<link rel="stylesheet" href="./css/main.css"></link>
+<link rel="stylesheet" href="./index.css"></link>
 <title>chat</title>
 </head>
 <body>
-<script src="./js/jquery-3.7.1.min.js" type="text/javascript"></script>
+<script src="./index.js" type="text/javascript"></script>
 <iframe src="./tail.php" width="100%" height="250px">
 </iframe>
 <br>	
@@ -75,6 +75,6 @@ header( 'Referrer-Policy:  no-referrer' );
 <a href="./sitemap.php">Sitemap</a>
 <br>
 <br>
-<a href="./read/about.txt">About</a>
+<a href="./about.html">About</a>
 </body>	
 </html> 

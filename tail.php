@@ -1,5 +1,5 @@
 <?php
-$logFile = "./log/ip.log"; // local path to log file
+$logFile = "./index.log"; // local path to log file
 $interval = 1000; //how often it checks the log file for changes, min 100
 $textColor = "white"; //use CSS color
 // Don't have to change anything bellow
@@ -12,11 +12,11 @@ if(isset($_GET['getLog'])){
 <!DOCTYPE html>
 <head>	
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="./css/main.css"></link>
+<link rel="stylesheet" href="./index.css"></link>
 <title>log</title>
 </head>
 <body> 
-	<script src="./js/jquery-3.7.1.min.js" type="text/javascript"></script>
+	<script src="./index.js" type="text/javascript"></script>
 	<script>
 		setInterval(readLogFile, <?php echo $interval; ?>);
 		window.onload = readLogFile; 
