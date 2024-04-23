@@ -4,7 +4,7 @@ $ip = $localIp = gethostbyname(gethostname());
 // open log use "a" to write and grow 
 // log no deletion or use "r+" writes 
 // 1 line to the log it also deletes log
-$handle = fopen("./pagescreated.html", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
+$handle = fopen("./pagescreated/pagescreated.html", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
 // the user post becomes $value
 foreach($_POST as $variable => $value) { 
 fwrite($handle, "root@localhost:~# searched for" . "\n" . "<a href=\"" . $value . ".html" . "\">$value</a></br></br>" . "\r\n");
@@ -15,7 +15,7 @@ fclose($handle);
 ?>
 <?php
 $ip = $localIp = gethostbyname(gethostname());
-$handle = fopen("./index.log", "a"); //open log file
+$handle = fopen("./main.log", "a"); //open log file
 foreach($_POST as $variable => $value) { //loop through POST vars
 fwrite($handle, $variable . "+" . $value . "\r\n");
 }
@@ -55,26 +55,26 @@ header( 'Referrer-Policy:  no-referrer' );
 <meta itemprop="name" content="root@localhost"/>
 <meta itemprop="description" content="root@localhost"/>
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-<link rel="stylesheet" href="./index.css"></link>
+<link rel="stylesheet" href="./main.css"></link>
 <title>chat</title>
 </head>
-<body>
-<script src="./index.js" type="text/javascript"></script>
-<iframe src="./tail.php" width="100%" height="250px">
-</iframe>
-<br>	
-<div class="form">
-<form action="./index.php?action=post" method="post">	 
-<input type="text" name="username" class="usernameInput" style="height: 50px;"  style="text-align:left;" type="text" maxlength="14" autocomplete="false" placeholder="type in chat" />
-</form>
-</div>
-<br>
-<a href="./pagescreated.html">pages created</a>
+<body bgcolor="black">
+<p style="color:green">
+<script src="./main.js" type="text/javascript"></script>
+<a href="./about.html">About</a>
 <br>
 <br>
 <a href="./sitemap.php">Sitemap</a>
 <br>
 <br>
-<a href="./about.html">About</a>
+<a href="./pagescreated/pagescreated.html">pages created</a>
+<br>
+<div class="form">
+<iframe frameborder="0" height="175" src="./tail.php" width="300"></iframe>	
+</br>
+<form action="./index.php?action=post" method="post">	 
+<input type="text" name="username" class="usernameInput" style="height: 50px;"  style="text-align:left;" type="text" maxlength="14" autocomplete="false" placeholder="type in chat" />
+</form>
+</div>
 </body>	
 </html> 

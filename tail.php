@@ -1,9 +1,9 @@
 <?php
-$logFile = "./index.log"; // local path to log file
+$logFile = "./main.log"; // local path to log file
 $interval = 1000; //how often it checks the log file for changes, min 100
-$textColor = "white"; //use CSS color
+$textColor = "green"; //use CSS color
 // Don't have to change anything bellow
-if(!$textColor) $textColor = "white";
+if(!$textColor) $textColor = "green";
 if($interval < 100)  $interval = 100; 
 if(isset($_GET['getLog'])){
 	echo file_get_contents($logFile);
@@ -11,12 +11,11 @@ if(isset($_GET['getLog'])){
 ?>
 <!DOCTYPE html>
 <head>	
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="./index.css"></link>
+<link rel="stylesheet" href="./tail.css"></link>
 <title>log</title>
 </head>
 <body> 
-	<script src="./index.js" type="text/javascript"></script>
+	<script src="./main.js" type="text/javascript"></script>
 	<script>
 		setInterval(readLogFile, <?php echo $interval; ?>);
 		window.onload = readLogFile; 
