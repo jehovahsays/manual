@@ -1,4 +1,9 @@
+User-agent: localhost 
+Sitemap: /localhost.xml
+Crawl-delay: 2
+
 User-agent: *
+Crawl-delay: 10
 Allow: /
 Disallow:
  
