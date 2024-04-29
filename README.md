@@ -1,6 +1,5 @@
 # root
 root directory
->>>>>>>+HEAD
 
 a web sroot core<br>
 a web server and php server<br> 
@@ -15,5 +14,4 @@ there is a language translator embeded on both command line pages<br>
 list directory is always located below the site map.<br>
 create a branch of root core repository and give example website of your creativity<br>
 
->>>>>>>-main
  dependencies preinstalled](https://github.com/jehovahsays/root/actions/workflows/jekyll-gh-pages.yml/badge.svg?branch=main)](https://github.com/jehovahsays/root/actions/workflows/jekyll-gh-pages.yml)
