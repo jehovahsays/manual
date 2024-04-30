@@ -1,7 +1,12 @@
 {
 	"en": {
 		"manual": {
+			"about": "en/about",
+			"examples":"en/examples",
+			"geometry minecraft":"en/webgl_geometry_minecraft",
+			"css3d_youtube": "en/css3d_youtube",
 			"tv": "en/tv",
+			"playlist": "en/playlist",
 			"Newspaper": "en/rssticker",
 		    "webgpu_custom_fog": "en/webgpu_custom_fog",
 			"webaudio_orientation": "en/webaudio_orientation",

@@ -4,13 +4,13 @@
 		<title>three.js webaudio - orientation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="./main.css">
+		<link type="text/css" rel="stylesheet" href="main.css">
 	</head>
 <body>
 
 	<audio loop id="music" preload="auto" style="display: none">
-		<source src="../sounds/376737_Skullbeatz___Bad_Cat_Maste.ogg" type="audio/ogg">
-		<source src="../sounds/376737_Skullbeatz___Bad_Cat_Maste.mp3" type="audio/mpeg">
+		<source src="sounds/376737_Skullbeatz___Bad_Cat_Maste.ogg" type="audio/ogg">
+		<source src="sounds/376737_Skullbeatz___Bad_Cat_Maste.mp3" type="audio/mpeg">
 	</audio>
 
 	<div id="overlay">
@@ -26,7 +26,7 @@
 		{
 			"imports": {
 				"three": "../build/three.module.js",
-				"three/addons/": "../jsm/"
+				"three/addons/": "./jsm/"
 			}
 		}
 	</script>
@@ -56,7 +56,7 @@
 			camera.position.set( 3, 2, 3 );
 
 			const reflectionCube = new THREE.CubeTextureLoader()
-				.setPath( '../textures/cube/SwedishRoyalCastle/' )
+				.setPath( 'textures/cube/SwedishRoyalCastle/' )
 				.load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
 
 			scene = new THREE.Scene();
@@ -111,7 +111,7 @@
 			//
 
 			const gltfLoader = new GLTFLoader();
-			gltfLoader.load( '../models/gltf/BoomBox.glb', function ( gltf ) {
+			gltfLoader.load( 'models/gltf/BoomBox.glb', function ( gltf ) {
 
 				const boomBox = gltf.scene;
 				boomBox.position.set( 0, 0.2, 0 );
