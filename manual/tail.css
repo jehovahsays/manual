@@ -1,0 +1,23 @@
+	/* Fix user-agent */
+	body{
+		    
+			background-color: gray;
+			color: white;
+			font-family: 'Ubuntu', sans-serif;
+			font-size: 16px;
+			line-height: 20px;	
+		}
+		h4{
+			font-size: 18px;
+			line-height: 22px;
+			color: #353535;
+		}
+		#log {
+			position: relative;
+			top: -34px;
+		}
+		#scrollLock{
+			width:2px;
+			height: 2px;
+			overflow:visible;
+		}
