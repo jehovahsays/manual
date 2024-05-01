@@ -1,9 +1,6 @@
 # manual
 manual
 
-[dependencies preinstalled](https://github.com/jehovahsays/root/actions/workflows/jekyll-gh-pages.yml/badge.svg?branch=main)](https://github.com/jehovahsays/root/actions/workflows/jekyll-gh-pages.yml)
-
-
 <H3>manual</H3>
 For educational purposes only.<br>
 i created manual on my iphone.<br>
