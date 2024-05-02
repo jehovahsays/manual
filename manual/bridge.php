@@ -15,7 +15,7 @@ include "./lastRSS.php"; //path to lastRSS.php on your server from this script (
 
 // Create lastRSS object
 $rss = new lastRSS;
-$rss->cache_dir = 'cache'; //path to cache directory on your server from this script. Chmod 777!
+$rss->cache_dir = './en/cache'; //path to cache directory on your server from this script. Chmod 777!
 $rss->date_format = 'M d, Y g:i:s A'; //date format of RSS item. See PHP date() function for possible input.
 
 // List of RSS URLs

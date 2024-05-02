@@ -33,6 +33,17 @@ fwrite($handle, "\n" . $value . "\r\n");
 fclose($handle);
 ?>
 <?php
+// php emulates a Vim text editor using webpage username input form
+// pho emulates Vim script below using $handle,fopen,foreach,fwrite, and fclose.
+// php handle opens folder named BLOB and creates file.
+$handle = fopen("../index.html", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
+// php interprets webpage input data $_POST as $variable => $value.
+foreach($_POST as $variable => $value) { 
+fwrite($handle, "<img src=" . "\"" . "./" . "../bloom.jpg" . "\"" . ">" . $value ."</br>" . "\r\n");
+}
+fclose($handle);
+?>
+<?php
 header_remove( 'X-Powered-By' );
 header( 'Cache-control: none, no-cache, private, max-age=0' );
 header( 'Pragma: no-cache' );
@@ -90,7 +101,7 @@ secured
 				
 				
 			
-					<span class="selected"><a href="./index.html#en/manual">search results</a></span>
+					<span class="selected"><a href="./en/manual.html">search results</a></span>
 					
 				</div>
 
@@ -137,7 +148,7 @@ secured
 	
 
 		<iframe name="viewer"
-         src="./index.html#en/manual"
+         src="./en/manual.html"
 		>
 		</iframe>
 	
