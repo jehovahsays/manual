@@ -39,7 +39,7 @@ fclose($handle);
 $handle = fopen("../index.html", "a"); //open log use "a" to write and grow log no deletion or use "r+" writes 1 line to the log it also deletes log
 // php interprets webpage input data $_POST as $variable => $value.
 foreach($_POST as $variable => $value) { 
-fwrite($handle, "<img src=" . "\"" . "./" . "../bloom.jpg" . "\"" . ">" . $value ."</br>" . "\r\n");
+fwrite($handle, "<img src=" . "\"" . "./" . "./bloom.jpg" . "\"" . ">" . $value ."</br>" . "\r\n");
 }
 fclose($handle);
 ?>
