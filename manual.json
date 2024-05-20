@@ -1,0 +1,11 @@
+{
+	"en":
+	{
+	"manual":
+	{
+	"index":"en/index",
+	"television":"en/tv",
+	"playlist":"en/playlist",
+	"reviews":"en/reviews",
+	"browser":"en/browser"
+}}}

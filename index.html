@@ -1,299 +1,180 @@
-<!DOCTYPE html="manual">
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="mobile-web-app-capable" content="yes" />
-    	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<meta http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
-        <link rel="icon" type="image/png" href="./manual/en/files/favicon.ico">
-		<link rel="shortcut icon" href="./manual/files/en/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
-		<link rel="shortcut icon" href="./manual/files/en/favicon.ico" media="(prefers-color-scheme: light)" />
-       
-        <link rel="stylesheet" type="text/css" href="./main.css">
-
-		</link>
-
-	<title>manual</title>		
-	</head>
+<head>
+<meta charset="charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" />
+<meta http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Clear-Site-Data" content="*">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-epuiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referer" content="same-origin">
+<meta http-equiv="Content-Type" content="text/html">
+<meta http-equiv="Set-Cookie" content="HttpOnly">
+<meta http-equiv="Connection" content="Keep-alive">
+<meta http-equiv="Referrer-Policy" content="no-referrer">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=()">
+<meta http-equiv="Content-Security-Policy" content="
+default-src 'self' http: https:;
+script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:;
+style-src 'self' 'unsafe-inline' http: https:;
+img-src data: http: https:;
+font-src 'self' http: https:;
+connect-src http: https:;
+frame-src 'self' http: https:;"/>
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<link rel="icon" type="image/png" href="./favicon.ico">
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: dark)"/>
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<style>
+img {
 	
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
+fieldset {
+	    
+        margin: 30px;   
+		border-radius: 25px;
+	    padding: 0;
+	    position: center;
+	    top: 200;
+		left: 0;
+		right: 0;
+        width: 80%;
+}
+search {
+	    
+        margin: 50px; 
+		border-radius: 25px;
+	    padding: 0;
+	    position: fixed;
+	    top: 25;
+		left: 0;
+        width: 70%;
+}
+list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+		position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;		
+}
+.handle {
+	    
+	    position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;
+        font-size: 1.2em;
+        padding: 0px;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+.handle:last-child {  
+        
+	    position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;
+        border-bottom: none;
+}
+@keyframes fadeIn {
+   from {
+        opacity: 0;
+        transform: translateY(-10px);
+}
+   to   {
+        opacity: 1;
+        transform: translateY(0);
+}
+  }
+}
+</style>
+
+<title>handle</title>
+</head>
 <body>
-		
-
-			<div id="header">
-			
 	
-				<a href="./manual/index.html#en/tv">
-				Start Game
-					</a>
-			</div>		
-			
-
-			
-		
-			
-		<script type="x-shader/x-vertex" id="vertexshader">
-
-			varying vec2 vUv;
-
-			void main() {
-
-				vUv = uv;
-
-				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-			}
-
-		</script>
-
-		<script type="x-shader/x-fragment" id="fragmentshader">
-
-			uniform sampler2D baseTexture;
-			uniform sampler2D bloomTexture;
-
-			varying vec2 vUv;
-
-			void main() {
-
-				gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
-
-			}
-
-		</script>
-
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "./manual/build/three.module.js",
-					"three/addons/": "./manual/jsm/"
-				}
-			}
-		</script>
-
-		<script type="module">
-
-			import * as THREE from 'three';
-
-			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-
-			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-			import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-			import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-			import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-			import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-			import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-           
-			const BLOOM_SCENE = 1;
-
-			const bloomLayer = new THREE.Layers();
-			bloomLayer.set( BLOOM_SCENE );
-
-			const params = {
-				threshold: 0,
-				strength: 1,
-				radius: 0.5,
-				exposure: 1
-			};
-
-			const darkMaterial = new THREE.MeshBasicMaterial( { color: 'blue' } );
-			const materials = {};
-
-			const renderer = new THREE.WebGLRenderer( { antialias: true } );
-			renderer.setPixelRatio( window.devicePixelRatio );
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			renderer.toneMapping = THREE.ReinhardToneMapping;
-			document.body.appendChild( renderer.domElement );
-            
-			const scene = new THREE.Scene();
-
-			const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 200 );
-			camera.position.set( 0, 0, 70 );
-			camera.lookAt( 0, 0, 0 );
-			
-			
-
-			const controls = new OrbitControls( camera, renderer.domElement );
-			controls.maxPolarAngle = Math.PI * 0.5;
-			controls.minDistance = 1;
-			controls.maxDistance = 100;
-			controls.addEventListener( 'change', render );
-
-			const renderScene = new RenderPass( scene, camera );
-
-			const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-			bloomPass.threshold = params.threshold;
-			bloomPass.strength = params.strength;
-			bloomPass.radius = params.radius;
-
-			const bloomComposer = new EffectComposer( renderer );
-			bloomComposer.renderToScreen = false;
-			bloomComposer.addPass( renderScene );
-			bloomComposer.addPass( bloomPass );
-
-			const mixPass = new ShaderPass(
-				new THREE.ShaderMaterial( {
-					uniforms: {
-						baseTexture: { value: null },
-						bloomTexture: { value: bloomComposer.renderTarget2.texture }
-					},
-					vertexShader: document.getElementById( 'vertexshader' ).textContent,
-					fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-					defines: {}
-				} ), 'baseTexture'
-			);
-			mixPass.needsSwap = true;
-
-			const outputPass = new OutputPass();
-
-			const finalComposer = new EffectComposer( renderer );
-			finalComposer.addPass( renderScene );
-			finalComposer.addPass( mixPass );
-			finalComposer.addPass( outputPass );
-
-			const raycaster = new THREE.Raycaster();
-
-			const mouse = new THREE.Vector2();
-
-			window.addEventListener( 'pointerdown', onPointerDown );
-	
-			setupScene();
-
-			function onPointerDown( event ) {
-
-				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-				raycaster.setFromCamera( mouse, camera );
-				const intersects = raycaster.intersectObjects( scene.children, false );
-				if ( intersects.length > 0 ) {
-
-					const object = intersects[ 0 ].object;
-					object.layers.toggle( BLOOM_SCENE );
-					render();
-
-				}
-
-			}
-
-			window.onresize = function () {
-
-				const width = window.innerWidth;
-				const height = window.innerHeight;
-
-				camera.aspect = width / height;
-				camera.updateProjectionMatrix();
-
-				renderer.setSize( width, height );
-
-				bloomComposer.setSize( width, height );
-				finalComposer.setSize( width, height );
-
-				render();
-
-			};
-
-			function setupScene() {
-
-				scene.traverse( disposeMaterial );
-				scene.children.length = 0;
-
-				const geometry = new THREE.IcosahedronGeometry( 1, 15 );
-
-				for ( let i = 0; i < 50; i ++ ) {
-
-					const color = new THREE.Color();
-					color.setHSL( Math.random(), 0.7, Math.random() * 0.2 + 0.05 );
-
-					const material = new THREE.MeshBasicMaterial( { color: color } );
-					const sphere = new THREE.Mesh( geometry, material );
-					sphere.position.x = Math.random() * 10 - 5;
-					sphere.position.y = Math.random() * 10 - 5;
-					sphere.position.z = Math.random() * 10 - 5;
-					sphere.position.normalize().multiplyScalar( Math.random() * 4.0 + 2.0 );
-					sphere.scale.setScalar( Math.random() * Math.random() + 0.5 );
-					scene.add( sphere );
-
-					if ( Math.random() < 0.25 ) sphere.layers.enable( BLOOM_SCENE );
-
-				}
-
-				render();
-
-			}
-
-			function disposeMaterial( obj ) {
-
-				if ( obj.material ) {
-
-					obj.material.dispose();
-
-				}
-
-			}
-
-			function render() {
-
-				scene.traverse( darkenNonBloomed );
-				bloomComposer.render();
-				scene.traverse( restoreMaterial );
-
-				// render the entire scene, then render bloom scene on top
-				finalComposer.render();
-
-			}
-
-			function darkenNonBloomed( obj ) {
-
-				if ( obj.isMesh && bloomLayer.test( obj.layers ) === false ) {
-
-					materials[ obj.uuid ] = obj.material;
-					obj.material = darkMaterial;
-
-				}
-
-			}
-
-			function restoreMaterial( obj ) {
-
-				if ( materials[ obj.uuid ] ) {
-
-					obj.material = materials[ obj.uuid ];
-					delete materials[ obj.uuid ];
-
-				}
-
-			}
-			
-
-		</script>
-		
-	<script>
-		console.log( [
-			'    __     __',
-			' __/ __\\  / __\\__   ____   _____   _____',
-			'/ __/  /\\/ /  /___\\/ ____\\/ _____\\/ _____\\',
-			'\\/_   __/ /   _   / /  __/ / __  / / __  /_   __   _____',
-			'/ /  / / /  / /  / /  / / /  ___/ /  ___/\\ _\\/ __\\/ _____\\',
-			'\\/__/  \\/__/\\/__/\\/__/  \\/_____/\\/_____/\\/__/ /  / /  ___/',
-			'                                         / __/  /  \\__  \\',
-			'                                         \\/____/\\/_____/'
-		].join( '\n' ) ); 		
-</script>
-		
-	</body>
-	
-</html>
-gource ./manual/manual.log
 <center>
-   <footer id="bloom">
-   <img src="./bloom.jpg"> 
+<fieldset>
 
+<br>
+<form action="./index.html">
+<input id="list" onkeyup="handle()" 
+onkeydown="return event.key != 'Enter';"
+name="search" 
+placeholder="search pages" 
+type="search" 
+style="search" class="search" maxlength="30" 
+autocomplete="true" autocorrect="on" 
+autocapitalize="off" spellcheck="true">
+</form>
+<br>
+<a href="https://www.youtube.com/playlist?list=PLwMe8hyy9osJ12XuqlqRcsPQ1qkOMt9O8&jct=YI-MF2KAUacAHxaN-qnWPbvNinLM1Q"><button>Let's make a playlist together. Join to add videos: Artificial Intelligence Mix</button></a>
+<br><br>
+<form action="./index.php" method="post">
+<input id="input" type="text" name="search" 
+onkeypress="return event.charCode != 32" 
+class="{{ \App\getAllClasses()['text'] }}" 
+class="create" style="create"  class="titleInput" 
+style="height: 30px;" maxlength="30" autocomplete="true" 
+autocorrect="off" autocapitalize="off" spellcheck="true" 
+placeholder="create pages">
+</form>
+<br>
+			<br>
+<a href="./sitemap.php">
+list of pages</a>
+<br><br>
 
+</center>
 
+<script>
+function handle() {
 	
+	
+  let input = document.getElementById('list').value;
 
-<img src="./bloom.jpg">bloom</br>
-<img src="./bloom.jpg">manual</br>
+  input = input.toLowerCase();
+
+  let x = document.getElementsByClassName('handle');
+ 
+  for (i = 0; i < x.length; i++) {
+
+    if (!x[i].innerHTML.toLowerCase().includes(input)) {
+
+      x[i].style.display = "none";
+
+    }
+
+    else {
+
+      x[i].style.display = "list-item";
+
+    }
+
+  }
+  
+}
+</script>
+
+
+<center>
+<ul id="list">
+<a href="./index.html"class="handle"><button>index</button></a></br>
+<a href="./browser.html#en/tv"class="handle"><button>tv</button></a></br>
+<a href="./browser.html#en/playlist"class="handle"><button>playlist</button></a></br>
+<a href="./browser.html"class="handle"><button>browser</button></a></br>
+<a href="./browser.html#en/reviews"class="handle"><button>reviews</button></a></br>

@@ -1,0 +1,1 @@
+if the index.html located in directory "en" gets deleted copy and paste this index.html back into the directory named "en".
