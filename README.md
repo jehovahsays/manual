@@ -1,7 +1,13 @@
 # handle
 <br>
 <br>
-updates
+yes you can edit all the files<br>
+and folders if you know how<br>
+if you don't know how ask questions<br>
+Recent Updates<br>
+i created a folder named ai.<br>
+in this folder is the simple way<br>
+i build ai not like other developers<br>
 the Search box located on index.html page collects user input data sends<br> 
 it to the PHP software<br>
 that outputs the page on<br> 
