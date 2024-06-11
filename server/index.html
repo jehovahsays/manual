@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<link rel="icon" type="image/png" href="./favicon.ico">
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: dark)"/>
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<style>
+fieldset {
+	    
+        margin: 40px;   
+		border-radius: 25px;
+	    padding: 0;
+	    position: center;
+	    top: 10;
+		left: 0;
+		right: 0;
+        width: 75%;
+		height: 75%;
+}
+search {
+	    
+	    position: center;
+        margin: 50px; 
+		border-radius: 25px;
+	    padding: 0;
+	    
+	    top: 25;
+		left: 0;
+        width: 70%;
+}
+list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+		position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;		
+}
+.handle {
+	    
+	    position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;
+        font-size: 1.2em;
+        padding: 0px;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+.handle:last-child {  
+        
+	    position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;
+        border-bottom: none;
+}
+@keyframes fadeIn {
+   from {
+        opacity: 0;
+        transform: translateY(-10px);
+}
+   to   {
+        opacity: 1;
+        transform: translateY(0);
+}
+  }
+}
+</style>
+<title>index</title>
+</head>
+<body>
+		
+<center>
+<fieldset class="fieldset">
+<br>
+<form action="./index.html" role="search">
+<input id="list" onkeyup="handle()" 
+onkeydown="return event.key != 'Enter';"
+name="search" 
+placeholder="search pages" 
+type="search" 
+style="search" class="search" maxlength="140" 
+autocomplete="true" autocorrect="on" 
+autocapitalize="off" spellcheck="true"
+x-webkit-speech>
+</form>
+<br>
+<br>
+<form action="./index.php" method="post" id="secure-form">
+<input id="secure-form-answer-Human" type="text" 
+name="secure-form-answer"
+value="" 
+class="create" style="create"  class="titleInput" 
+style="height: 30px;" maxlength="140" autocomplete="true" 
+autocorrect="off" autocapitalize="off" spellcheck="true" 
+placeholder="create pages" x-webkit-speech>
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>
+</form>
+<br>
+
+</center>
+
+<script>
+function handle() {
+	
+  let input = document.getElementById('list').value;
+
+  input = input.toLowerCase();
+
+  let x = document.getElementsByClassName('handle');
+ 
+  for (i = 0; i < x.length; i++) {
+
+    if (!x[i].innerHTML.toLowerCase().includes(input)) {
+
+      x[i].style.display = "none";
+
+    }
+
+    else {
+
+      x[i].style.display = "list-item";
+
+    }
+
+  }
+  
+}
+</script>
+
+<center>
+<ul id="list">
+<a href="./browser.html#en/index"class="handle"><button>index</button></a></br>
+<a href="./browser.html#en/reviews"class="handle"><button>reviews</button></a></br>
+<a href="./browser.html#en/edit"class="handle"><button>edit</button></a></br>
+<a href="./browser.html#en/tv"class="handle"><button>tv</button></a></br>
+<a href="./browser.html#en/playlist"class="handle"><button>playlist</button></a></br><a href="./browser.html#en/play"class="handle"><button>play</button></a></br>
