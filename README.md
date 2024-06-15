@@ -1,8 +1,8 @@
-# manual
+# handle
 <br>
 <br>
 welcome to:<br>
-<H3>manual</H3><br>
+<H3>handle</H3><br>
 For educational purposes only.<br>
 hardware: iphone<br>
 software: phpwin iphone app<br>
@@ -20,11 +20,11 @@ my name is morgan shatee' byers,<br>
 my number is 770-687-8847<br>
 <br>
 <a href="http://morgansbyers.scienceontheweb.net/index.html">
-Visit website to see manual demo</a>
+Visit website to see handle demo</a>
 <br>
 <br>
-<a href="https://github.com/jehovahsays/manual">
-manual github repository</a>
+<a href="https://github.com/jehovahsays/handle">
+handle github repository</a>
 <br>
 <br>
 <a href="https://youtube.com/@jehovahsaysnetworth?si=FRrFrG_K02C38K_G">

@@ -19,17 +19,24 @@ header( 'Expires: 0' );
 header( 'Referrer-Policy:  same-origin' );
 header( 'Accept-Language: en-US,en;q=0.5' );
 header( 'Connection: Keep-alive' );
-header( 'Location: ./browser.html' );
-            $answer1 = $_POST['secure-form-answer'];        
-            $totalCorrect = 0;           
-            if ($answer1 == "Human") { $totalCorrect++; }            
-            echo "<div id='results'>$totalCorrect /  1 correct</div>";    
+header( 'Location: ./index.html#en/index' );
+foreach($_POST as $variable => $value) {
+    $value = str_replace(' ', '_', $value);
+	$answer1 = $_POST['secure-form-answer'];        
+	$totalCorrect = 0;           
+	if ($answer1 == "Human") { $totalCorrect++; }            
+	echo "<div id='results'>$totalCorrect /  1 correct</div>";    
 	$handle = fopen("./en/" . $value . ".html", "a");
 	fwrite($handle, "\n" 
 	. "<!DOCTYPE html>" 
-	. "<meta name=" . "\"" . "viewport" . "\"" . "content=" . "\"" . "user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" . "\"" . "/>" 
-	. "<title>" . $value . "</title>" . "</br>"
-	. "<br>\n" 
+	. "<meta name=" . "\"" . "viewport" . "\"" . "content=" 
+	. "\"" . "user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" . "\"" . "/>" 
+	. "<title>" 
+	. $value 
+	. "</title>" 
+	. "</br>"
+	. $value
+	. "<br><br>\n" 
 	. "<form action=\"../server.php\" method=\"post\">\n" 
 	. "<input id=\"secure-form-answer-Human\" type=\"text\" name=\"secure-form-answer\" \n"
 	. "onkeypress=\"return event.charCode != 32\" \n" 
@@ -42,13 +49,9 @@ header( 'Location: ./browser.html' );
 	. "\""
 	. ">Human</label></noscript>"
 	. "</form>\n" 
-	. "\n" 
-	. "<br><a href=" . "\"" . "../delete.php?action=delete&filename=./en/" . $value . ".html" . "\"" . ">delete this page</a>"
-	. "<center>\n" 
-	. "<ul id=\"list\">\n"
-	. "<a href=\"../index.html\"class=\"handle\">index</a></br>\n" 
 	. "\n"
-    . $value . "\r\n");
+    . "\r\n");
+}
 $handle = fopen("./manual.json", "a");
 // load the data and delete the line from the array 
 $lines = file('./manual.json'); 
@@ -70,11 +73,6 @@ foreach($_POST as $variable => $value) {
 	. "\""
     . "\n}}}"
     . "\r\n");
-}
-$handle = fopen("./index.html", "a");
-foreach($_POST as $variable => $value) {
-    $value = str_replace(' ', '_', $value);
-	fwrite($handle, "<a href=" . "\"" . "./" . "browser.html#en" . "/" . $value . "\"" . "class=" . "\"" . "handle" . "\"" . "><button>" . $value . "</button>" . "</a></br>" . "\r\n");
 }
 fclose($handle);
 ?>
