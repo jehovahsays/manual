@@ -23,14 +23,6 @@ header( 'Location: ./browser.html' );
             $totalCorrect = 0;           
             if ($answer1 == "Human") { $totalCorrect++; }            
             echo "<div id='results'>$totalCorrect /  1 correct</div>";    
-gethostname();
-$localIp = gethostbyname(gethostname());
-$handle = "handle"; 
-$handle = "filterInput"; 
-$handle = fopen("./index.html", "a");
-foreach($_POST as $variable => $value) {
-    $value = str_replace(' ', '_', $value);
-	fwrite($handle, "<a href=" . "\"" . "./" . "browser.html#en" . "/" . $value . "\"" . "class=" . "\"" . "handle" . "\"" . "><button>" . $value . "</button>" . "</a></br>" . "\r\n");
 	$handle = fopen("./en/" . $value . ".html", "a");
 	fwrite($handle, "\n" 
 	. "<!DOCTYPE html>" 
@@ -52,7 +44,7 @@ foreach($_POST as $variable => $value) {
 	. "\n" 
 	. "<br><a href=" . "\"" . "../delete.php?action=delete&filename=./en/" . $value . ".html" . "\"" . ">delete this page</a>"
 	. "<center>\n" 
-	. "<ul id=\"list\">\n" 
+	. "<ul id=\"list\">\n"
 	. "<a href=\"../index.html\"class=\"handle\">index</a></br>\n" 
 	. "\n"
     . $value . "\r\n");
@@ -78,6 +70,11 @@ foreach($_POST as $variable => $value) {
 	. "\""
     . "\n}}}"
     . "\r\n");
+}
+$handle = fopen("./index.html", "a");
+foreach($_POST as $variable => $value) {
+    $value = str_replace(' ', '_', $value);
+	fwrite($handle, "<a href=" . "\"" . "./" . "browser.html#en" . "/" . $value . "\"" . "class=" . "\"" . "handle" . "\"" . "><button>" . $value . "</button>" . "</a></br>" . "\r\n");
 }
 fclose($handle);
 ?>
