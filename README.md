@@ -19,12 +19,12 @@ no puchase buttons.<br>
 my name is morgan shatee' byers,<br>
 my number is 770-687-8847<br>
 <br>
-<a href="http://morgansbyers.scienceontheweb.net">
-Visit website to see handle demo</a>
+<a href="http://morgansbyers.scienceontheweb.net/index.html">
+Visit website to see manual demo</a>
 <br>
 <br>
 <a href="https://github.com/jehovahsays/manual">
-handle github repository</a>
+manual github repository</a>
 <br>
 <br>
 <a href="https://youtube.com/@jehovahsaysnetworth?si=FRrFrG_K02C38K_G">
