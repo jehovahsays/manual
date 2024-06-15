@@ -1,8 +1,8 @@
-# handle
+# manual
 <br>
 <br>
 welcome to:<br>
-<H3>handle</H3><br>
+<H3>manual</H3><br>
 For educational purposes only.<br>
 hardware: iphone<br>
 software: phpwin iphone app<br>
@@ -23,7 +23,7 @@ my number is 770-687-8847<br>
 Visit website to see handle demo</a>
 <br>
 <br>
-<a href="https://github.com/jehovahsays/handle">
+<a href="https://github.com/jehovahsays/manual">
 handle github repository</a>
 <br>
 <br>
