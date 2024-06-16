@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+  <meta charset="UTF-8">
+  <title>recent changes</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name ="theme-color" content="white">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, proxy-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<script src="/rssticker.js" type="application/javascript">
+/***********************************************
+* Advanced RSS Ticker (Ajax invocation)- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* Please keep this notice intact
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more
+***********************************************/
+</script>
+
+<style type="text/css">
+/*Sample CSS to style the two tickers in the demo*/
+.cnnclass{
+width: 100%;
+padding: 1px;
+margin-bottom: 1em;
+filter:progid:DXImageTransform.Microsoft.alpha(opacity=80); /*Specify fade effect in IE. Remove if desired.*/
+-moz-opacity: 0.8; /*Specify fade effect in Firefox. Remove if desired.*/
+}
+.cnnclass a{
+text-decoration: none;
+width: 100%;
+}
+.bbcclass{
+width: 100%;
+padding: 6px;
+background-color: lightyellow;
+border: 1px solid #004A00;
+}
+.rsstitle{ /*shared class for all title elements in an RSS feed*/
+font-weight: bold;
+font-size: 70%;
+width: 100%;
+}
+.rssdate{ /*shared class for all date elements in an RSS feed*/
+color: gray;
+font-size: 60%;
+width: 100%;
+}
+.rssdescription{ /*shared class for all description elements in an RSS feed*/
+width: 100%;
+}
+</style>
+
+	</head>
+	<body>
+	<a 
+href="./index.html" 
+class="handle">
+return to homepage
+</a><br><br>
+		<div style="height: 55px">
+<script type="text/javascript">
+//rssticker_ajax(RSS_id, cachetime, divId, divClass, delay, optionalswitch)
+//1) RSS_id: "Array key of RSS feed in PHP script"
+//2) cachetime: Time to cache the feed in minutes (0 for no cache)
+//3) divId: "ID of DIV to display ticker in. DIV dynamically created"
+//4) divClass: "Class name of this ticker, for styling purposes"
+//5) delay: delay between message change, in milliseconds
+//6) optionalswitch: "optional arbitrary" string to create additional logic in call back function
+document.write("")
+new rssticker_ajax("Google", 0, "cnnbox", "cnnclass", 3000, "date+description")
+//document.write("<br />BBC News: (Title+date+description shown)")
+//new rssticker_ajax("BBC", 1200, "ddbox", "bbcclass", 3500, "date+description")
+</script></div>
+</body>	
+</html>

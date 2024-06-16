@@ -50,7 +50,36 @@ header( 'Location: ./index.html' );
 	. "\n"
     . "\r\n");
 $handle = fopen("./index.html", "a");
-	fwrite($handle, "<a href=" . "\"" . "./en/" . $value . ".html" . "\"" . "class=" . "\"" . "handle" . "\"" . "><button>" . $value . "</button>" . "</a></br>" . "\r\n");
+    fwrite($handle, 
+	  "<a href=" 
+	  . "\"" 
+	  . "./en/" 
+	  . $value 
+	  . ".html" 
+	  . "\"" 
+	  . "class=" 
+	  . "\"" 
+	  . "handle" 
+	  . "\"" 
+	  . "><button>" 
+	  . $value 
+	  . "</button>" 
+	  . "</a></br>" 
+	  . "\r\n");
+
+$handle = fopen("./springy.html", "a");
+// load the data and delete the line from the array 
+$lines = file('./springy.html'); 
+$last = sizeof($lines) - 1 ; 
+unset($lines[$last]); 
+// write the new data to the file 
+file_put_contents('./springy.html', $lines); 
+	fwrite($handle, 
+	  "\"" 
+	. $value 
+	. "\"" 
+	. "," . "\n" . "]};</script>"
+	. "\r\n");
 }
 fclose($handle);
 ?>
