@@ -4,18 +4,35 @@
 <meta charset="charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+<meta http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Clear-Site-Data" content="*">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-epuiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referer" content="same-origin">
+<meta http-equiv="Content-Type" content="text/html">
+<meta http-equiv="Connection" content="Keep-alive">
+<meta http-equiv="Referrer-Policy" content="no-referrer">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=()">
+<meta http-equiv="Content-Security-Policy" content="
+default-src 'self' http: https:;
+script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:;
+style-src 'self' 'unsafe-inline' http: https:;
+img-src data: http: https:;
+font-src 'self' http: https:;
+connect-src http: https:;
+frame-src 'self' http: https:;"/>
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<link rel="icon" type="image/png" href="./favicon.ico">
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: dark)"/>
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 <style>
-search {
-	    position: fixed;
-        margin: 50px; 
-		border-radius: 25px;
-	    padding: 0;
-	    position: fixed;
-	    top: 25;
-		left: 0;
-        width: 70%;
-}
 list {
         list-style: none;
         padding: 0;
@@ -26,23 +43,23 @@ list {
 		right: 0;		
 }
 .handle {
-	    
+        margin: 0;
 	    position: fixed;
+		z-index: 1000;
 	    top: 0;
         left: 0;
-		right: 0;
-        font-size: 1.2em;
-        padding: 0px;
+        font-size: 1.0em;
+        padding: 10px;
         animation: fadeIn 0.5s ease-in-out;
 } 
-.handle:last-child {  
-        
+.handle:last-child {        
 	    position: fixed;
 	    top: 0;
         left: 0;
 		right: 0;
         border-bottom: none;
 }
+
 @keyframes fadeIn {
    from {
         opacity: 0;
@@ -55,6 +72,13 @@ list {
   }
 }
 </style>
+
+  <script src="./jquery-3.7.1.min.js"></script>
+  <script src="./bootstrap.min.js"></script>
+  
+      <!-- Bootstrap core CSS -->
+    <link href="./bootstrap.min.css" rel="stylesheet">
+
 <title>handle</title>
 </head>
 <body>
@@ -86,38 +110,75 @@ function handle() {
 }
 
 </script>	
-<br>
-<center>
-<form action="./index.html">
-<input id="list" onkeyup="handle()" 
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">	
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+<a class="navbar-brand" href="/index.html">index</a>	  
+<form 
+class="form-group"
+action="./action.php" 
+method="post">
+<input 
+id="input" 
+id="secure-form-answer-Human" 
+type="text" 
+name="secure-form-answer" 
+class="form-control"
+maxlength="30" 
+autocomplete="true" 
+autocorrect="off" 
+autocapitalize="off" 
+spellcheck="true" 
+placeholder="create pages">
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>
+</form> 
+
+    </div>
+	    
+	</ul>
+	
+      <ul class="nav navbar-nav navbar-right">
+    <div class="collapse navbar-collapse" id="myNavbar">
+	<center>
+<form class="navbar-form navbar-left" action="/index.html">
+      <div class="form-group">
+        <input 
+id="list" 
+onkeyup="handle()" 
 onkeydown="return event.key != 'Enter';"
 name="search" 
-placeholder="search handle" 
+placeholder="search pages" 
 type="search" 
-style="search" class="search" maxlength="30" 
-autocomplete="true" autocorrect="on" 
-autocapitalize="off" spellcheck="true">
-</form>
-<br>
-<form action="./action.php" method="post">
-<input id="input" type="text" 
-name="create-pages" 
-class="create" style="create"  class="titleInput" 
-style="height: 30px;" maxlength="30" autocomplete="true" 
-autocorrect="off" autocapitalize="off" spellcheck="true" 
-placeholder="create handle">
-</form>
-<br>
-<br>
-<a href="./springy.html">springy</a>
-<br><br>
-<a href="./newspaper.html">newspaper</a>
-<br><br>
-<a href="./play.html">play</a>
+style="search" 
+class="search" 
+maxlength="30" 
+autocomplete="true" 
+autocorrect="on" 
+autocapitalize="off" 
+spellcheck="true"		
+class="form-control">
+      </div>
+    </form>	
+</center>	
 
-
-</center>
-<center>
-<ul id="list">
-<a href="./en/index.html"class="handle"><button>index</button></a></br>
-<a href="./en/about.html"class="handle"><button>about</button></a></br>
+<ul id="list" class="nav navbar-nav">
+<a href="./en/about.html"class="handle"><button>about</button></a>recent edits <a href="./en/about.html">about</a></br>
+<a href="./en/edit.html"class="handle"><button>edit</button></a>recent edits <a href="./en/edit.html">edit</a></br>
+<a href="./en/login.html"class="handle"><button>login</button></a>recent edits <a href="./en/login.html">login</a></br>
+<a href="./en/logout.html"class="handle"><button>logout</button></a>recent edits <a href="./en/logout.html">logout</a></br>
+<a href="./en/search.html"class="handle"><button>search</button></a>recent edits <a href="./en/search.html">search</a></br>
+<a href="./en/contact.html"class="handle"><button>contact</button></a>recent edits <a href="./en/contact.html">contact</a></br>
+<a href="./en/upload.html"class="handle"><button>upload</button></a>recent edits <a href="./en/upload.html">upload</a></br>
+<a href="./en/download.html"class="handle"><button>download</button></a>recent edits <a href="./en/download.html">download</a></br>
+<a href="./en/stats.html"class="handle"><button>stats</button></a>recent edits <a href="./en/stats.html">stats</a></br>
+<a href="./en/stats.html"class="handle"><button>stats</button></a>recent edits <a href="./en/stats.html">stats</a></br>
