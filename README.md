@@ -4,6 +4,7 @@
 welcome to:<br>
 <H3>manual</H3><br>
 For educational purposes only.<br>
+<a href="https://jehovahsays.github.io/manual/map.html">click here to view developer map<a><br>
 hardware: iphone<br>
 software: phpwin iphone app<br>
 http web server with php<br>
