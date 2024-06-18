@@ -27,9 +27,9 @@ connect-src http: https:;
 frame-src 'self' http: https:;"/>
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
-<link rel="icon" type="image/png" href="./favicon.ico">
-<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: dark)"/>
-<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/png" href="./files/favicon.ico">
+<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: dark)"/>
+<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 <style>
@@ -39,24 +39,21 @@ list {
         margin: 0;
 		position: fixed;
 	    top: 0;
-        left: 0;
-		right: 0;		
+        left: 0px;			
 }
 .handle {
         margin: 0;
-	    position: fixed;
-		z-index: 1000;
+	    position: fixed;		
 	    top: 0;
-        left: 0;
+        left: 0px;
         font-size: 1.0em;
-        padding: 10px;
+        padding: 15px;
         animation: fadeIn 0.5s ease-in-out;
 } 
 .handle:last-child {        
 	    position: fixed;
 	    top: 0;
-        left: 0;
-		right: 0;
+        left: 0px;
         border-bottom: none;
 }
 
@@ -72,13 +69,9 @@ list {
   }
 }
 </style>
-
-  <script src="./jquery-3.7.1.min.js"></script>
-  <script src="./bootstrap.min.js"></script>
-  
-      <!-- Bootstrap core CSS -->
-    <link href="./bootstrap.min.css" rel="stylesheet">
-
+<script src="./js/jquery-3.7.1.min.js"></script>
+<script src="./js/bootstrap.js"></script>
+<link href="./css/bootstrap.css" rel="stylesheet"></link>
 <title>handle</title>
 </head>
 <body>
@@ -109,7 +102,8 @@ function handle() {
   
 }
 
-</script>	
+</script>
+	
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">	
@@ -118,15 +112,35 @@ function handle() {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-<a class="navbar-brand" href="/index.html">index</a>	  
-<form 
-class="form-group"
-action="./action.php" 
+	<center>
+	
+<input 
+id="list" 
+onkeyup="handle()" 
+onkeydown="return event.key != 'Enter';"
+name="search" 
+placeholder="search pages" 
+type="search" 
+maxlength="30" 
+autocomplete="true" 
+autocorrect="on" 
+autocapitalize="off" 
+spellcheck="true"		
+class="form-control">     
+</form>	 
+
+      <ul class="nav navbar-nav navbar-right">
+    <div class="collapse navbar-collapse" id="myNavbar">
+    <div class="container">
+ 
+ <form class="navbar-form navbar-left" action="./action.php" 
 method="post">
+<div class="form-group">	
+
 <input 
 id="input" 
 id="secure-form-answer-Human" 
-type="text" 
+type="search" 
 name="secure-form-answer" 
 class="form-control"
 maxlength="30" 
@@ -134,51 +148,22 @@ autocomplete="true"
 autocorrect="off" 
 autocapitalize="off" 
 spellcheck="true" 
-placeholder="create pages">
+placeholder="create pages"
+required>
 <noscript>
 <label 
 for="secure-form-answer-Human">
 Human
 </label>
 </noscript>
+    </div>	
 </form> 
 
-    </div>
-	    
-	</ul>
-	
-      <ul class="nav navbar-nav navbar-right">
-    <div class="collapse navbar-collapse" id="myNavbar">
-	<center>
-<form class="navbar-form navbar-left" action="/index.html">
-      <div class="form-group">
-        <input 
-id="list" 
-onkeyup="handle()" 
-onkeydown="return event.key != 'Enter';"
-name="search" 
-placeholder="search pages" 
-type="search" 
-style="search" 
-class="search" 
-maxlength="30" 
-autocomplete="true" 
-autocorrect="on" 
-autocapitalize="off" 
-spellcheck="true"		
-class="form-control">
-      </div>
-    </form>	
-</center>	
+    </div>	
+    </div>	    
+    </div>		
+    </div><!-- /.container -->	
 
-<ul id="list" class="nav navbar-nav">
-<a href="./en/about.html"class="handle"><button>about</button></a>recent edits <a href="./en/about.html">about</a></br>
-<a href="./en/edit.html"class="handle"><button>edit</button></a>recent edits <a href="./en/edit.html">edit</a></br>
-<a href="./en/login.html"class="handle"><button>login</button></a>recent edits <a href="./en/login.html">login</a></br>
-<a href="./en/logout.html"class="handle"><button>logout</button></a>recent edits <a href="./en/logout.html">logout</a></br>
-<a href="./en/search.html"class="handle"><button>search</button></a>recent edits <a href="./en/search.html">search</a></br>
-<a href="./en/contact.html"class="handle"><button>contact</button></a>recent edits <a href="./en/contact.html">contact</a></br>
-<a href="./en/upload.html"class="handle"><button>upload</button></a>recent edits <a href="./en/upload.html">upload</a></br>
-<a href="./en/download.html"class="handle"><button>download</button></a>recent edits <a href="./en/download.html">download</a></br>
-<a href="./en/stats.html"class="handle"><button>stats</button></a>recent edits <a href="./en/stats.html">stats</a></br>
-<a href="./en/stats.html"class="handle"><button>stats</button></a>recent edits <a href="./en/stats.html">stats</a></br>
+<center>
+<ul id="list">
+<a href="./en/morgansbyers.html"class="handle"><button>morgansbyers</button></a>recent edits <a href="./en/morgansbyers.html">morgansbyers</a></br>

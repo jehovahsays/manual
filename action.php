@@ -18,32 +18,22 @@ header( 'Expires: 0' );
 header( 'Referrer-Policy:  same-origin' );
 header( 'Accept-Language: en-US,en;q=0.5' );
 header( 'Connection: Keep-alive' );
-header( 'Location: ./index.html' );
             $answer1 = $_POST['secure-form-answer'];        
-            $totalCorrect = 0;           
+            $totalCorrect = 1;           
             if ($answer1 == "Human") { $totalCorrect++; }            
             echo "<div id='results'>$totalCorrect /  1 correct</div>";
-	foreach($_POST as $variable => $value) {
-		$value = str_replace(' ', '_', $value);	
-		// checking whether file exists or not 
-		
-		$file_pointer = './en/' . $value . '.html'; 
-		
-		
-		
-		if (file_exists($file_pointer))  
-		{ 
-		
-		echo "The file $file_pointer exists"; 
-		} 
-		
-		else 
-		{ 
-		
-		
-		
-		
-		$handle = fopen("./en/" . $value . ".html", "a");
+            //The halting problem
+	    foreach($_POST as $variable => $value) {
+			$value = str_replace(' ', '_', $value);	
+			// checking whether file exists or not 		
+			$file_pointer = "./en/" . $value . ".html"; 						
+			if (file_exists($file_pointer))  
+			{ 		
+			echo "The file $file_pointer already exists <br>"; 
+			echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
+			exit;
+			} 			
+	$handle = fopen("./en/" . $value . ".html", "a");
 		fwrite($handle, 
 		"\n" 
 		. "<meta name="
@@ -60,23 +50,23 @@ header( 'Location: ./index.html' );
 		. "</title>"	
 		. "<script src="
 		. "\""
-		. "../jquery-3.7.1.min.js"
+		. "../js/jquery-3.7.1.min.js"
 		. "\""
 		. "></script>"
 		. "<script src="
 		. "\"" 
-		. "../bootstrap.min.js"
+		. "../js/bootstrap.js"
 		. "\"" 
 		. "></script>"
 		. "<link href="
 		. "\"" 
-		. "../bootstrap.min.css"
+		. "../css/bootstrap.css"
 		. "\"" 
 		. "rel="
 		. "\"" 
 		. "stylesheet"
 		. "\"" 
-		. ">"
+		. "></link>"
 		. "<nav class="
 		. "\"" 
 		. "navbar navbar-inverse"
@@ -267,7 +257,7 @@ header( 'Location: ./index.html' );
 		. $value
 		. "</a></br>" 
 		. "\r\n");
-		}
+		echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
 	}
 fclose($handle);
 ?>
