@@ -8,8 +8,8 @@ fix what you find was incorrect.<br>
 if you know how to fix it just fix it.<br>
 if file exsist php api rest shows link to file.<br>
 if file does not exist php api rest creates the file and link.<br>
-i added text to speech back onto the website?<br>
-i added the delete button back to the website?<br>
+i added text to speech back onto the website.<br>
+i added the delete button back to the website.<br>
 <br>
 welcome to:<br>
 <H3>manual</H3><br>
