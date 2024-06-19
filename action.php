@@ -115,15 +115,13 @@ header( 'Connection: Keep-alive' );
 		. "\"" 
 		. "></span>"
 		. "</button>"
-		. "<a class="
+        . "<a class="
 		. "\""
 		. "navbar-brand"
-		. "\"" 
+		. "\""
 		. "href="
 		. "\""
-		. "./"
-		. $value
-		. ".html"
+		. "./solution.html"
 		. "\""
 		. ">"
 		. $value
@@ -235,10 +233,7 @@ header( 'Connection: Keep-alive' );
 		. "\"" 
 		. ">delete this page</a>"
 		. "</center>" 
-		. "<script> var msg = new SpeechSynthesisUtterance('"
-	    . $value
-	    . "'); window.speechSynthesis.speak(msg); </script>"
-		. "\n"
+      	. "\n"
 		. "\r\n");
 		$handle = fopen("./index.html", "a");
 		fwrite($handle, 
