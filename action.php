@@ -220,14 +220,24 @@ header( 'Connection: Keep-alive' );
 		. "form-group"
 		. "\"" 
 		. ">"
+		. "</form>"
 		. "<a href="
 		. "\"" 
 		. "../index.html"
 		. "\"" 
 		. ">return to homepage</a>"
 		. "</button>"
-		. "</form>	"
+		. "<br><br><a href=" 
+		. "\"" 
+		. "../delete.php?action=delete&filename=./en/" 
+		. $value 
+		. ".html" 
+		. "\"" 
+		. ">delete this page</a>"
 		. "</center>" 
+		. "<script> var msg = new SpeechSynthesisUtterance('"
+	    . $value
+	    . "'); window.speechSynthesis.speak(msg); </script>"
 		. "\n"
 		. "\r\n");
 		$handle = fopen("./index.html", "a");
@@ -255,7 +265,7 @@ header( 'Connection: Keep-alive' );
 		. "\""
 		. ">"
 		. $value
-		. "</a></br>" 
+		. "</a></br>" 		
 		. "\r\n");
 		echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
 	}
