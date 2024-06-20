@@ -238,7 +238,34 @@ $ip = $handle = "handle";
 		. "</center>" 
       	. "\n"
 		. "\r\n");
-$handle = fopen("./index.html", "a");
+		$handle = fopen("./index.html", "a");
+		fwrite($handle,
+		  "<a href=" 
+		. "\"" 
+		. "./en/" 
+		. $value 
+		. ".html" 
+		. "\"" 
+		. "class=" 
+		. "\"" 
+		. "handle" 
+		. "\"" 
+		. "><button>" 
+		. $value 
+		. "</button>" 
+		. "</a>"
+		. "recent edits "
+		. "<a href="
+		. "\""
+		. "./en/"
+		. $value
+		. ".html"
+		. "\""
+		. ">"
+		. $value
+		. "</a></br>" 		
+		. "\r\n");
+
 // load the data and delete the line from the array 
 $lines = file('./index.html'); 
 $last = sizeof($lines) - 1 ; 

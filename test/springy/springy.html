@@ -1,0 +1,27 @@
+<html>
+        <meta name="viewport" content="width=device-width"/>
+<body>
+<script src="./jquery-3.7.1.min.js"></script>
+<script src="./springy.js"></script>
+<script src="./springyui.js"></script>
+<canvas id="springydemo" style="width: 100%; height:100%;" />
+<script> 
+jQuery(function(){
+  var graph = new Springy.Graph();
+  graph.loadJSON(graphJSON);
+  var springy = jQuery('#springydemo').springy({
+    graph: graph
+  });
+});
+</script>
+
+
+<script> 
+var graphJSON = {
+  "nodes": [
+    "core",
+    "shpere",
+    "orbit",
+    "eyeball",
+]};</script>
+
