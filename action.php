@@ -18,9 +18,6 @@ header( 'Expires: 0' );
 header( 'Referrer-Policy:  same-origin' );
 header( 'Accept-Language: en-US,en;q=0.5' );
 header( 'Connection: Keep-alive' );
-gethostname();
-$ip = $localIp = gethostbyname(gethostname());
-$ip = $handle = "handle"; 
             $answer1 = $_POST['secure-form-answer'];        
             $totalCorrect = 1;           
             if ($answer1 == "Human") { $totalCorrect++; }            
@@ -33,12 +30,12 @@ $ip = $handle = "handle";
 			if (file_exists($file_pointer))  
 			{ 		
 			echo "The file $file_pointer already exists <br>"; 
-			echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html' class='handle'>$value</a>";
+			echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
 			exit;
 			} 			
-	    $handle = fopen("./en/" . $value . ".html", "a");
-		fwrite($handle,
-		  "\n" 
+	$handle = fopen("./en/" . $value . ".html", "a");
+		fwrite($handle, 
+		"\n" 
 		. "<meta name="
 		. "\""
 		. "viewport"
@@ -124,7 +121,7 @@ $ip = $handle = "handle";
 		. "\""
 		. "href="
 		. "\""
-		. "./$value.html"
+		. "./solution.html"
 		. "\""
 		. ">"
 		. $value
@@ -212,9 +209,9 @@ $ip = $handle = "handle";
 		. "\"" 
 		. " id="
 		. "\"" 
-		. "myNavbar"
+		."myNavbar"
 		. "\"" 
-		. ">"
+		.">"
 		. "<center>"
 		. "<button class="
 		. "\"" 
@@ -238,23 +235,34 @@ $ip = $handle = "handle";
 		. "</center>" 
       	. "\n"
 		. "\r\n");
-$handle = fopen("./index.html", "a");
-// load the data and delete the line from the array 
-$lines = file('./index.html'); 
-$last = sizeof($lines) - 1 ; 
-unset($lines[$last]); 
-// write the new data to the file 
-file_put_contents('./index.html', $lines); 
-foreach($_POST as $variable => $value) {
-    $value = str_replace(' ', '_', $value);
-	fwrite($handle, 
-	  "\""
-	. $value 
-	. "\""
-    . ","
-    . "]};</script>");
+		$handle = fopen("./index.html", "a");
+		fwrite($handle, 
+		"<a href=" 
+		. "\"" 
+		. "./en/" 
+		. $value 
+		. ".html" 
+		. "\"" 
+		. "class=" 
+		. "\"" 
+		. "handle" 
+		. "\"" 
+		. "><button>" 
+		. $value 
+		. "</button>" 
+		. "</a>"
+		. "recent edits "
+		. "<a href="
+		. "\""
+		. "./en/"
+		. $value
+		. ".html"
+		. "\""
+		. ">"
+		. $value
+		. "</a></br>" 		
+		. "\r\n");
 		echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
 	}
-}
 fclose($handle);
 ?>

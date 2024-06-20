@@ -56,6 +56,30 @@ list {
         left: 0px;
         border-bottom: none;
 }
+nodes {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+		position: fixed;
+	    top: 0;
+        left: 0px;			
+}
+edges {
+        margin: 0;
+	    position: fixed;		
+	    top: 0;
+        left: 0px;
+        font-size: 1.0em;
+        padding: 15px;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+edges:last-child {        
+	    position: fixed;
+	    top: 0;
+        left: 0px;
+        border-bottom: none;
+}
+
 @keyframes fadeIn {
    from {
         opacity: 0;
@@ -68,12 +92,17 @@ list {
   }
 }
 </style>
+
 <script src="./js/jquery-3.7.1.min.js"></script>
 <script src="./js/bootstrap.js"></script>
 <link href="./css/bootstrap.css" rel="stylesheet"></link>
+
 <title>handle</title>
 </head>
 <body>
+<script src="./springy.js"></script>
+<script src="./springyui.js"></script>
+
 <script>
 function handle() {
 	
@@ -112,11 +141,15 @@ function handle() {
         <span class="icon-bar"></span>
       </button>
 	<center>
-	
-<input 
-id="list" 
+
+ <form class="navbar-form navbar-left" action="./index.html" 
+method="get">
+<div class="form-group">		
+<input
+value=""
 onkeyup="handle()" 
-onkeydown="return event.key != 'Enter';"
+aria-label="Search" 
+id="list" 
 name="search" 
 placeholder="search pages" 
 type="search" 
@@ -137,10 +170,8 @@ method="post">
 <div class="form-group">	
 
 <input 
-id="list" 
-onkeyup="handle()" 
 id="secure-form-answer-Human" 
-type="text" 
+type="search" 
 name="secure-form-answer" 
 class="form-control"
 maxlength="30" 
@@ -163,32 +194,46 @@ Human
     </div>	    
     </div>		
     </div><!-- /.container -->	
+<body onload="handle()">
 
-<center>
+<a 
+href="./index.html" 
+class="handle">
+index
+</a>
+
+	
 <ul id="list">
-<a href="./en/intelligence.html"class="handle"><button>intelligence</button></a>recent edits <a href="./en/intelligence.html">intelligence</a></br>
-<a href="./en/core.html"class="handle"><button>core</button></a>recent edits <a href="./en/core.html">core</a></br>
-<a href="./en/sphere.html"class="handle"><button>sphere</button></a>recent edits <a href="./en/sphere.html">sphere</a></br>
-<a href="./en/eyeball.html"class="handle"><button>eyeball</button></a>recent edits <a href="./en/eyeball.html">eyeball</a></br>
-<a href="./en/orbit.html"class="handle"><button>orbit</button></a>recent edits <a href="./en/orbit.html">orbit</a></br>
-<a href="./en/polarity.html"class="handle"><button>polarity</button></a>recent edits <a href="./en/polarity.html">polarity</a></br>
-<a href="./en/source.html"class="handle"><button>source</button></a>recent edits <a href="./en/source.html">source</a></br>
-<a href="./en/mind.html"class="handle"><button>mind</button></a>recent edits <a href="./en/mind.html">mind</a></br>
-<a href="./en/self.html"class="handle"><button>self</button></a>recent edits <a href="./en/self.html">self</a></br>
-<a href="./en/evolve.html"class="handle"><button>evolve</button></a>recent edits <a href="./en/evolve.html">evolve</a></br>
-<a href="./en/reproductive.html"class="handle"><button>reproductive</button></a>recent edits <a href="./en/reproductive.html">reproductive</a></br>
-<a href="./en/vision.html"class="handle"><button>vision</button></a>recent edits <a href="./en/vision.html">vision</a></br>
-<a href="./en/list.html"class="handle"><button>list</button></a>recent edits <a href="./en/list.html">list</a></br>
-<a href="./en/handle.html"class="handle"><button>handle</button></a>recent edits <a href="./en/handle.html">handle</a></br>
-<a href="./en/database.html"class="handle"><button>database</button></a>recent edits <a href="./en/database.html">database</a></br>
-<a href="./en/scale.html"class="handle"><button>scale</button></a>recent edits <a href="./en/scale.html">scale</a></br>
-<a href="./en/equation.html"class="handle"><button>equation</button></a>recent edits <a href="./en/equation.html">equation</a></br>
-<a href="./en/calculation.html"class="handle"><button>calculation</button></a>recent edits <a href="./en/calculation.html">calculation</a></br>
-<a href="./en/compass.html"class="handle"><button>compass</button></a>recent edits <a href="./en/compass.html">compass</a></br>
-<a href="./en/verify.html"class="handle"><button>verify</button></a>recent edits <a href="./en/verify.html">verify</a></br>
-<a href="./en/real-time.html"class="handle"><button>real-time</button></a>recent edits <a href="./en/real-time.html">real-time</a></br>
-<a href="./en/closure.html"class="handle"><button>closure</button></a>recent edits <a href="./en/closure.html">closure</a></br>
-<a href="./en/logistics.html"class="handle"><button>logistics</button></a>recent edits <a href="./en/logistics.html">logistics</a></br>
-<a href="./en/geometry.html"class="handle"><button>geometry</button></a>recent edits <a href="./en/geometry.html">geometry</a></br>
-<a href="./en/galactic.html"class="handle"><button>galactic</button></a>recent edits <a href="./en/galactic.html">galactic</a></br>
-<a href="./en/cluster.html"class="handle"><button>cluster</button></a>recent edits <a href="./en/cluster.html">cluster</a></br>
+<a href="./en/intelligent.html"class="handle"><button>intelligent</button></a>recent edits <a href="./en/intelligent.html">intelligent</a></br>
+<a href="./en/self-aware.html"class="handle"><button>self-aware</button></a>recent edits <a href="./en/self-aware.html">self-aware</a></br>
+<a href="./en/reproductive-system.html"class="handle"><button>reproductive-system</button></a>recent edits <a href="./en/reproductive-system.html">reproductive-system</a></br>
+
+<canvas id="springydemo" class="handle" style="position:absolute; top:250px; left:0px; height:200px; width:100%"; />
+
+<script> 
+$( ".handle" ).css( "border", "2px solid red" );
+
+	jQuery(function handle (){
+	var graph = new Springy.Graph();
+	graph.loadJSON(graphJSON);
+	var springy = jQuery('#springydemo').springy({
+    graph: graph
+	});
+	});
+
+</script>
+
+<script>
+var graphJSON = {
+  "nodes": [
+"edges",
+"core",
+"atmosphere",
+"eyeball",
+"mind",
+"input", 
+"database", 
+"automation", 
+"collaboration",
+"knowledge",
+"like",]};</script>
