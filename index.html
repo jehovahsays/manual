@@ -33,7 +33,7 @@ frame-src 'self' http: https:;"/>
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 <style>
-list {
+node {
         list-style: none;
         padding: 0;
         margin: 0;
@@ -41,7 +41,7 @@ list {
 	    top: 0;
         left: 0px;			
 }
-.handle {
+.edge {
         margin: 0;
 	    position: fixed;		
 	    top: 0;
@@ -50,7 +50,7 @@ list {
         padding: 15px;
         animation: fadeIn 0.5s ease-in-out;
 } 
-.handle:last-child {        
+.edge:last-child {        
 	    position: fixed;
 	    top: 0;
         left: 0px;
@@ -71,17 +71,19 @@ list {
 <script src="./js/jquery-3.7.1.min.js"></script>
 <script src="./js/bootstrap.js"></script>
 <link href="./css/bootstrap.css" rel="stylesheet"></link>
-<title>handle</title>
+
+<title>index</title>
 </head>
 <body>
+
 <script>
-function handle() {
+function edge() {
 	
-  let input = document.getElementById('list').value;
+  let input = document.getElementById('node').value;
 
   input = input.toLowerCase();
 
-  let x = document.getElementsByClassName('handle');
+  let x = document.getElementsByClassName('edge');
  
   for (i = 0; i < x.length; i++) {
 
@@ -102,7 +104,7 @@ function handle() {
 }
 
 </script>
-	
+
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">	
@@ -112,11 +114,16 @@ function handle() {
         <span class="icon-bar"></span>
       </button>
 	<center>
-	
+
+ <form 
+ class="navbar-form navbar-left" 
+ action="./index.html" 
+method="get">
+<div class="form-group">	
+		
 <input 
-id="list" 
-onkeyup="handle()" 
-onkeydown="return event.key != 'Enter';"
+id="node" 
+onkeyup="edge()" 
 name="search" 
 placeholder="search pages" 
 type="search" 
@@ -127,7 +134,9 @@ autocapitalize="off"
 spellcheck="true"		
 class="form-control">     
 </form>	 
-
+<br>
+<center><article>Database of keywords</article></center>
+<iframe src="./orbital.html" height="260" width="260" title="orbital"></iframe>
       <ul class="nav navbar-nav navbar-right">
     <div class="collapse navbar-collapse" id="myNavbar">
     <div class="container">
@@ -137,8 +146,8 @@ method="post">
 <div class="form-group">	
 
 <input 
-id="list" 
-onkeyup="handle()" 
+id="node" 
+onkeyup="edge()" 
 id="secure-form-answer-Human" 
 type="text" 
 name="secure-form-answer" 
@@ -164,35 +173,5 @@ Human
     </div>		
     </div><!-- /.container -->	
 
-<center>
-<ul id="list">
-<a href="./en/intelligence.html"class="handle"><button>intelligence</button></a>recent edits <a href="./en/intelligence.html">intelligence</a></br>
-<a href="./en/core.html"class="handle"><button>core</button></a>recent edits <a href="./en/core.html">core</a></br>
-<a href="./en/sphere.html"class="handle"><button>sphere</button></a>recent edits <a href="./en/sphere.html">sphere</a></br>
-<a href="./en/eyeball.html"class="handle"><button>eyeball</button></a>recent edits <a href="./en/eyeball.html">eyeball</a></br>
-<a href="./en/orbit.html"class="handle"><button>orbit</button></a>recent edits <a href="./en/orbit.html">orbit</a></br>
-<a href="./en/polarity.html"class="handle"><button>polarity</button></a>recent edits <a href="./en/polarity.html">polarity</a></br>
-<a href="./en/source.html"class="handle"><button>source</button></a>recent edits <a href="./en/source.html">source</a></br>
-<a href="./en/mind.html"class="handle"><button>mind</button></a>recent edits <a href="./en/mind.html">mind</a></br>
-<a href="./en/self.html"class="handle"><button>self</button></a>recent edits <a href="./en/self.html">self</a></br>
-<a href="./en/evolve.html"class="handle"><button>evolve</button></a>recent edits <a href="./en/evolve.html">evolve</a></br>
-<a href="./en/reproductive.html"class="handle"><button>reproductive</button></a>recent edits <a href="./en/reproductive.html">reproductive</a></br>
-<a href="./en/vision.html"class="handle"><button>vision</button></a>recent edits <a href="./en/vision.html">vision</a></br>
-<a href="./en/list.html"class="handle"><button>list</button></a>recent edits <a href="./en/list.html">list</a></br>
-<a href="./en/handle.html"class="handle"><button>handle</button></a>recent edits <a href="./en/handle.html">handle</a></br>
-<a href="./en/database.html"class="handle"><button>database</button></a>recent edits <a href="./en/database.html">database</a></br>
-<a href="./en/scale.html"class="handle"><button>scale</button></a>recent edits <a href="./en/scale.html">scale</a></br>
-<a href="./en/equation.html"class="handle"><button>equation</button></a>recent edits <a href="./en/equation.html">equation</a></br>
-<a href="./en/calculation.html"class="handle"><button>calculation</button></a>recent edits <a href="./en/calculation.html">calculation</a></br>
-<a href="./en/compass.html"class="handle"><button>compass</button></a>recent edits <a href="./en/compass.html">compass</a></br>
-<a href="./en/verify.html"class="handle"><button>verify</button></a>recent edits <a href="./en/verify.html">verify</a></br>
-<a href="./en/real-time.html"class="handle"><button>real-time</button></a>recent edits <a href="./en/real-time.html">real-time</a></br>
-<a href="./en/closure.html"class="handle"><button>closure</button></a>recent edits <a href="./en/closure.html">closure</a></br>
-<a href="./en/logistics.html"class="handle"><button>logistics</button></a>recent edits <a href="./en/logistics.html">logistics</a></br>
-<a href="./en/geometry.html"class="handle"><button>geometry</button></a>recent edits <a href="./en/geometry.html">geometry</a></br>
-<a href="./en/galactic.html"class="handle"><button>galactic</button></a>recent edits <a href="./en/galactic.html">galactic</a></br>
-<a href="./en/cluster.html"class="handle"><button>cluster</button></a>recent edits <a href="./en/cluster.html">cluster</a></br>
-<a href="./en/input.html"class="handle"><button>input</button></a>recent edits <a href="./en/input.html">input</a></br>
-<a href="./en/automation.html"class="handle"><button>automation</button></a>recent edits <a href="./en/automation.html">automation</a></br>
-<a href="./en/collaboration.html"class="handle"><button>collaboration</button></a>recent edits <a href="./en/collaboration.html">collaboration</a></br>
-<a href="./en/knowledge.html"class="handle"><button>knowledge</button></a>recent edits <a href="./en/knowledge.html">knowledge</a></br>
+<ul id="node">
+<a href="./en/index.html"class="edge"><button>index</button></a>recent edits <a href="./en/index.html">index</a></br>
