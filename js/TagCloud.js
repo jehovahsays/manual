@@ -433,8 +433,8 @@
     reverseDirection: false,
     useContainerInlineStyles: true,
     useItemInlineStyles: true,
-    containerClass: 'tagcloud',
-    itemClass: 'tagcloud--item',
+    containerClass: 'nodes',
+    itemClass: 'edges',
     useHTML: false
   };
   // speed value

@@ -1,0 +1,111 @@
+.fieldset {
+	    position: fixed;
+        margin: 80px;   
+		border-radius: 25px;
+	    padding: 0;
+	    position: center;
+	    top: 200;
+		left: 0;
+		right: 0;
+        width: 50%;
+}
+.nodes {
+	    position: fixed;
+        padding: 0;
+        margin: 0;
+	    top: 0;
+        left: 0px;			
+        list-style: none;
+}
+.edges {
+	    position: fixed;
+	    padding: 0;
+        margin: 0;
+	    top: 160px;
+        left: 170px;			
+        font-size: 1.0em;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+.edges:last-child { 
+        position: fixed;       
+        padding: 0;
+        margin: 0;
+	    top: 0;
+        left: 0px;			
+        border-bottom: none;
+}
+@keyframes fadeIn {
+   from {
+        opacity: 0;
+        transform: translateY(-10px);
+}
+   to   {
+        opacity: 1;
+        transform: translateY(0);
+}
+  }
+}
+
+
+        .light {
+            background: #666;
+            color: #fff;
+        }
+
+        .content .tagcloud {
+            display: inline-block;
+            margin: 20px;
+			
+        }
+
+        ul {
+            display: inline-block;
+        }
+
+        a {
+			
+            color: #0366d6;
+            text-decoration: none;
+			animation: fadeIn 0.5s ease-in-out;
+
+        }
+
+        a:last-child {
+            text-decoration: underline;
+        }
+
+        .tagcloud {
+			
+            font-size: 10px;
+        }
+
+        .tagcloud--item {
+            padding: 2px 4px;
+            background-color: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+			animation: fadeIn 0.5s ease-in-out;
+
+        }
+
+        .tagcloud--item:last-child {
+            background-color: rgba(0, 0, 0, .1);
+            border: 1px solid #333;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            opacity: 1 !important;
+            z-index: 100 !important;
+        }
+
+        .light .tagcloud--item {
+            color: #fff;
+			animation: fadeIn 0.5s ease-in-out;
+
+        }
+
+        .light .tagcloud--item:last-child {
+            background-color: rgba(255, 255, 255, .1);
+            border: 1px solid #fff;
+        }
+    
