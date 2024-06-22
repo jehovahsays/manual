@@ -1,8 +1,8 @@
 # manual
 <br>
 <br>
-<a href="http://morgansbyers.scienceontheweb.net/index.html">
-Visit website to see manual demo</a>
+Please remember to get a full experience of this repository website
+visit https://morgansbyers.scienceontheweb.net/index.html
 <br>
 fix what you find was incorrect.<br>
 if you know how to fix it just fix it.<br>
@@ -29,10 +29,6 @@ no cookies,no gps,no mic,no camera,<br>
 no puchase buttons.<br>
 my name is morgan shatee' byers,<br>
 my number is 770-687-8847<br>
-<br>
-<br>
-<a href="https://github.com/jehovahsays/manual">
-manual github repository</a>
 <br>
 <br>
 <a href="https://youtube.com/@jehovahsaysnetworth?si=FRrFrG_K02C38K_G">
