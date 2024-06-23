@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html 
 lang="en">
-
 <head>
-
 <meta 
 charset="UTF-8">
 
@@ -28,16 +26,46 @@ src="./js/TagCloud.js">
 <script 
 src="./js/jquery-3.7.1.min.js">
 </script>
-	
-</head>
-<body>
 
+<style>
+/* mobile */
+canvas {
+		position: fixed;
+	    padding: 0;
+        margin: 0;
+	    top: 60px;
+        left: 180px;			
+        font-size: 1.0em;
+	    margin-top: 60px;	
+	    width: 200px;
+	    height: 200px;    
+        background-color: transparent;
+		
+	
+}
+fieldset {
+	    
+        margin: 0px;   
+		border-radius: 0px;
+	    padding: 0px;
+
+	    top: 0px;
+		left: 0px;
+		right: 0px;
+        width: 100%;
+		height: 100%;
+}
+</style>
+</head>
+<body onload="startGame()">
+<fieldset>
 <center>
 
 <div class="chatbot-container">
 
 <div id="header">	
-	
+
+<br>	
 <form 
 action="./action.php" 
 method="post">	
@@ -54,6 +82,9 @@ spellcheck="true"
 placeholder="create a keyword"
 required>
 
+<button id="submit-button" 
+type="submit">submit</button>
+	
 <noscript>
 <label 
 for="secure-form-answer-Human">
@@ -69,6 +100,7 @@ Human
 <div id="conversation">
 
 <div class="chatbot-message">
+
 <p class="chatbot-text">
 Bot uses the keywords from the user input box above.
 </p>
@@ -104,6 +136,7 @@ src="./js/chatbot.js">
 
 <div 
 class="content">
+
 <!-- content -->
  <script 
 type="text/javascript" 
@@ -112,8 +145,17 @@ src="./js/merge.js">
 </div>
 
 <br>
+<div style="text-align:center;width:320px;">
+  <button onclick="moveup()">UP</button><br><br>
+  <button onclick="moveleft()">LEFT</button>
+  <button onclick="moveright()">RIGHT</button><br><br>
+  <button onclick="movedown()">DOWN</button>
+</div>
 
-</center>	
+<br><br>
+</center>
+</fieldset>
+	
 <center>
 <ul id="input-field">
 <a href="./en/magnetic-polarity.html"class="edges"><button class="core">magnetic-polarity</button></a><br>
@@ -161,3 +203,4 @@ src="./js/merge.js">
 <a href="./en/mutoscope.html"class="edges"><button class="core">mutoscope</button></a><br>
 <a href="./en/reflection.html"class="edges"><button class="core">reflection</button></a><br>
 <a href="./en/echo.html"class="edges"><button class="core">echo</button></a><br>
+<a href="./en/knowledge.html"class="edges"><button class="core">knowledge</button></a><br>

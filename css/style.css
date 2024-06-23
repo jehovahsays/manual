@@ -1,4 +1,14 @@
+.fieldset {
+	    
+        margin: 0px;   
+		border-radius: 0px;
+	    padding: 0px;
 
+	    top: 0px;
+		left: 0px;
+		right: 0px;
+        width: 100%;
+}
 .chatbot-container {
     width: 80%;
     margin: 0 auto;

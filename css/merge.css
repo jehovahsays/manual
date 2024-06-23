@@ -1,10 +1,12 @@
 /* mobile */
 .earth {
+	    width:50px; 
+		height:50px;
 	    position: fixed;
 	    padding: 0;
-        margin: 0;
-	    top: 140px;
-        left: 150px;			
+        margin: 0px;
+	    top: 0px;
+        left: 0px;			
         font-size: 1.0em;
        
 } 
@@ -19,13 +21,13 @@
 } 
 .fieldset {
 	    position: fixed;
-        margin: 80px;   
-		border-radius: 25px;
+        margin: 0px;   
+		border-radius: 0px;
 	    padding: 0;
 	    position: center;
-	    top: 200;
-		left: 0;
-		right: 0;
+	    top: 10;
+		left: 10;
+		right: 10;
         width: 50%;
 }
 .input-field {

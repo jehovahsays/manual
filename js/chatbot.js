@@ -84,4 +84,5 @@ function generateResponse(input) {
 "mutoscope💡",
 "reflection💡",
 "echo💡",
+"knowledge💡",
 ];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};
