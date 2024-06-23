@@ -8,7 +8,15 @@
         font-size: 1.0em;
        
 } 
-
+.core {
+	    position: fixed;
+	    padding: 0;
+        margin: 0;
+	    top: 285px;
+        left: 165px;			
+        font-size: 1.0em;
+       
+} 
 .fieldset {
 	    position: fixed;
         margin: 80px;   
@@ -20,7 +28,7 @@
 		right: 0;
         width: 50%;
 }
-.nodes {
+.input-field {
 	    position: fixed;
         padding: 0;
         margin: 0;
@@ -31,8 +39,8 @@
 .edges {
 	    position: fixed;
 	    padding: 0;
-        margin: 0;
-	    top: 60px;
+        margin: 30;
+	    top: 50px;
         left: 130px;			
         font-size: 1.0em;
         animation: fadeIn 0.5s ease-in-out;
