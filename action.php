@@ -22,7 +22,8 @@ $answer1 = $_POST['secure-form-answer'];
 $totalCorrect = 1;           
 if ($answer1 == "Human") { $totalCorrect++; }            
 echo "<div id='results'>$totalCorrect /  1 correct</div>";
-foreach($_POST as $variable => $value) {
+foreach($_POST as $variable => $value) 
+{
 $value = str_replace(' ', '_', $value);	
 $file_pointer = "./en/" . $value . ".html"; 						
 if (file_exists($file_pointer))  
@@ -165,8 +166,12 @@ fwrite($handle,
 				. ","
 				. "\n"
                 . "];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};");
-}			
+}
+ob_start();			
 echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
+echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";	
+
+     
 }
 fclose($handle);
 exit();
