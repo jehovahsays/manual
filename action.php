@@ -31,13 +31,14 @@ header( 'Connection: Keep-alive' );
 				if (file_exists($file_pointer))  
 				{ 		
 				echo "The file $file_pointer already exists <br>"; 
-				echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";			
+				echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
+                echo rand(), "\n";				
 				exit();
 				} 
 				
 				$handle = fopen("./en/" . $value . ".html", "a");
 				fwrite($handle, 
-				"\n" 
+				  "\n" 
 				. "<!DOCTYPE html>"
 				. "<html lang=\"en\">"
 				. "<head>"
@@ -129,7 +130,7 @@ header( 'Connection: Keep-alive' );
 			. "\"" 
 			. "><button class="
 			. "\"" 
-			. "core"
+			. "earth"
 			. "\"" 
 			. ">" 
 			. $value 
@@ -165,13 +166,14 @@ header( 'Connection: Keep-alive' );
 				fwrite($handle, 	
 				"\""
 				. $value
-				. "💡"
 				. "\""
 				. ","
 				. "\n"
                 . "];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};");
 			}			
 			echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
+						
 		}
 fclose($handle);
+exit();
 ?>
