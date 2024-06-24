@@ -63,8 +63,8 @@ nodes {
 .edges {
         margin: 0px;
 	    position: fixed;		
-	    top: 250px;
-        left: 140px;
+	    top: 175px;
+        left: 100px;
         font-size: 1.0em;
         padding: 15px;
         animation: fadeIn 0.5s ease-in-out;
@@ -152,43 +152,18 @@ nodes {
 
 </head>
 <body>
+
 <fieldset>
 <center>
 
 <div class="chatbot-container">
 <div id="header">	
-cerebrum
-<br><br>	
-<form 
-action="./action.php" 
-method="post">	
-<input 
-id="secure-form-answer-Human" 
-type="text" 
-name="secure-form-answer" 
-maxlength="30" 
-autocomplete="true" 
-autocorrect="off" 
-autocapitalize="off" 
-spellcheck="true" 
-placeholder="create a keyword"
-required>
-<button id="submit-button" 
-type="submit">submit</button>	
-<noscript>
-<label 
-for="secure-form-answer-Human">
-Human
-</label>
-</noscript>
-</form> 
-	
 </div>
 <div id="chatbot">
 <div id="conversation">
 <div class="chatbot-message">
 <p class="chatbot-text">
-prefrontal cortex
+ask me to type a random word.
 </p>
 </div>
 </div>
@@ -218,6 +193,16 @@ src="./js/chatbot.js">
 
 <div 
 class="content">
+<img 
+style=" width:80px; 
+		height:80px;
+	    position: fixed;
+	    padding: 0;
+        margin: 0px;
+	    top: 170px;
+        left: 140px;			
+        font-size: 1.0em;"
+src="./img/earth.jpg">
 <!-- content -->
  <script 
 type="text/javascript" 
@@ -226,14 +211,14 @@ src="./js/merge.js">
 </div>
 
 <br>
-temporal Lobe
+search database for your keyword.
 <form 
-action="./index.html" 
-method="get">		
+action="./action.php" 
+method="post">		
 <input 
 id="nodes" 
 onkeyup="edges()" 
-name="search"
+name="secure-form-answer" 
 aria-label="Search"  
 placeholder="search pages" 
 type="search" 
@@ -241,9 +226,18 @@ maxlength="30"
 autocomplete="true" 
 autocorrect="on" 
 autocapitalize="off" 
-spellcheck="true">
+spellcheck="true"
+requierd>
 <button id="submit-button" 
-type="submit">submit</button>     
+type="submit">
+submit
+</button>
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>     
 </form>	 
 </center>
 </fieldset>
@@ -277,15 +271,22 @@ function edges() {
 
 </script>
 
-import random
-<br>
-num = random.random()
-<br>
-print(num)
-<br>
-echo rand(), "\n";
-<br>
-
 <center>
 <ul id="nodes">
 <a href="./en/imagination.html"class="edges"><button class="earth">imagination</button></a><br>
+<a href="./en/creativity.html"class="edges"><button class="earth">creativity</button></a><br>
+<a href="./en/perpetual_motion_machine.html"class="edges"><button class="earth">perpetual_motion_machine</button></a><br>
+<a href="./en/time.html"class="edges"><button class="earth">time</button></a><br>
+<a href="./en/talk.html"class="edges"><button class="earth">talk</button></a><br>
+<a href="./en/total.html"class="edges"><button class="earth">total</button></a><br>
+<a href="./en/perfection.html"class="edges"><button class="earth">perfection</button></a><br>
+<a href="./en/speak.html"class="edges"><button class="earth">speak</button></a><br>
+<a href="./en/core.html"class="edges"><button class="earth">core</button></a><br>
+<a href="./en/ball.html"class="edges"><button class="earth">ball</button></a><br>
+<a href="./en/travel.html"class="edges"><button class="earth">travel</button></a><br>
+<a href="./en/map.html"class="edges"><button class="earth">map</button></a><br>
+<a href="./en/ask.html"class="edges"><button class="earth">ask</button></a><br>
+<a href="./en/.html"class="edges"><button class="earth"></button></a><br>
+<a href="./en/learn.html"class="edges"><button class="earth">learn</button></a><br>
+<a href="./en/calculation.html"class="edges"><button class="earth">calculation</button></a><br>
+<a href="./en/interactive.html"class="edges"><button class="earth">interactive</button></a><br>
