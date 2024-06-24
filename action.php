@@ -167,7 +167,6 @@ fwrite($handle,
                 . "];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};");
 }			
 echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
-echo header( 'Location: ./en/'.$value.'.html' );			
 }
 fclose($handle);
 exit();
