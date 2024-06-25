@@ -61,4 +61,8 @@ var texts = [
 "software",
 "match",
 "clap",
+"soul",
+"hi",
+"knowledge",
+"edit",
 ];var tc = TagCloud('.content', texts);console.log(tc);
