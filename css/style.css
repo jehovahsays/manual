@@ -46,8 +46,8 @@
       transform: translateY(0);
     }
   }
-  /* edges */
-  .input-field {
+  /* id=input-field => id=nodes */
+  nodes {
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -84,7 +84,7 @@
     
   }
   
-  #input-field {
+  #nodes {
     flex: 1;
     height: 60px;
     border: 1px solid #7f9bbe;
@@ -114,7 +114,15 @@ left: 15px;
     right: 15px;
   }
   
-  /* articles */
+  /* extra */
   
+.chatbot-text {
+    background-color: rgb(234, 237, 238);
+    color: #000000;
+    font-size: 1.1em;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
 

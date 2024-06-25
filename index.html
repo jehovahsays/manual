@@ -170,7 +170,7 @@ fieldset {
 <body>
 <center>
 <br><br>
-<form 
+<form
 action="./action.php" 
 method="post">		
 <input 
@@ -185,7 +185,7 @@ autocomplete="true"
 autocorrect="on" 
 autocapitalize="off" 
 spellcheck="true"
-requierd>
+required>
 <button id="submit-button" 
 type="submit">
 submit
@@ -234,10 +234,10 @@ style="
 	    position: absolute;
 	    padding: 0;
         margin: 0px;
-	    top: 120px;
-        left: 155px;			
+	    top: 100px;
+        left: 135px;			
         font-size: 9.0em;">
-		*
+		&#8734;
 		</p>
 <!-- content -->
  <script 
@@ -246,33 +246,43 @@ src="./js/merge.js">
 </script>
 </div>
 
-<div class="chatbot-container">
-<div id="header">	
+<div 
+class="chatbot-container">
+<div 
+id="header">	
 </div>
-<div id="chatbot">
-<div id="conversation">
-<div class="chatbot-message">
-<p class="chatbot-text">
-ask me to type a random word.
+<div 
+id="chatbot">
+<div 
+id="conversation">
+<div 
+class="chatbot-message">
+<p 
+class="chatbot-text">
+
 </p>
 </div>
+
 </div>
 
-<form id="input-form">
-<message-container>
+	
+<message-container></message-container>
+<form 
+id="input-form">
 <input 
-id="input-field"
+id="nodes"
+onkeyup="edges()" 
 name="secure-form-answer" 
-maxlength="40" 
+maxlength="30" 
 autocomplete="true" 
-autocorrect="off" 
+autocorrect="on" 
 autocapitalize="off" 
-spellcheck="true" 
+spellcheck="true"
+required
 type="text" 
 placeholder="ask a random keyword">				
 <button id="submit-button" 
-type="submit">submit</button>	
-</message-container>                
+type="submit">submit</button>	 	            
 </form>
 </div>  
 </div>
@@ -283,67 +293,17 @@ src="./js/chatbot.js">
 
 <center>
 <ul id="nodes">
-<a href="./en/magnetic-polarity.html"class="edges"><button class="earth">magnetic-polarity</button></a><br>
-<a href="./en/reproductive-system.html"class="edges"><button class="earth">reproductive-system</button></a><br>
-<a href="./en/electromagnetic-conduction.html"class="edges"><button class="earth">electromagnetic-conduction</button></a><br>
-<a href="./en/compass.html"class="edges"><button class="earth">compass</button></a><br>
 <a href="./en/intelligence.html"class="edges"><button class="earth">intelligence</button></a><br>
-<a href="./en/thermodynamics.html"class="edges"><button class="earth">thermodynamics</button></a><br>
-<a href="./en/gravity.html"class="edges"><button class="earth">gravity</button></a><br>
-<a href="./en/alignment.html"class="edges"><button class="earth">alignment</button></a><br>
-<a href="./en/diamagnetism.html"class="edges"><button class="earth">diamagnetism</button></a><br>
-<a href="./en/nucleolus.html"class="edges"><button class="earth">nucleolus</button></a><br>
-<a href="./en/neurosphere.html"class="edges"><button class="earth">neurosphere</button></a><br>
-<a href="./en/radius.html"class="edges"><button class="earth">radius</button></a><br>
-<a href="./en/Pi.html"class="edges"><button class="earth">Pi</button></a><br>
-<a href="./en/orbit.html"class="edges"><button class="earth">orbit</button></a><br>
-<a href="./en/perpetual-motion.html"class="edges"><button class="earth">perpetual-motion</button></a><br>
-<a href="./en/infinity-symbol.html"class="edges"><button class="earth">infinity-symbol</button></a><br>
-<a href="./en/half.html"class="edges"><button class="earth">half</button></a><br>
+<a href="./en/pencil.html"class="edges"><button class="earth">pencil</button></a><br>
+<a href="./en/paper.html"class="edges"><button class="earth">paper</button></a><br>
+<a href="./en/drawing.html"class="edges"><button class="earth">drawing</button></a><br>
 <a href="./en/necker-cube.html"class="edges"><button class="earth">necker-cube</button></a><br>
-<a href="./en/superposition.html"class="edges"><button class="earth">superposition</button></a><br>
-<a href="./en/magnetotactic-bacteria_.html"class="edges"><button class="earth">magnetotactic-bacteria_</button></a><br>
-<a href="./en/recognition.html"class="edges"><button class="earth">recognition</button></a><br>
-<a href="./en/thatcher-effect.html"class="edges"><button class="earth">thatcher-effect</button></a><br>
-<a href="./en/toroflux.html"class="edges"><button class="earth">toroflux</button></a><br>
-<a href="./en/brinicle-formation.html"class="edges"><button class="earth">brinicle-formation</button></a><br>
-<a href="./en/zoetrope.html"class="edges"><button class="earth">zoetrope</button></a><br>
-<a href="./en/wimshurst-machine.html"class="edges"><button class="earth">wimshurst-machine</button></a><br>
-<a href="./en/magnetic-vortex.html"class="edges"><button class="earth">magnetic-vortex</button></a><br>
-<a href="./en/sonoluminescence.html"class="edges"><button class="earth">sonoluminescence</button></a><br>
-<a href="./en/bioluminescence.html"class="edges"><button class="earth">bioluminescence</button></a><br>
-<a href="./en/self-aware.html"class="edges"><button class="earth">self-aware</button></a><br>
+<a href="./en/magnetic-polarity.html"class="edges"><button class="earth">magnetic-polarity</button></a><br>
 <a href="./en/imagination.html"class="edges"><button class="earth">imagination</button></a><br>
-<a href="./en/freewill.html"class="edges"><button class="earth">freewill</button></a><br>
-<a href="./en/control.html"class="edges"><button class="earth">control</button></a><br>
-<a href="./en/existence.html"class="edges"><button class="earth">existence</button></a><br>
-<a href="./en/evolution.html"class="edges"><button class="earth">evolution</button></a><br>
-<a href="./en/memorization.html"class="edges"><button class="earth">memorization</button></a><br>
-<a href="./en/symbiosis.html"class="edges"><button class="earth">symbiosis</button></a><br>
-<a href="./en/synapse.html"class="edges"><button class="earth">synapse</button></a><br>
-<a href="./en/sandbox.html"class="edges"><button class="earth">sandbox</button></a><br>
-<a href="./en/pineal-gland.html"class="edges"><button class="earth">pineal-gland</button></a><br>
-<a href="./en/emergence.html"class="edges"><button class="earth">emergence</button></a><br>
-<a href="./en/electron-transport-chain.html"class="edges"><button class="earth">electron-transport-chain</button></a><br>
-<a href="./en/mutoscope.html"class="edges"><button class="earth">mutoscope</button></a><br>
-<a href="./en/reflection.html"class="edges"><button class="earth">reflection</button></a><br>
-<a href="./en/echo.html"class="edges"><button class="earth">echo</button></a><br>
-<a href="./en/knowledge.html"class="edges"><button class="earth">knowledge</button></a><br><a href="./en/science.html"class="edges"><button class="earth">science</button></a><br>
-<a href="./en/biology.html"class="edges"><button class="earth">biology</button></a><br>
-<a href="./en/ghost.html"class="edges"><button class="earth">ghost</button></a><br>
-<a href="./en/house.html"class="edges"><button class="earth">house</button></a><br>
-<a href="./en/car.html"class="edges"><button class="earth">car</button></a><br>
-<a href="./en/phone.html"class="edges"><button class="earth">phone</button></a><br>
-<a href="./en/food.html"class="edges"><button class="earth">food</button></a><br>
-<a href="./en/walk.html"class="edges"><button class="earth">walk</button></a><br>
-<a href="./en/talk.html"class="edges"><button class="earth">talk</button></a><br>
-<a href="./en/base.html"class="edges"><button class="earth">base</button></a><br>
-<a href="./en/think.html"class="edges"><button class="earth">think</button></a><br>
-<a href="./en/face.html"class="edges"><button class="earth">face</button></a><br>
-<a href="./en/skin.html"class="edges"><button class="earth">skin</button></a><br>
-<a href="./en/software.html"class="edges"><button class="earth">software</button></a><br>
-<a href="./en/match.html"class="edges"><button class="earth">match</button></a><br>
-<a href="./en/clap.html"class="edges"><button class="earth">clap</button></a><br>
-<a href="./en/soul.html"class="edges"><button class="earth">soul</button></a><br>
-<a href="./en/hi.html"class="edges"><button class="earth">hi</button></a><br>
-<a href="./en/edit.html"class="edges"><button class="earth">edit</button></a><br>
+<a href="./en/conscious.html"class="edges"><button class="earth">conscious</button></a><br>
+<a href="./en/unconscious.html"class="edges"><button class="earth">unconscious</button></a><br>
+<a href="./en/electricity.html"class="edges"><button class="earth">electricity</button></a><br>
+<a href="./en/calculation.html"class="edges"><button class="earth">calculation</button></a><br>
+<a href="./en/attraction.html"class="edges"><button class="earth">attraction</button></a><br>
+<a href="./en/repelling.html"class="edges"><button class="earth">repelling</button></a><br>
+<a href="./en/perpetual-motion.html"class="edges"><button class="earth">perpetual-motion</button></a><br>
