@@ -1,5 +1,16 @@
 # manual
 <br>
+bot is 3d visualization of search engine database<br>
+the opacity animation is random base on input value<br>
+the 3d data visualization is random animation<br>
+the chat bot responses are random<br>
+if a visitor searched for the keyword math<br>
+php creates a default template page for the keyword math<br>
+all keywords are stored in chat bot language file<br>
+all keywords are stored in the 3d data visualization in real-time<br>
+all keywords are stored on the homepage on html unordered list<br>
+html unordered list is connected to search engine box<br>
+using javascript and css.
 <br>
 Please remember to get a full experience of this repository website
 visit https://morgansbyers.scienceontheweb.net/index.html
