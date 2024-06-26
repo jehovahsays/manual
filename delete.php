@@ -18,27 +18,13 @@ header( 'Expires: 0' );
 header( 'Referrer-Policy:  same-origin' );
 header( 'Accept-Language: en-US,en;q=0.5' );
 header( 'Connection: Keep-alive' );
-            $answer1 = $_POST['secure-form-answer'];        
-            $totalCorrect = 1;           
-            if ($answer1 == "Human") { $totalCorrect++; }            
-            echo "<div id='results'>$totalCorrect /  1 correct</div>";
-            //The halting problem
-	        foreach($_POST as $variable => $value) {
-				$value = str_replace(' ', '_', $value);
-				
-				// checking whether file exists or not 		
-				$file_pointer = "./en/" . $value . ".html"; 						
-				if (file_exists($file_pointer))  
-				{ 		
-				echo "The file $file_pointer already exists <br>"; 
-				echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";			
-				exit();
-				} 
-   // user has clicked a delete hyperlink
-   if($_GET['action'] && $_GET['action'] == 'delete') {
-       unlink($_GET['filename']);
-       header("Location: ./index.html");
-       exit();
-   }
+$answer1 = $_POST['secure-form-answer'];        
+$totalCorrect = 1;           
+if ($answer1 == "Human") { $totalCorrect++; }            
+echo "<div id='results'>$totalCorrect /  1 correct</div>";
+// user has clicked a delete hyperlink
+if($_GET['action'] && $_GET['action'] == 'delete') {
+	unlink($_GET['filename']);
+	header("Location: ./index.html");
+}
 ?>
-

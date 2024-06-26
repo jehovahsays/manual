@@ -117,7 +117,7 @@
       // calculate config
       self.radius = self.config.radius; // rolling radius
       self.depth = 2 * self.radius; // rolling depth
-      self.size = 1.5 * self.radius; // rolling area size with mouse
+      self.size = 1.3 * self.radius; // rolling area size with mouse
       self.maxSpeed = TagCloud._getMaxSpeed(self.config.maxSpeed); // rolling max speed
       self.initSpeed = TagCloud._getInitSpeed(self.config.initSpeed); // rolling init speed
       self.direction = self.config.direction; // rolling init direction

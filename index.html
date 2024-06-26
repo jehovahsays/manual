@@ -35,31 +35,50 @@ frame-src 'self' http: https:;"/>
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 
 <title>index</title>
-	
+
 <link 
 rel="stylesheet" 
-href="./js/style.css">
+href="./css/edit.css" />
+
+<script 
+type="text/javascript" 
+src="./js/edit.js">
+</script>
 	
 <script 
 type="text/javascript" 
 src="./js/TagCloud.js">
 </script>
 
-<script 
-src="./js/jquery-3.7.1.min.js">
-</script>
 
 <style>
 /* mobile */
 
-fieldset {
+.content {
+        margin: 0px;
+	    position: absolute;		
+	    top: 0px;
+        left: 30px;
+        font-size: 1.0em;
+        padding: 0px;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+
+
+.button {
+	    top: 0px;
+		left: :30px;
+	    padding: 0px;
+        margin: 30px;
+		position: fixed;
+}
+
+img {
 	    z-index: 0px;
 	    top: 0px;
 		left: 0px;
 	    padding: 0px;
         margin: 0px;
-        width: 100%;
-		height: 100%;
 		position: absolute;
 }
 
@@ -67,24 +86,24 @@ fieldset {
         list-style: none;
         padding: 0px;
         margin: 0px;
-		position: absolute;
+		position: fixed;
 	    top: 0px;
         left: 0px;			
 }
 .edges {
         margin: 0px;
-	    position: absolute;		
-	     top: 10px;
-        left: 100px;
+	    position: fixed;		
+	    top: 85px;
+        left: 80px;
         font-size: 1.0em;
         padding: 0px;
         animation: fadeIn 0.5s ease-in-out;
 } 
 .edges:last-child {        
         margin: 0px;
-	    position: absolute;		
-	    top: 340px;
-        left: 100px;
+	    position: fixed;		
+	    top: 175px;
+        left: 10px;
         font-size: 1.0em;
         padding: 0px;
         border-bottom: none;
@@ -101,103 +120,36 @@ fieldset {
   }
 }
 </style>
-
-   <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-        }
-
-        .light {
-            background: #666;
-            color: #fff;
-        }
-
-        .content .tagcloud {
-            display: inline-block;
-            margin: 20px;
-        }
-
-        ul {
-            display: inline-block;
-        }
-
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
     <!-- custom style -->
-    <style>
-        .tagcloud {
-            font-size: 16px;
-			
-        }
-
-        .tagcloud--item {
-            padding: 2px 4px;
-            background-color: transparent;
-            border: 1px solid transparent;
-            cursor: pointer;
-			
-        }
-
-        .tagcloud--item:hover {
-            background-color: rgba(0, 0, 0, .1);
-            border: 1px solid #333;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            border-radius: 2px;
-            opacity: 1 !important;
-            z-index: 100 !important;
-        }
-
-        .light .tagcloud--item {
-            color: #fff;
-        }
-
-        .light .tagcloud--item:hover {
-            background-color: rgba(255, 255, 255, .1);
-            border: 1px solid #fff;
-        }
-    </style>
 
 </head>
-<body>
-<center>
+<body style="width:100%;">
+<img src="./favicon.ico">
+<br><br>
+<br><br>
+<br><br>
+<br><br>
 <br><br>
 <form
+id="secure-form-answer"
 action="./action.php" 
-method="post">		
+method="post">	
 <input 
+style="width:90%;"
 id="nodes" 
 onkeyup="edges()" 
-name="secure-form-answer" 
+name="secure-form-answer-Human"
 aria-label="Search"  
-placeholder="search pages" 
-type="search" 
+placeholder="start game" 
+type="text" 
 maxlength="30" 
 autocomplete="true" 
 autocorrect="on" 
 autocapitalize="off" 
 spellcheck="true"
 required>
-<button id="submit-button" 
-type="submit">
-submit
-</button>
-<noscript>
-<label 
-for="secure-form-answer-Human">
-Human
-</label>
-</noscript>     
-</form>	 
-
+</form>
+   
 <script>
 function edges() {
 	
@@ -228,29 +180,7 @@ function edges() {
 </script>
 
 <div 
-class="content">
-<p
-style=" 
-	    position: absolute;
-	    padding: 0;
-        margin: 0px;
-	    top: 100px;
-        left: 135px;			
-        font-size: 9.0em;">
-		&#8734;
-		</p>
-<!-- content -->
- <script 
-type="text/javascript" 
-src="./js/merge.js">
-</script>
-</div>
-
-<div 
 class="chatbot-container">
-<div 
-id="header">	
-</div>
 <div 
 id="chatbot">
 <div 
@@ -259,17 +189,25 @@ id="conversation">
 class="chatbot-message">
 <p 
 class="chatbot-text">
-
 </p>
 </div>
-
 </div>
 
-	
-<message-container></message-container>
 <form 
 id="input-form">
+
+<message-container>
+
+<script> 
+var 
+msg = 
+new 
+SpeechSynthesisUtterance('connected'); 
+window.speechSynthesis.speak(msg); 
+</script>
+
 <input 
+style="width:90%;"
 id="nodes"
 onkeyup="edges()" 
 name="secure-form-answer" 
@@ -278,32 +216,73 @@ autocomplete="true"
 autocorrect="on" 
 autocapitalize="off" 
 spellcheck="true"
-required
 type="text" 
-placeholder="ask a random keyword">				
-<button id="submit-button" 
-type="submit">submit</button>	 	            
+placeholder="chat bot responds with random keyword">	
+</message-container>			 	            
 </form>
 </div>  
 </div>
+
 <script 
 src="./js/chatbot.js">
 </script>
-</center>
 
-<center>
+<div 
+id="nodes"
+onkeyup="content()" 
+class="content">
+
+<p
+class="edges"
+style=" 
+position: absolute;
+padding: 0px;
+margin: 0px;
+top: 10px;
+left: 25px;			
+font-size: 150px;">
+<br 
+class="edges">
+%
+</br>
+</p>
+<!-- content -->
+ <script 
+type="text/javascript" 
+src="./js/merge.js">
+</script>
+</div>
+<article>
+</article>
 <ul id="nodes">
-<a href="./en/intelligence.html"class="edges"><button class="earth">intelligence</button></a><br>
-<a href="./en/pencil.html"class="edges"><button class="earth">pencil</button></a><br>
-<a href="./en/paper.html"class="edges"><button class="earth">paper</button></a><br>
-<a href="./en/drawing.html"class="edges"><button class="earth">drawing</button></a><br>
-<a href="./en/necker-cube.html"class="edges"><button class="earth">necker-cube</button></a><br>
-<a href="./en/magnetic-polarity.html"class="edges"><button class="earth">magnetic-polarity</button></a><br>
-<a href="./en/imagination.html"class="edges"><button class="earth">imagination</button></a><br>
-<a href="./en/conscious.html"class="edges"><button class="earth">conscious</button></a><br>
-<a href="./en/unconscious.html"class="edges"><button class="earth">unconscious</button></a><br>
-<a href="./en/electricity.html"class="edges"><button class="earth">electricity</button></a><br>
-<a href="./en/calculation.html"class="edges"><button class="earth">calculation</button></a><br>
-<a href="./en/attraction.html"class="edges"><button class="earth">attraction</button></a><br>
-<a href="./en/repelling.html"class="edges"><button class="earth">repelling</button></a><br>
-<a href="./en/perpetual-motion.html"class="edges"><button class="earth">perpetual-motion</button></a><br>
+<a href="./en/electromagnetism.html"class="edges"><button>electromagnetism</button></a>
+<a href="./en/perpetual-motion.html"class="edges"><button>perpetual-motion</button></a>
+<a href="./en/thermodynamics.html"class="edges"><button>thermodynamics</button></a>
+<a href="./en/reproductive-system.html"class="edges"><button>reproductive-system</button></a>
+<a href="./en/percentage.html"class="edges"><button>percentage</button></a>
+<a href="./en/randomness.html"class="edges"><button>randomness</button></a>
+<a href="./en/exploratory.html"class="edges"><button>exploratory</button></a>
+<a href="./en/compass.html"class="edges"><button>compass</button></a>
+<a href="./en/algorithm.html"class="edges"><button>algorithm</button></a>
+<a href="./en/learning.html"class="edges"><button>learning</button></a>
+<a href="./en/memorizing.html"class="edges"><button>memorizing</button></a>
+<a href="./en/gadgetry.html"class="edges"><button>gadgetry</button></a>
+<a href="./en/planetary alignment.html"class="edges"><button>planetary alignment</button></a>
+<a href="./en/intelligence.html"class="edges"><button>intelligence</button></a>
+<a href="./en/spermatogenesis.html"class="edges"><button>spermatogenesis</button></a>
+<a href="./en/weather forecast.html"class="edges"><button>weather forecast</button></a>
+<a href="./en/peripheral vision.html"class="edges"><button>peripheral vision</button></a>
+<a href="./en/randomization.html"class="edges"><button>randomization</button></a>
+<a href="./en/combination.html"class="edges"><button>combination</button></a>
+<a href="./en/human immune system.html"class="edges"><button>human immune system</button></a>
+<a href="./en/reflection.html"class="edges"><button>reflection</button></a>
+<a href="./en/gravitational intelligence.html"class="edges"><button>gravitational intelligence</button></a>
+<a href="./en/3d_data_visualization.html"class="edges"><button>3d_data_visualization</button></a>
+<a href="./en/rotation.html"class="edges"><button>rotation</button></a>
+<a href="./en/tv.html"class="edges"><button>tv</button></a>
+<a href="./en/playlist.html"class="edges"><button>playlist</button></a>
+<a href="./en/gravitational_intelligence.html"class="edges"><button>gravitational_intelligence</button></a>
+<a href="./en/gravitational_intelligence.html"class="edges"><button>gravitational_intelligence</button></a>
+<a href="./en/gravitational_intelligence.html"class="edges"><button>gravitational_intelligence</button></a>
+<a href="./en/gravitational_intelligence.html"class="edges"><button>gravitational_intelligence</button></a>
+<a href="./en/planetary_alignment.html"class="edges"><button>planetary_alignment</button></a>

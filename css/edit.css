@@ -8,8 +8,8 @@ h2 {
 }
 
 article {
-  width: 330px;
-  min-height: 500px;
+  width: 300px;
+  min-height: 200px;
   margin: 0 auto;
   padding: 15px;
   background-image: repeating-linear-gradient(
@@ -27,14 +27,15 @@ article {
 ul {
   list-style-type: none;
   padding-left: 0;
-  width: 480px;
+  width: 380px;
   margin: 0 auto;
   padding-bottom: 30px;
 }
 
 li {
-  float: left;
-  width: 23%;
+  float: right;
+  width: 50%;
+  height: 50px;
 }
 
 ul li a {

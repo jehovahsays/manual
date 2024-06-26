@@ -98,7 +98,7 @@
   }
 
   p[sentTime]:hover::after {    
-    content: attr(sentTime);
+    edges: attr(sentTime);
     position: absolute;
     top: -3px;
     font-size: 14px;
