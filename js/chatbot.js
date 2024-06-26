@@ -39,37 +39,6 @@ function generateResponse(input) {
     // Add chatbot logic here
     const responses = [
 
-
-
-"electromagnetism",
-"perpetual-motion",
-"thermodynamics",
-"reproductive-system",
-"percentage",
-"randomness",
-"exploratory",
-"compass",
-"algorithm",
-"learning",
-"memorizing",
-"gadgetry",
-"planetary_alignment",
-"intelligence",
-"spermatogenesis",
-"weather_forecast",
-"peripheral_vision",
-"randomization",
-"combination",
-"human_immune_system",
-"reflection",
-"gravitational_intelligence",
-"3d_data_visualization",
-"rotation",
 "tv",
 "playlist",
-"gravitational_intelligence",
-"gravitational_intelligence",
-"gravitational_intelligence",
-"gravitational_intelligence",
-"planetary_alignment",
 ];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};

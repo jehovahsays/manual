@@ -64,7 +64,7 @@ foreach($_POST as $variable => $value)
 	. "<body>"
 	. "<a href="
 	. "\""
-	. "../../index.html"
+	. "../index.html"
 	. "\""
 	. "><button>return to homepage</button></a><br><br>"
 	. "<a href="
