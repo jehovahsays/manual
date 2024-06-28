@@ -25,6 +25,8 @@ inputForm.addEventListener('submit', function(event) {
 
   // Generate chatbot response
   const response = generateResponse(input);
+   
+
 //return responses[Math.floor(Math.random() * responses.length)];}	
   // Add chatbot response to conversation
   message = document.createElement('div');
@@ -37,8 +39,13 @@ inputForm.addEventListener('submit', function(event) {
 // Generate chatbot response function
 function generateResponse(input) {
     // Add chatbot logic here
+	// Do not delete the last line of this file because the logger will break and delete entire file. 
     const responses = [
 
-"tv",
-"playlist",
+"home",
+"about",
+"site_map",
+"privacy",
+"terms",
+"cookies",
 ];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};

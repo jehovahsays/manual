@@ -1,5 +1,8 @@
 # manual
 <br>
+unfinished still working on the loggers<br>
+these loggers write real-time user input data to pages<br>
+the loggers usually break because of human developer errors<br>
 bot is 3d visualization of search engine database<br>
 the opacity animation is random base on input value<br>
 the 3d data visualization is random animation<br>
@@ -17,7 +20,7 @@ visit https://morgansbyers.scienceontheweb.net/index.html
 <br>
 fix what you find was incorrect.<br>
 if you know how to fix it just fix it.<br>
-if file exsist php api rest shows link to file.<br>
+if file exsist php api shows link to file.<br>
 if file does not exist php api rest creates the file and link.<br>
 i removed text to speech from the website.<br>
 i added a delete button at bottom of every page a user creates.<br>

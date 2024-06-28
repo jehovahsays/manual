@@ -2,86 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" />
-<meta http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
-<meta http-equiv="Clear-Site-Data" content="*">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-epuiv="X-XSS-Protection" content="1; mode=block">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="Referer" content="same-origin">
-<meta http-equiv="Content-Type" content="text/html">
-<!--<meta http-equiv="Set-Cookie" content="HttpOnly">-->
-<meta http-equiv="Connection" content="Keep-alive">
-<meta http-equiv="Referrer-Policy" content="no-referrer">
-<meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=()">
-<meta http-equiv="Content-Security-Policy" content="
-default-src 'self' http: https:;
-script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:;
-style-src 'self' 'unsafe-inline' http: https:;
-img-src data: http: https:;
-font-src 'self' http: https:;
-connect-src http: https:;
-frame-src 'self' http: https:;"/>
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
-<link rel="icon" type="image/png" href="./favicon.ico">
-<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: dark)"/>
-<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
-
-<title>index</title>
-
-<link 
-rel="stylesheet" 
-href="./css/edit.css" />
-
-<script 
-type="text/javascript" 
-src="./js/edit.js">
-</script>
-	
-<script 
-type="text/javascript" 
-src="./js/TagCloud.js">
-</script>
-
-
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, maximum-scale=1.0">
+<http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0">
+<http-equiv="Pragma" content="no-cache">
+<http-equiv="Expires" content="0">
+<http-equiv="Clear-Site-Data" content="*">
+<http-equiv="X-Frame-Options" content="DENY">
+<http-epuiv="X-XSS-Protection" content="1; mode=block">
+<http-equiv="X-Content-Type-Options" content="nosniff">
 <style>
-/* mobile */
-
-.content {
-        margin: 0px;
-	    position: absolute;		
-	    top: 0px;
-        left: 30px;
-        font-size: 1.0em;
-        padding: 0px;
-        animation: fadeIn 0.5s ease-in-out;
-} 
-
-
-.button {
-	    top: 0px;
-		left: :30px;
-	    padding: 0px;
-        margin: 30px;
-		position: fixed;
-}
-
-img {
-	    z-index: 0px;
-	    top: 0px;
-		left: 0px;
-	    padding: 0px;
-        margin: 0px;
-		position: absolute;
-}
-
 .nodes {
         list-style: none;
         padding: 0px;
@@ -90,24 +21,27 @@ img {
 	    top: 0px;
         left: 0px;			
 }
+
 .edges {
         margin: 0px;
-	    position: fixed;		
-	    top: 85px;
-        left: 80px;
+	    position: absolute;		
+	    top: 12px;
+        left: 242px;
         font-size: 1.0em;
         padding: 0px;
         animation: fadeIn 0.5s ease-in-out;
 } 
+
 .edges:last-child {        
         margin: 0px;
-	    position: fixed;		
-	    top: 175px;
-        left: 10px;
+	    position: absolute;		
+	    top: 12px;
+        left: 242px;
         font-size: 1.0em;
         padding: 0px;
         border-bottom: none;
 }
+
 @keyframes fadeIn {
    from {
         opacity: 0;
@@ -118,38 +52,68 @@ img {
         transform: translateY(0);
 }
   }
+}  
+
+chatbot-text {
+	left:50px;
+}
+chatbot-message {
+	    left:50px;
 }
 </style>
-    <!-- custom style -->
+
+<title>
+search
+</title>
+
+<script 
+type="text/javascript" 
+src="./js/TagCloud.js">
+
+<script 
+type="text/javascript"
+src="./js/search.js">
+</script>
+
+<link 
+rel="stylesheet" 
+type="text/css" 
+href="./files/main.css">
 
 </head>
-<body style="width:100%;">
-<img src="./favicon.ico">
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
+<body>
+<a href="./browser.html"
+style="position:absolute;top:100px;left:250px;"
+><button>more options</button></a><br>
 <form
+
 id="secure-form-answer"
 action="./action.php" 
 method="post">	
-<input 
-style="width:90%;"
+
+<input
+style="position:absolute;top:15px;left:15px;width:220px;"
 id="nodes" 
 onkeyup="edges()" 
 name="secure-form-answer-Human"
-aria-label="Search"  
-placeholder="start game" 
-type="text" 
-maxlength="30" 
+type="text"
+value=""
+aria-label="search"  
+placeholder="search database" 
+maxlength="40" 
 autocomplete="true" 
 autocorrect="on" 
 autocapitalize="off" 
 spellcheck="true"
 required>
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>
 </form>
-   
+
 <script>
 function edges() {
 	
@@ -176,9 +140,29 @@ function edges() {
   }
   
 }
-
 </script>
 
+<div 
+id="nodes"
+onkeyup="edges()" 
+class="content"
+style=" 
+position: absolute;
+padding: 0px;
+margin: 0px;
+top: 20px;
+left: 30px;			
+font-size: 10px;">
+<!-- content -->
+ <script 
+type="text/javascript" 
+src="./js/merge.js">
+</script>
+</div>
+
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br>
 <div 
 class="chatbot-container">
 <div 
@@ -191,69 +175,43 @@ class="chatbot-message">
 class="chatbot-text">
 </p>
 </div>
-</div>
 
 <form 
 id="input-form">
-
 <message-container>
-
-<script> 
-var 
-msg = 
-new 
-SpeechSynthesisUtterance('connected'); 
-window.speechSynthesis.speak(msg); 
-</script>
-
 <input 
-style="width:90%;"
+style="position:absolute;top:200px;left:15px;width:340px;"
 id="nodes"
-onkeyup="edges()" 
-name="secure-form-answer" 
-maxlength="30" 
+onkeyup="edges()"
+name="secure-form-answer-Human"
+maxlength="40" 
 autocomplete="true" 
 autocorrect="on" 
 autocapitalize="off" 
 spellcheck="true"
 type="text" 
-placeholder="chat bot responds with random keyword">	
-</message-container>			 	            
+placeholder="chat bot responds with random keywords">
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>	
+</message-container>		 	            
 </form>
-</div>  
+
+</div> 
+</div>
 </div>
 
 <script 
 src="./js/chatbot.js">
-</script>
+</script>				
 
-<div 
-id="nodes"
-onkeyup="content()" 
-class="content">
-
-<p
-class="edges"
-style=" 
-position: absolute;
-padding: 0px;
-margin: 0px;
-top: 10px;
-left: 25px;			
-font-size: 150px;">
-<br 
-class="edges">
-%
-</br>
-</p>
-<!-- content -->
- <script 
-type="text/javascript" 
-src="./js/merge.js">
-</script>
-</div>
-<article>
-</article>
 <ul id="nodes">
-<a href="./en/tv.html"class="edges"><button>tv</button></a>
-<a href="./en/playlist.html"class="edges"><button>playlist</button></a>
+<a href="./en/home.html"class="edges"><button>home</button></a>
+<a href="./en/about.html"class="edges"><button>about</button></a>
+<a href="./en/site_map.html"class="edges"><button>site_map</button></a>
+<a href="./en/privacy.html"class="edges"><button>privacy</button></a>
+<a href="./en/terms.html"class="edges"><button>terms</button></a>
+<a href="./en/cookies.html"class="edges"><button>cookies</button></a>

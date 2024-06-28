@@ -45,18 +45,6 @@ foreach($_POST as $variable => $value)
 	. "<meta "
 	. "name=\"viewport\""
 	. "content=\"width=device-width\">"
-	. "<style>"
-	. "/* mobile */"
-	. "p {"
-	. "width:100%; "
-	. "height:100%;"
-	. "position: fixed;"
-	. "padding: 0;"
-	. "margin-top: 200px;"
-	. "top: 0px;"
-	. "left: 0px;"
-	. "}"
-	. "</style>"
 	. "<title>"
 	. $value
 	. "</title>"
@@ -67,26 +55,9 @@ foreach($_POST as $variable => $value)
 	. "../index.html"
 	. "\""
 	. "><button>return to homepage</button></a><br><br>"
-	. "<a href="
-	. "\""
-	. "./txt/edit.html"
-	. "\""
-	. ">"
-	. "<button>view this acticle</button></a>"
-	. "<br><br>" 
-	. "<a href="
-	. "\"" 
-	. "../delete.php?action=delete&filename=./en/" 
-	. $value 
-	. ".html" 
-	. "\"" 
-	. "><button>delete this page</button></a>"
-	. "<div class=\"p\">"
 	. "<p contenteditable=\"true\">"
-	. "click here to define the keyword\n"
 	. $value
 	. "</p>"
-	. "</div>"
 	. "</body>"
 	. "<html>");
 }	
@@ -114,7 +85,8 @@ foreach($_POST as $variable => $value)
 }
 	
 	foreach($_POST as $variable => $value) 
-{		
+{	
+    $value = str_replace(' ', '_', $value);		
 	$handle = fopen("./js/merge.js", "a");
 	// load the data and delete the line from the array 
 	$lines = file('./js/merge.js'); 
@@ -133,7 +105,8 @@ foreach($_POST as $variable => $value)
 }
 	
 	foreach($_POST as $variable => $value) 
-{
+{    
+    $value = str_replace(' ', '_', $value);	
 	$handle = fopen("./js/chatbot.js", "a");
 	// load the data and delete the line from the array 
 	$lines = file('./js/chatbot.js'); 
@@ -143,54 +116,41 @@ foreach($_POST as $variable => $value)
 	file_put_contents('./js/chatbot.js', $lines); 
 	$value = str_replace(' ', '_', $value);
 	fwrite($handle, 	
-	"\""
+	  "\""
 	. $value
 	. "\""
 	. ","
 	. "\n"
 	. "];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};");
 }	
-	
-	echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
-	
+
 foreach($_POST as $variable => $value) 
-{
-	$handle = fopen("./en/txt/edit.html", "a");
+{    
+    $value = str_replace(' ', '_', $value);	
+	$handle = fopen("./js/search.json", "a");
 	// load the data and delete the line from the array 
-	$lines = file('./en/txt/edit.html'); 
+	$lines = file('./js/search.json'); 
 	$last = sizeof($lines) - 1 ; 
 	unset($lines[$last]); 
 	// write the new data to the file 
-	file_put_contents('./en/txt/edit.html', $lines); 
-
-	fwrite($handle, 	
-	"\n"
-	."<li><a data-page="
-	."\""
-	.$value
-	."\""
-	.">"
-	.$value
-	."</a></li>\n</ul>"
-	."<script type="
-	."\""
-	."text/javascript" 
-	."\""
-	."src="
-	."\""
-	."../../js/edit.js"
-	."\""
-	."></script>"
-	."\r\n");
+	file_put_contents('./js/search.json', $lines); 
+	$value = str_replace(' ', '_', $value);
+	fwrite($handle, 
+      ","	
+	. "\""
+	. $value
+	. "\""	
+	. ":"
+	. "\""
+	. "en/"
+	. $value
+    . "\""
+	. "\n"
+    . "}}}");
+}
 	
-	$handle = fopen("./en/txt/".$value.".txt", "a");
-	fwrite($handle,
-     "\n" 
-	.$value
-    ."\r\n");	
-	
-	echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/txt/edit.html'}</script>";	
-}	
+//echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
+echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";		
 fclose($handle);
 exit();
 ?>
