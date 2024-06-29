@@ -11,4 +11,12 @@ var texts = [
 "planetary-alignment",
 "intelligence-absorption",
 "reaction_based_on_interaction_during_magnetic_field_disturbance",
+"air-pocket",
+"evaporation",
+"condensation",
+"precipitation",
+"perpetual_motion_machine",
+"pattern_matching",
+"intelligence",
+"remember",
 ];var tc = TagCloud('.content', texts);console.log(tc);

@@ -54,4 +54,12 @@ function generateResponse(input) {
 "planetary-alignment",
 "intelligence-absorption",
 "reaction_based_on_interaction_during_magnetic_field_disturbance",
+"air-pocket",
+"evaporation",
+"condensation",
+"precipitation",
+"perpetual_motion_machine",
+"pattern_matching",
+"intelligence",
+"remember",
 ];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};

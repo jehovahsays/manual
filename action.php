@@ -27,10 +27,10 @@ foreach($_POST as $variable => $value)
 	$value = str_replace(' ', '_', $value);	
 	$file_pointer = "./en/" . $value . ".html"; 						
 	if (file_exists($file_pointer))  
-	{ 		
+	{ 
 	echo "The file $file_pointer already exists <br>"; 
 	//echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
-	echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";		
+	echo "<script> var msg = new SpeechSynthesisUtterance(' i remember the word $value'); window.speechSynthesis.speak(msg); </script><body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";
 	exit();
 	}
 }
@@ -51,7 +51,7 @@ foreach($_POST as $variable => $value)
 	."\""
     .">\n"
     ."<style>fieldset{position:absolute;width:100%;height: 100%;}</style>\n<title>$value</title>\n</head>\n<body>"
-    ."<script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script>\n"
+//    ."<script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script>\n"
     ."<fieldset>\n<legend>$value</legend>\n</fieldset>\n</body>\n<html>");
 }	
 	foreach($_POST as $variable => $value) 
@@ -164,7 +164,8 @@ foreach($_POST as $variable => $value)
 }
 	
 //echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./#en/$value.html'>$value</a>";
-echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";		
+echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";
+echo "<script> var msg = new SpeechSynthesisUtterance('i will remember the word $value'); window.speechSynthesis.speak(msg); </script>";		
 fclose($handle);
 exit();
 ?>
