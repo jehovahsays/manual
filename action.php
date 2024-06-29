@@ -10,9 +10,9 @@ header( 'Vary: Accept-Encoding' );
 header( 'viewport: width=device-width, initial-scale=1.0' );
 header( 'Accept-Language: en-US,en;q=0.5' );
 header( 'Connection: Keep-alive' );
-header( 'Host: index' );
-header( 'description: index' );
-header( 'keywords: index' );
+header( 'Host: database' );
+header( 'description: database' );
+header( 'keywords: database' );
 header( 'Vary: Accept-Encoding' );
 header( 'Expires: 0' );
 header( 'Referrer-Policy:  same-origin' );
@@ -29,7 +29,8 @@ foreach($_POST as $variable => $value)
 	if (file_exists($file_pointer))  
 	{ 		
 	echo "The file $file_pointer already exists <br>"; 
-	echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
+	//echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
+	echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";		
 	exit();
 	}
 }
@@ -39,42 +40,55 @@ foreach($_POST as $variable => $value)
 	$value = str_replace(' ', '_', $value);
 	$handle = fopen("./en/" . $value . ".html", "a");
 	fwrite($handle, 
-	  "<!DOCTYPE html>"
-	. "<html>"
-	. "<head>"
-	. "<meta "
-	. "name=\"viewport\""
-	. "content=\"width=device-width\">"
-	. "<title>"
-	. $value
-	. "</title>"
-	. "</head>"
-	. "<body>"
-	. "<a href="
-	. "\""
-	. "../index.html"
-	. "\""
-	. "><button>return to homepage</button></a><br><br>"
-	. "<p contenteditable=\"true\">"
-	. $value
-	. "</p>"
-	. "</body>"
-	. "<html>");
+     "<!DOCTYPE html>\n<html>\n<head>"
+	."<meta name="
+	."\""
+    ."viewport"
+	."\""
+    ."content="
+	."\""
+    ."width=device-width"
+	."\""
+    .">\n"
+    ."<style>fieldset{position:absolute;width:100%;height: 100%;}</style>\n<title>$value</title>\n</head>\n<body>"
+    ."<script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script>\n"
+    ."<fieldset>\n<legend>$value</legend>\n</fieldset>\n</body>\n<html>");
 }	
 	foreach($_POST as $variable => $value) 
 {
 	$value = str_replace(' ', '_', $value);
-	$handle = fopen("./index.html", "a");
+	$handle = fopen("./en/database.html", "a");
 	fwrite($handle, 
 	  "<a href=" 
 	. "\"" 
-	. "./en/" 
-	. $value 
-	. ".html" 
+	. "../index.html#en/" 
+	. $value  
 	. "\"" 
 	. "class=" 
 	. "\"" 
-	. "edges" 
+	. "titleInput" 
+	. "\"" 
+	. ">" 
+	. "<button>"
+	. $value
+    . "</button>"	
+	. "</a>"
+	. "\r\n");
+}
+
+foreach($_POST as $variable => $value) 
+{
+	$value = str_replace(' ', '_', $value);
+	$handle = fopen("./index.htm", "a");
+	fwrite($handle, 
+	  "<a href=" 
+	. "\"" 
+	. "./index.html#en/" 
+	. $value  
+	. "\"" 
+	. "class=" 
+	. "\"" 
+	. "titleInput" 
 	. "\"" 
 	. ">" 
 	. "<button>"
@@ -87,13 +101,13 @@ foreach($_POST as $variable => $value)
 	foreach($_POST as $variable => $value) 
 {	
     $value = str_replace(' ', '_', $value);		
-	$handle = fopen("./js/merge.js", "a");
+	$handle = fopen("./js/tagcloud.js", "a");
 	// load the data and delete the line from the array 
-	$lines = file('./js/merge.js'); 
+	$lines = file('./js/tagcloud.js'); 
 	$last = sizeof($lines) - 1 ; 
 	unset($lines[$last]); 
 	// write the new data to the file 
-	file_put_contents('./js/merge.js', $lines); 
+	file_put_contents('./js/tagcloud.js', $lines); 
 	$value = str_replace(' ', '_', $value);
 	fwrite($handle, 	
 	  "\""
@@ -149,8 +163,8 @@ foreach($_POST as $variable => $value)
     . "}}}");
 }
 	
-//echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./en/$value.html'>$value</a>";
-echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";		
+//echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./#en/$value.html'>$value</a>";
+echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";		
 fclose($handle);
 exit();
 ?>

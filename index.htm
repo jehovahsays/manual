@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html 
+lang="en">
+<head>
+<meta 
+charset="charset=UTF-8">
+<meta 
+name="viewport" 
+content="width=device-width" />
+<title>
+index
+</title>
+<style>
+input[type="text"] {
+  font-family: monospace;
+  font-size: 10px;
+  color: peru;
+}
+.nodes {
+	    position: fixed;
+        padding: 0;
+        margin: 0;
+	    top: 0;
+        left: 10px;			
+        list-style: none;
+}
+.edges {
+	    position: fixed;
+	    padding: 0;
+        margin: 0;
+	    top: 0px;
+        left: 10px;			
+        font-size: 1.0em;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+.edges:last-child { 
+        position: fixed;       
+        padding: 0;
+        margin: 0;
+	    top: 0;
+        left: 10px;			
+        border-bottom: none;
+}
+@keyframes fadeIn {
+   from {
+        opacity: 0;
+        transform: translateY(-10px);
+}
+   to   {
+        opacity: 1;
+        transform: translateY(0);
+}
+  }
+}
+</style>
+</head>
+<body>
+<script>
+function edges() {
+	
+  let input = document.getElementById('nodes').value;
+
+  input = input.toLowerCase();
+
+  let x = document.getElementsByClassName('edges');
+ 
+  for (i = 0; i < x.length; i++) {
+
+    if (!x[i].innerHTML.toLowerCase().includes(input)) {
+
+      x[i].style.display = "none";
+    }
+    else {
+      x[i].style.display = "list-item";
+    }
+  }  
+}
+</script>
+<br>
+<input 
+id="nodes" 
+onkeyup="edges(this.value)" 
+placeholder="search the unordered list for list items" 
+type="text"
+type="search"  
+maxlength="30" 
+autocomplete="true" 
+autocorrect="on" 
+autocapitalize="off" 
+spellcheck="true"
+required>
+</form>			
+<ul id="nodes" class="nodes">
+<a href="./index.html#en/database"class="titleInput"><button>datavase</button></a>
+<a href="./index.html#en/about"class="titleInput"><button>about</button></a>
+<a href="./index.html#en/books"class="titleInput"><button>books</button></a>
+<a href="./index.html#en/radio"class="titleInput"><button>radio</button></a>
+<a href="./index.html#en/tv"class="titleInput"><button>tv</button></a>
+<a href="./index.html#en/symbiosis"class="titleInput"><button>symbiosis</button></a>
+<a href="./index.html#en/magnetic-polarity"class="titleInput"><button>magnetic-polarity</button></a>
+<a href="./index.html#en/planetary-alignment"class="titleInput"><button>planetary-alignment</button></a>
+<a href="./index.html#en/intelligence-absorption"class="titleInput"><button>intelligence-absorption</button></a>
+<a href="./index.html#en/reaction_based_on_interaction_during_magnetic_field_disturbance"class="titleInput"><button>reaction_based_on_interaction_during_magnetic_field_disturbance</button></a>

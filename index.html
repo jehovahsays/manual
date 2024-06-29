@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="charset=UTF-8">
-<http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, maximum-scale=1.0">
-<http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0">
-<http-equiv="Pragma" content="no-cache">
-<http-equiv="Expires" content="0">
-<http-equiv="Clear-Site-Data" content="*">
-<http-equiv="X-Frame-Options" content="DENY">
-<http-epuiv="X-XSS-Protection" content="1; mode=block">
-<http-equiv="X-Content-Type-Options" content="nosniff">
+	<head>
+		<meta charset="utf-8">
+		<title>index</title>
+        <meta name="viewport" content="width=device-width"/>
+		<link rel="shortcut icon" href="./files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
+		<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: light)" />
+		<link rel="stylesheet" type="text/css" href="./files/main.css"></link>
 <style>
-.nodes {
-        list-style: none;
-        padding: 0px;
-        margin: 0px;
-		position: fixed;
-	    top: 0px;
-        left: 0px;			
+input[type="text"] {
+  font-family: monospace;
+  font-size: 10px;
+  color: peru;
 }
-
-.edges {
-        margin: 0px;
-	    position: absolute;		
-	    top: 12px;
-        left: 242px;
+.search {
+        margin: 70px; 
+		border-radius: 25px;
+	    padding: 0;
+	    top: 25;
+		left: 30;
+        width: 70%;
+}
+.filterInput {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+		position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;		
+}
+.titleInput {
+	    
+	    position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;
         font-size: 1.0em;
         padding: 0px;
         animation: fadeIn 0.5s ease-in-out;
 } 
-
-.edges:last-child {        
-        margin: 0px;
-	    position: absolute;		
-	    top: 12px;
-        left: 242px;
-        font-size: 1.0em;
-        padding: 0px;
+.titleInput:last-child {  
+        
+	    position: fixed;
+	    top: 0;
+        left: 0;
+		right: 0;
         border-bottom: none;
 }
-
 @keyframes fadeIn {
    from {
         opacity: 0;
@@ -52,60 +58,42 @@
         transform: translateY(0);
 }
   }
-}  
-
-chatbot-text {
-	left:50px;
-}
-chatbot-message {
-	    left:50px;
 }
 </style>
+	</head>
+	<body>
+	
+		<div id="panel">
 
-<title>
-search
-</title>
+			<div id="header">
+					<h1>
+					<a href="./en/database.html">database</a>
+					</h1>
 
-<script 
-type="text/javascript" 
-src="./js/TagCloud.js">
-
-<script 
-type="text/javascript"
-src="./js/search.js">
-</script>
-
-<link 
-rel="stylesheet" 
-type="text/css" 
-href="./files/main.css">
-
-</head>
-<body>
-<a href="./browser.html"
-style="position:absolute;top:100px;left:250px;"
-><button>more options</button></a><br>
-<form
-
-id="secure-form-answer"
+				<div id="sections">
+					<span class="selected"></span>
+					<br>
+<br>
+<form 
 action="./action.php" 
-method="post">	
-
-<input
-style="position:absolute;top:15px;left:15px;width:220px;"
-id="nodes" 
-onkeyup="edges()" 
+method="post" 
+id="secure-form">
+<input 
+id="secure-form-answer" 
+type="text" 
 name="secure-form-answer-Human"
-type="text"
+maxlength="524288" 
 value=""
 aria-label="search"  
-placeholder="search database" 
-maxlength="40" 
+class="titleInput" 
+style="height: 20px; width: 110px;" 
+maxlength="140" 
 autocomplete="true" 
-autocorrect="on" 
+autocorrect="off" 
 autocapitalize="off" 
-spellcheck="true"
-required>
+spellcheck="true" 
+placeholder="create pages" 
+x-webkit-speech>
 <noscript>
 <label 
 for="secure-form-answer-Human">
@@ -113,15 +101,562 @@ Human
 </label>
 </noscript>
 </form>
+<br>
+					</span>
+				</div>
 
+				<div id="expandButton"></div>
+			</div>
+
+			<div id="panelScrim"></div>
+
+			<div id="contentWrapper">
+				<div id="inputWrapper">
+					<input name="username" placeholder="" type="text" id="filterInput" autocorrect="off" autocapitalize="off" spellcheck="true" />
+					<div id="clearSearchButton"></div>
+					<select id="language">
+						<option value="en">en</option>
+						</select>
+				</div>
+				<br/>
+				<div id="content">
+				</div>
+				
+			</div>
+
+		</div>
+
+		<iframe name="viewer">
+		
+		</iframe>
+
+		<script>
+
+		const panel = document.querySelector( '#panel' );
+		const content = document.querySelector( '#content' );
+		const expandButton = document.querySelector( '#expandButton' );
+		const clearSearchButton = document.querySelector( '#clearSearchButton' );
+		const panelScrim = document.querySelector( '#panelScrim' );
+		const filterInput = document.querySelector( '#filterInput' );
+		let iframe = document.querySelector( 'iframe' );
+
+		const pageProperties = {};
+		const titles = {};
+		const categoryElements = [];
+
+		let navigation;
+
+		init();
+
+		async function init() {
+
+			const list = await ( await fetch( './js/search.json' ) ).json();
+
+			const hash = window.location.hash.substring( 1 );
+
+			// Localization
+
+			let language = 'en';
+
+			const hashLanguage = /^(.*?)\//.exec( hash );
+
+			if ( hashLanguage ) {
+
+				language = hashLanguage[ 1 ];
+
+			}
+
+			const languageSelect = document.querySelector( '#language' );
+			languageSelect.value = language;
+			languageSelect.addEventListener( 'change', function () {
+
+				setLanguage( this.value );
+
+			} );
+
+			function setLanguage( value ) {
+
+				language = value;
+
+				createNavigation( list, language );
+				updateFilter();
+				autoChangeUrlLanguage( language );
+
+			}
+
+			// Functionality for hamburger button (on small devices)
+
+			expandButton.onclick = function ( event ) {
+
+				event.preventDefault();
+				panel.classList.toggle( 'open' );
+
+			};
+
+			panelScrim.onclick = function ( event ) {
+
+				event.preventDefault();
+				panel.classList.toggle( 'open' );
+
+			};
+
+
+			// Functionality for search/filter input field
+
+			filterInput.onfocus = function () {
+
+				panel.classList.add( 'searchFocused' );
+
+			};
+
+			filterInput.onblur = function () {
+
+				if ( filterInput.value === '' ) {
+
+					panel.classList.remove( 'searchFocused' );
+
+				}
+
+			};
+
+			filterInput.oninput = function () {
+
+				updateFilter();
+
+			};
+
+			clearSearchButton.onclick = function () {
+
+				filterInput.value = '';
+				updateFilter();
+				filterInput.focus();
+
+			};
+
+			// Activate content and title change on browser navigation
+
+			window.onpopstate = function () {
+
+				updateNavigation();
+				createNewIframe();
+
+			};
+
+			// Create the navigation panel and configure the iframe
+
+			createNavigation( list, language );
+			createNewIframe();
+
+			// Handle search query
+
+			filterInput.value = extractQuery();
+
+			if ( filterInput.value !== '' ) {
+
+				panel.classList.add( 'searchFocused' );
+
+				updateFilter();
+
+			}
+
+		}
+
+		// Navigation Panel
+
+		function createLink( pageName, pageURL ) {
+
+			const link = document.createElement( 'a' );
+			const url = new URL( pageURL, window.location.href );
+			url.pathname += '.html';
+			link.href = url.href;
+			link.textContent = pageName;
+			link.setAttribute( 'target', 'viewer' );
+			link.addEventListener( 'click', function ( event ) {
+
+				if ( event.button !== 0 || event.ctrlKey || event.altKey || event.metaKey ) return;
+
+				window.location.hash = pageURL;
+				panel.classList.remove( 'open' );
+
+				updateNavigation();
+
+			} );
+
+			return link;
+
+		}
+
+		function createNavigation( list, language ) {
+
+			if ( navigation !== undefined ) {
+
+				content.removeChild( navigation );
+
+			}
+
+			// Create the navigation panel using data from list.js
+
+			navigation = document.createElement( 'div' );
+			content.appendChild( navigation );
+
+			if ( language === 'ar' ) {
+
+				navigation.style.direction = 'rtl';
+
+			}
+
+			const categories = list[ language ];
+			const selectedPage = window.location.hash.substring( 1 ).replace( /\.html$/, '' );
+
+			for ( const category in categories ) {
+
+				// Create categories
+
+				const pages = categories[ category ];
+
+				const categoryContainer = document.createElement( 'div' );
+				navigation.appendChild( categoryContainer );
+
+				const categoryHead = document.createElement( 'h3' );
+				categoryHead.textContent = category;
+				categoryContainer.appendChild( categoryHead );
+
+				const categoryContent = document.createElement( 'ul' );
+				categoryContainer.appendChild( categoryContent );
+
+				for ( const pageName in pages ) {
+
+					// Create page links
+
+					const pageURL = pages[ pageName ];
+
+					// Localisation
+
+					const listElement = document.createElement( 'li' );
+					categoryContent.appendChild( listElement );
+
+					const linkElement = createLink( pageName, pageURL );
+					listElement.appendChild( linkElement );
+
+					// select current page
+
+					if ( pageURL === selectedPage ) {
+
+						linkElement.classList.add( 'selected' );
+
+					}
+
+					// Gather the main properties for the current subpage
+
+					pageProperties[ pageName ] = {
+						category: category,
+						pageURL: pageURL,
+						linkElement: linkElement
+					};
+
+					// Gather the document titles (used for easy access on browser navigation)
+
+					titles[ pageURL ] = pageName;
+
+				}
+
+				// Gather the category elements for easy access on filtering
+
+				categoryElements.push( categoryContent );
+
+			}
+
+		}
+
+		function updateNavigation() {
+
+			const selectedPage = window.location.hash.substring( 1 ).replace( /\.html$/, '' );
+
+			content.querySelectorAll( 'a' ).forEach( function ( item ) {
+
+				if ( item.href.includes( selectedPage ) ) {
+
+					item.classList.add( 'selected' );
+
+				} else {
+
+					item.classList.remove( 'selected' );
+
+				}
+
+			} );
+
+		}
+
+		// Auto change language url. If a reader open a document in English, when they click "zh", the document they read will auto change into Chinese version
+
+		function autoChangeUrlLanguage( language ) {
+
+			const hash = location.hash;
+			if ( hash === '' ) return;
+			const docLink = hash.slice( hash.indexOf( '/' ) );
+			location.href = '#' + language + docLink;
+
+		}
+
+		// Filtering
+
+		function extractQuery() {
+
+			const search = window.location.search;
+
+			if ( search.indexOf( '?q=' ) !== - 1 ) {
+
+				return decodeURI( search.slice( 3 ) );
+
+			}
+
+			return '';
+
+		}
+
+		function updateFilter() {
+
+			let v = filterInput.value.trim();
+			v = v.replace( /\s+/gi, ' ' ); // replace multiple whitespaces with a single one
+
+			if ( v !== '' ) {
+
+				window.history.replaceState( {}, '', '?q=' + v + window.location.hash );
+
+			} else {
+
+				window.history.replaceState( {}, '', window.location.pathname + window.location.hash );
+
+			}
+
+			//
+
+			const regExp = new RegExp( filterInput.value, 'gi' );
+
+			for ( let pageName in pageProperties ) {
+
+				const linkElement = pageProperties[ pageName ].linkElement;
+				const categoryClassList = linkElement.parentElement.classList;
+				const filterResults = pageName.match( regExp );
+
+				if ( filterResults !== null && filterResults.length > 0 ) {
+
+					pageName = pageName.replaceAll( regExp, '<b>$&</b>' );
+
+					categoryClassList.remove( 'hidden' );
+					linkElement.innerHTML = pageName;
+
+				} else {
+
+					// Hide all non-matching page names
+
+					categoryClassList.add( 'hidden' );
+
+				}
+
+			}
+
+			displayFilteredPanel();
+
+		}
+
+		function displayFilteredPanel() {
+
+			// Show/hide categories depending on their content
+			// First check if at least one page in this category is not hidden
+
+			categoryElements.forEach( function ( category ) {
+
+				const pages = category.children;
+				const pagesLength = pages.length;
+				const sectionClassList = category.parentElement.classList;
+
+				let hideCategory = true;
+
+				for ( let i = 0; i < pagesLength; i ++ ) {
+
+					const pageClassList = pages[ i ].classList;
+
+					if ( ! pageClassList.contains( 'hidden' ) ) {
+
+						hideCategory = false;
+
+					}
+
+				}
+
+				// If and only if all page names are hidden, hide the whole category
+
+				if ( hideCategory ) {
+
+					sectionClassList.add( 'hidden' );
+
+				} else {
+
+					sectionClassList.remove( 'hidden' );
+
+				}
+
+			} );
+
+		}
+
+		// Routing
+
+		function setUrl( href ) { // eslint-disable-line no-undef
+
+			// yea I know this is hacky.
+			const re = /^(\/(?:manual\/|docs\/#?))(.*?)$/;
+			const url = new URL( href );
+
+			if ( url.origin === window.location.origin ) {
+
+				const hrefNoOrigin = url.href.slice( url.origin.length );
+				const m = re.exec( hrefNoOrigin );
+				const [ , base, path ] = m;
+				if ( base.includes( 'manual' ) ) {
+
+ 					const newHash = `#${ path.replace( '.html', '' ) }`;
+					// Only create new iframe if we're actually changing pages.
+					// We could just be going to an anchor on the same page.
+					const newPrefix = newHash.split( '#' )[ 1 ];
+					const oldPrefix = window.location.hash.split( '#' )[ 1 ];
+
+					if ( newPrefix === oldPrefix ) {
+
+						const newUrl = new URL( window.location.href );
+						newUrl.hash = newHash;
+						window.history.pushState( {}, '', newUrl.href );
+
+					} else {
+
+						window.location.hash = newHash;
+						updateNavigation();
+						createNewIframe();
+
+					}
+
+					return;
+
+				}
+
+			}
+
+			window.location.href = href;
+
+		}
+
+		function setTitle( title ) { // eslint-disable-line no-undef
+
+			document.title = `${title} - index.html root`;
+
+		}
+
+		function createNewIframe() {
+
+			// Change the content displayed in the iframe
+			// First separate the member part of the fragment (if existing)
+
+			const hash = window.location.hash.substring( 1 );
+			const splitHash = decomposePageName( hash, '.', '#' );
+
+			// Creating a new Iframe instead of assigning a new src is
+			// a cross-browser solution to allow normal browser navigation;
+			// - only assigning a new src would result in two history states each time.
+
+			// Note: iframe.contentWindow.location.replace(hash) should work, too,
+			// but it doesn't work in Edge with links from the subpages!
+
+			const oldIframe = iframe;
+			iframe = oldIframe.cloneNode();
+
+			if ( hash ) {
+
+				// We can have 2 hashes. One for the main page, one for the page it's referencing
+				// In other words
+				//	 #en/somePage#someSectionOfPage
+				const subHash = splitHash[ 0 ].indexOf( '#' );
+				let src;
+				if ( subHash >= 0 ) {
+
+					const beforeSubHash = splitHash[ 0 ].slice( 0, subHash );
+					const afterSubHash = splitHash[ 0 ].slice( subHash );
+					src = `${beforeSubHash}.html${afterSubHash}${splitHash[ 1 ]}`;
+		
+				} else {
+
+					src = splitHash[ 0 ] + '.html' + splitHash[ 1 ];
+		
+				}
+
+				iframe.src = src; // lgtm[js/client-side-unvalidated-url-redirection]
+				iframe.style.display = 'unset';
+
+			} else {
+
+				iframe.src = './en/database.html';
+				iframe.style.display = 'set';
+
+			}
+
+			document.body.replaceChild( iframe, oldIframe );
+
+		}
+
+		function decomposePageName( pageName, oldDelimiter, newDelimiter ) {
+
+			// Helper function for separating the member (if existing) from the pageName
+			// For example: 'Geometry.morphTarget' can be converted to
+			// ['Geometry', '.morphTarget'] or ['Geometry', '#morphTarget']
+			// Note: According RFC 3986 no '#' allowed inside of an URL fragment!
+
+			let parts = [];
+
+			const dotIndex = pageName.indexOf( oldDelimiter );
+
+			if ( dotIndex !== - 1 ) {
+
+				parts = pageName.split( oldDelimiter );
+				parts[ 1 ] = newDelimiter + parts[ 1 ];
+
+			} else {
+
+				parts[ 0 ] = pageName;
+				parts[ 1 ] = '';
+
+			}
+
+			return parts;
+
+		}
+
+		//
+
+		console.log( [
+			'    __     __',
+			' __/ __\\  / __\\__   ____   _____   _____',
+			'/ __/  /\\/ /  /___\\/ ____\\/ _____\\/ _____\\',
+			'\\/_   __/ /   _   / /  __/ / __  / / __  /_   __   _____',
+			'/ /  / / /  / /  / /  / / /  ___/ /  ___/\\ _\\/ __\\/ _____\\',
+			'\\/__/  \\/__/\\/__/\\/__/  \\/_____/\\/_____/\\/__/ /  / /  ___/',
+			'                                         / __/  /  \\__  \\',
+			'                                         \\/____/\\/_____/'
+		].join( '\n' ) );
+
+		</script>
+
+		
+		
 <script>
-function edges() {
+function titleInput() {
 	
-  let input = document.getElementById('nodes').value;
+	
+  let input = document.getElementById('filterInput').value;
 
   input = input.toLowerCase();
 
-  let x = document.getElementsByClassName('edges');
+  let x = document.getElementsByClassName('titleInput');
  
   for (i = 0; i < x.length; i++) {
 
@@ -142,76 +677,5 @@ function edges() {
 }
 </script>
 
-<div 
-id="nodes"
-onkeyup="edges()" 
-class="content"
-style=" 
-position: absolute;
-padding: 0px;
-margin: 0px;
-top: 20px;
-left: 30px;			
-font-size: 10px;">
-<!-- content -->
- <script 
-type="text/javascript" 
-src="./js/merge.js">
-</script>
-</div>
-
-<br><br><br><br>
-<br><br><br><br>
-<br><br><br>
-<div 
-class="chatbot-container">
-<div 
-id="chatbot">
-<div 
-id="conversation">
-<div 
-class="chatbot-message">
-<p 
-class="chatbot-text">
-</p>
-</div>
-
-<form 
-id="input-form">
-<message-container>
-<input 
-style="position:absolute;top:200px;left:15px;width:340px;"
-id="nodes"
-onkeyup="edges()"
-name="secure-form-answer-Human"
-maxlength="40" 
-autocomplete="true" 
-autocorrect="on" 
-autocapitalize="off" 
-spellcheck="true"
-type="text" 
-placeholder="chat bot responds with random keywords">
-<noscript>
-<label 
-for="secure-form-answer-Human">
-Human
-</label>
-</noscript>	
-</message-container>		 	            
-</form>
-
-</div> 
-</div>
-</div>
-
-<script 
-src="./js/chatbot.js">
-</script>				
-
-<ul id="nodes">
-<a href="./en/home.html"class="edges"><button>home</button></a>
-<a href="./en/about.html"class="edges"><button>about</button></a>
-<a href="./en/site_map.html"class="edges"><button>site_map</button></a>
-<a href="./en/privacy.html"class="edges"><button>privacy</button></a>
-<a href="./en/terms.html"class="edges"><button>terms</button></a>
-<a href="./en/cookies.html"class="edges"><button>cookies</button></a>
+	</body>
+</html>

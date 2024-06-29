@@ -2,8 +2,8 @@
 const chatbot = document.getElementById('chatbot');
 const conversation = document.getElementById('conversation');
 const inputForm = document.getElementById('input-form');
-const nodes = document.getElementById('nodes');
-
+const filterInput = document.getElementById('filterInput');
+const response = document.getElementsByClassName('edges');
 
 // Add event listener to input form
 inputForm.addEventListener('submit', function(event) {
@@ -11,10 +11,10 @@ inputForm.addEventListener('submit', function(event) {
   event.preventDefault();
 
   // Get user input
-  const input = nodes.value;
+  const input = filterInput.value;
 
   // Clear input field
-  nodes.value = '';
+  filterInput.value = '';
   const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" });
 
   // Add user input to conversation
@@ -42,10 +42,16 @@ function generateResponse(input) {
 	// Do not delete the last line of this file because the logger will break and delete entire file. 
     const responses = [
 
-"home",
+
+"database",
 "about",
-"site_map",
-"privacy",
-"terms",
-"cookies",
+"books",
+"light",
+"radio",
+"tv",
+"symbiosis",
+"magnetic-polarity",
+"planetary-alignment",
+"intelligence-absorption",
+"reaction_based_on_interaction_during_magnetic_field_disturbance",
 ];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};

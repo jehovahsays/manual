@@ -3,10 +3,15 @@
 	{
 	"manual":
 	{
-	"home":"en/home",
+	"database":"en/database",
 	"about":"en/about"
-   ,"site_map":"en/site_map"
-,"privacy":"en/privacy"
-,"terms":"en/terms"
-,"cookies":"en/cookies"
+,"books":"en/books"
+,"light":"en/light"
+,"radio":"en/radio"
+,"tv":"en/tv"
+,"symbiosis":"en/symbiosis"
+,"magnetic-polarity":"en/magnetic-polarity"
+,"planetary-alignment":"en/planetary-alignment"
+,"intelligence-absorption":"en/intelligence-absorption"
+,"reaction_based_on_interaction_during_magnetic_field_disturbance":"en/reaction_based_on_interaction_during_magnetic_field_disturbance"
 }}}

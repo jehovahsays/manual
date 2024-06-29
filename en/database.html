@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>index</title>
-        <meta name="viewport" content="width=device-width"/>
-		<link rel="shortcut icon" href="./files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
-		<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: light)" />
-		<link rel="stylesheet" type="text/css" href="./files/main.css"></link>
+<head>
+<meta charset="charset=UTF-8">
+<http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, maximum-scale=1.0">
+<http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0">
+<http-equiv="Pragma" content="no-cache">
+<http-equiv="Expires" content="0">
+<http-equiv="Clear-Site-Data" content="*">
+<http-equiv="X-Frame-Options" content="DENY">
+<http-epuiv="X-XSS-Protection" content="1; mode=block">
+<http-equiv="X-Content-Type-Options" content="nosniff">
 <style>
-.search {
-        margin: 70px; 
-		border-radius: 25px;
-	    padding: 0;
-	    top: 25;
-		left: 30;
-        width: 70%;
+input[type="text"] {
+  font-family: monospace;
+  font-size: 10px;
+  color: peru;
 }
-list {
+fieldset{
+	position:relative
+	top:0;
+	left:0;
+	width:99%;
+	height:99%;
+}
+.filterInput {
         list-style: none;
-        padding: 0;
-        margin: 0;
+        padding: 0px;
+        margin: 0px;
 		position: fixed;
-	    top: 0;
-        left: 0;
-		right: 0;		
+	    top: 0px;
+        left: 0px;			
 }
-.handle {
-	    
-	    position: fixed;
-	    top: 0;
-        left: 0;
-		right: 0;
-        font-size: 1.2em;
+
+.titleInput {
+        margin: 0px;
+	    position: absolute;		
+	    top: 12px;
+        left: 242px;
+        font-size: 1.0em;
         padding: 0px;
         animation: fadeIn 0.5s ease-in-out;
 } 
-.handle:last-child {  
-        
-	    position: fixed;
-	    top: 0;
-        left: 0;
-		right: 0;
+
+.titleInput:last-child {        
+        margin: 0px;
+	    position: absolute;		
+	    top: 12px;
+        left: 242px;
+        font-size: 1.0em;
+        padding: 0px;
         border-bottom: none;
 }
+
 @keyframes fadeIn {
    from {
         opacity: 0;
@@ -53,66 +64,178 @@ list {
         transform: translateY(0);
 }
   }
+}  
+
+chatbot-text {
+	left:50px;
+}
+chatbot-message {
+	    left:50px;
 }
 </style>
-	</head>
-	<body>
-	
-		<div id="panel">
 
-			<div id="header">
-					<h1>
-					<a href="./index.html">index</a>
-					</h1>
+<title>
+database
+</title>
 
-				<div id="sections">
-					<span class="selected">
-					<br>
+<script 
+type="text/javascript" 
+src="../js/TagCloud.js">
+</script>
+
+<link 
+rel="stylesheet" 
+type="text/css" 
+href="../files/main.css">
+
+<link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
+		
+<link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
+
+
+</head>
+<body>
+
+<fieldset class="fieldset">
 <br>
-<form action="./action.php" method="post" id="secure-form">
-<input id="secure-form-answer-Human" type="text" 
-name="secure-form-answer"
-value="" 
-class="titleInput" 
-style="height: 20px; width: 110px;" maxlength="140" autocomplete="true" 
-autocorrect="off" autocapitalize="off" spellcheck="true" 
-placeholder="create pages" x-webkit-speech>
+<div id="inputWrapper">
+<form
+id="secure-form-answer"
+action="../action.php" 
+method="post">	
+<!-- input id = nodes onkeyup = titleInput() autocomplete = true autocorrect = on -->
+<!-- ul id = nodes li a href = # class = titleInput -->
+<!-- script function titleInput input = document get element by id nodes value | document get element by class titleInput -->
+<div id="inputWrapper">
+<input
+style="position:absolute;top:15px;left:15px;width:220px;"
+id="filterInput"
+onkeyup="titleInput()"
+autocomplete="true"
+autocorrect="off"  
+autocapitalize="off" 
+spellcheck="true"
+type="text" 
+name="secure-form-answer-Human"
+maxlength="524288" 
+value=""
+aria-label="search"  
+placeholder="search database" 
+x-webkit-speech
+required>
+</div>		
+
 <noscript>
 <label 
 for="secure-form-answer-Human">
 Human
 </label>
 </noscript>
-</form>
-<br>
-					</span>
-				</div>
+</form>	
 
-				<div id="expandButton"></div>
-			</div>
-
-			<div id="panelScrim"></div>
-
-			<div id="contentWrapper">
-				<div id="inputWrapper">
-					<input name="username" placeholder="" type="text" id="filterInput" autocorrect="off" autocapitalize="off" spellcheck="true" />
-					<div id="clearSearchButton"></div>
-					<select id="language">
-						<option value="en">en</option>
-						</select>
-				</div>
-				<br/>
-				<div id="content">
-							
-				</div>
-				
-			</div>
-
-		</div>
-
-		<iframe name="viewer">
+<!-- input id = nodes onkeyup = titleInput() autocomplete = true autocorrect = on -->
+<!-- ul id = nodes li a href = # class = titleInput -->
+<!-- script function titleInput input = document get element by id nodes value | document get element by class titleInput -->
+<script>
+function titleInput() {
 	
-		</iframe>
+  let input = document.getElementById('filterInput').value;
+
+  input = input.toLowerCase();
+
+  let x = document.getElementsByClassName('titleInput');
+ 
+  for (i = 0; i < x.length; i++) {
+
+    if (!x[i].innerHTML.toLowerCase().includes(input)) {
+
+      x[i].style.display = "none";
+
+    }
+
+    else {
+
+      x[i].style.display = "list-item";
+
+    }
+
+  }
+  
+}
+</script>
+
+<div 
+id="filterInput"
+onkeyup="titleInput()" 
+class="content"
+style=" 
+position: absolute;
+padding: 0px;
+margin: 0px;
+top: 20px;
+left: 30px;			
+font-size: 10px;">
+<script> var msg = new SpeechSynthesisUtterance('connected'); window.speechSynthesis.speak(msg); </script>
+<!-- content -->
+ <script 
+type="text/javascript" 
+src="../js/tagcloud.js">
+</script>
+</div>
+
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br>
+<div 
+class="chatbot-container">
+<div 
+id="chatbot">
+<div 
+id="conversation">
+<div 
+class="chatbot-message">
+<p 
+class="chatbot-text">
+</p>
+</div>
+
+<form 
+id="input-form">
+<message-container>
+<div id="inputWrapper">
+<input 
+style="position:absolute;top:200px;left:15px;width:340px;"
+id="filterInput"
+onkeyup="titleInput()"
+autocomplete="true"
+autocorrect="on"  
+autocapitalize="off" 
+spellcheck="true"
+type="text" 
+name="secure-form-answer-Human"
+maxlength="524288" 
+value=""
+aria-label="search"  
+placeholder="chat bot responds with random keywords"
+x-webkit-speech
+required>
+</div>
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>	
+</message-container>		 	            
+</form>
+
+</div> 
+</div>
+</div>
+
+<script 
+src="../js/chatbot.js">
+</script>	
 
 		<script>
 
@@ -134,7 +257,7 @@ Human
 
 		async function init() {
 
-			const list = await ( await fetch( './js/search.json' ) ).json();
+			const list = await ( await fetch( '../js/search.json' ) ).json();
 
 			const hash = window.location.hash.substring( 1 );
 
@@ -630,35 +753,23 @@ Human
 
 		</script>
 
-		
-		
-<script>
-function handle() {
-	
-	
-  let input = document.getElementById('list').value;
+											
+					
 
-  input = input.toLowerCase();
-
-  let x = document.getElementsByClassName('handle');
- 
-  for (i = 0; i < x.length; i++) {
-
-    if (!x[i].innerHTML.toLowerCase().includes(input)) {
-
-      x[i].style.display = "none";
-
-    }
-
-    else {
-
-      x[i].style.display = "list-item";
-
-    }
-
-  }
-  
-}
-</script>
-	</body>
-</html>
+<!-- input id = nodes onkeyup = titleInput() autocomplete = true autocorrect = on -->
+<!-- ul id = nodes li a href = # class = titleInput -->
+<!-- script function titleInput input = document get element by id nodes value | document get element by class titleInput -->
+<ul id="filterInput">
+<a href="../index.html#en/database"class="titleInput"><button>database</button></a>
+<a href="../index.html#en/about"class="titleInput"><button>about</button></a>
+<a href="../index.html#en/movies"class="titleInput"><button>movies</button></a>
+<a href="../index.html#en/music"class="titleInput"><button>music</button></a>
+<a href="../index.html#en/news"class="titleInput"><button>news</button></a>
+<a href="../index.html#en/books"class="titleInput"><button>books</button></a>
+<a href="../index.html#en/radio"class="titleInput"><button>radio</button></a>
+<a href="../index.html#en/tv"class="titleInput"><button>tv</button></a>
+<a href="../index.html#en/symbiosis"class="titleInput"><button>symbiosis</button></a>
+<a href="../index.html#en/magnetic-polarity"class="titleInput"><button>magnetic-polarity</button></a>
+<a href="../index.html#en/planetary-alignment"class="titleInput"><button>planetary-alignment</button></a>
+<a href="../index.html#en/intelligence-absorption"class="titleInput"><button>intelligence-absorption</button></a>
+<a href="../index.html#en/reaction_based_on_interaction_during_magnetic_field_disturbance"class="titleInput"><button>reaction_based_on_interaction_during_magnetic_field_disturbance</button></a>

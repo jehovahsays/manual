@@ -433,8 +433,8 @@
     reverseDirection: false,
     useContainerInlineStyles: true,
     useItemInlineStyles: true,
-    containerClass: 'nodes',
-    itemClass: 'edges',
+    containerClass: 'filterInput',
+    itemClass: 'titleInput',
     useHTML: false
   };
   // speed value
