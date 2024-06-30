@@ -1,31 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
-  <en>
-    <manual>
-      <index>en/index</index>
-      <about>en/about</about>
-      <database>en/database</database>
-      <shadow>en/shadow</shadow>
-      <condensation>en/condensation</condensation>
-      <imagination>en/imagination</imagination>
-      <calculation>en/calculation</calculation>
-      <creativity>en/creativity</creativity>
-      <reproductive>en/reproductive</reproductive>
-      <solution>en/solution</solution>
-      <balance>en/balance</balance>
-      <gravity>en/gravity</gravity>
-      <digestion>en/digestion</digestion>
-      <memorization>en/memorization</memorization>
-<intelligence>en/intelligence</intelligence>
-<dishwashing_liquid>en/dishwashing_liquid</dishwashing_liquid>
-<water>en/water</water>
-<magnetic_polarity>en/magnetic_polarity</magnetic_polarity>
-<planetary_alignment>en/planetary_alignment</planetary_alignment>
-<thermodynamics>en/thermodynamics</thermodynamics>
-<expressions>en/expressions</expressions>
-<pendulum_oscillation>en/pendulum_oscillation</pendulum_oscillation>
-<orbital_revolution>en/orbital_revolution</orbital_revolution>
-<flux_pinning>en/flux_pinning</flux_pinning>
-<tv>en/tv</tv>
-<radio>en/radio</radio>
-</radio></en></root>
+<en>
+<manual>
+<index>en/index</index>
+<about>en/about</about>
+<database>en/database</database>
+</root></en></root>

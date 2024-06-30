@@ -64,9 +64,8 @@ foreach($_POST as $variable => $value)
 	fwrite($handle, 
 	  "<a href=" 
 	. "\"" 
-	. "./en/" 
+	. "../index.html#en/" 
 	. $value
-	. ".html"
 	. "\"" 
 	. "class=" 
 	. "\"" 
@@ -204,7 +203,7 @@ foreach($_POST as $variable => $value)
 	file_put_contents('./rss.xml', $lines); 
 	fwrite($handle, 	
      "<$value>en/$value</$value>\n"
-    ."</$value></en></root>");
+    ."</root></en></root>");
 }
 //echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./#en/$value.html'>$value</a>";
 echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.htm'}</script>";
