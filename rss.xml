@@ -5,8 +5,6 @@
       <index>en/index</index>
       <about>en/about</about>
       <database>en/database</database>
-      <radio>en/radio</radio>
-      <tv>en/tv</tv>
       <shadow>en/shadow</shadow>
       <condensation>en/condensation</condensation>
       <imagination>en/imagination</imagination>
@@ -18,5 +16,16 @@
       <gravity>en/gravity</gravity>
       <digestion>en/digestion</digestion>
       <memorization>en/memorization</memorization>
-<memorization>en/memorization</memorization>
-</manual></en></root>
+<intelligence>en/intelligence</intelligence>
+<dishwashing_liquid>en/dishwashing_liquid</dishwashing_liquid>
+<water>en/water</water>
+<magnetic_polarity>en/magnetic_polarity</magnetic_polarity>
+<planetary_alignment>en/planetary_alignment</planetary_alignment>
+<thermodynamics>en/thermodynamics</thermodynamics>
+<expressions>en/expressions</expressions>
+<pendulum_oscillation>en/pendulum_oscillation</pendulum_oscillation>
+<orbital_revolution>en/orbital_revolution</orbital_revolution>
+<flux_pinning>en/flux_pinning</flux_pinning>
+<tv>en/tv</tv>
+<radio>en/radio</radio>
+</radio></en></root>

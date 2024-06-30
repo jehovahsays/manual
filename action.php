@@ -26,7 +26,6 @@ if ($answer1 == "Human") { $totalCorrect++; }
 echo "<div id='results'>$totalCorrect /  1 correct</div>";
 if ($answer2 == "") { $totalCorrect++; }            
 
-
 foreach($_POST as $variable => $value) 
 {
 	$value = str_replace(' ', '_', $value);	
@@ -34,12 +33,12 @@ foreach($_POST as $variable => $value)
 	if (file_exists($file_pointer))  
 	{ 
 	echo "The file $file_pointer already exists <br>"; 
-	//echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
-	echo "<script> var msg = new SpeechSynthesisUtterance(' i remember the word $value'); window.speechSynthesis.speak(msg); </script><body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";
+	echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
+	echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before. here.. is... what i found'); window.speechSynthesis.speak(msg); </script>";
+	//echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";
 	exit();
 	}
 }
-
     foreach($_POST as $variable => $value) 
 {
 	$value = str_replace(' ', '_', $value);
@@ -65,7 +64,7 @@ foreach($_POST as $variable => $value)
 	fwrite($handle, 
 	  "<a href=" 
 	. "\"" 
-	. "./" 
+	. "./en/" 
 	. $value
 	. ".html"
 	. "\"" 
@@ -83,6 +82,7 @@ foreach($_POST as $variable => $value)
 
 foreach($_POST as $variable => $value) 
 {
+$value = str_replace(' ', '_', $value);
 $handle = fopen("./en/$value.txt", "a");
 	fwrite($handle, "$value"
 	 . "\r\n");
@@ -207,8 +207,8 @@ foreach($_POST as $variable => $value)
     ."</$value></en></root>");
 }
 //echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./#en/$value.html'>$value</a>";
-echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";
-echo "<script> var msg = new SpeechSynthesisUtterance('i will remember the word $value'); window.speechSynthesis.speak(msg); </script>";		
+echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.htm'}</script>";
+echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
 fclose($handle);
 exit();
 ?>
