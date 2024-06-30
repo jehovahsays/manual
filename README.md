@@ -1,5 +1,11 @@
 # manual
 <br>
+<br>
+Please remember to get a full experience of this repository website<br>
+if you are a develepoer make this unfinish repository into something better in your own named repository<br>
+visit http://morgansbyers.scienceontheweb.net/index.html
+<br>
+<br>
 speech utterance from back end and front end added
 unfinished still working on the loggers<br>
 these loggers write real-time user input data to pages<br>
@@ -15,10 +21,6 @@ all keywords are stored in the 3d data visualization in real-time<br>
 all keywords are stored on the homepage on html unordered list<br>
 html unordered list is connected to search engine box<br>
 using javascript and css.
-<br>
-Please remember to get a full experience of this repository website
-visit https://morgansbyers.scienceontheweb.net/index.html
-<br>
 fix what you find was incorrect.<br>
 if you know how to fix it just fix it.<br>
 if file exsist php api shows link to file.<br>
