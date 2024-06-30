@@ -33,7 +33,7 @@ ul {
 }
 
 li {
-  float: right;
+  float: left;
   width: 50%;
   height: 50px;
 }

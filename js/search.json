@@ -3,23 +3,21 @@
 	{
 	"manual":
 	{
-	"database":"en/database",
+	"index":"en/index",
 	"about":"en/about"
-,"books":"en/books"
-,"light":"en/light"
+,"database":"en/database"
 ,"radio":"en/radio"
 ,"tv":"en/tv"
-,"symbiosis":"en/symbiosis"
-,"magnetic-polarity":"en/magnetic-polarity"
-,"planetary-alignment":"en/planetary-alignment"
-,"intelligence-absorption":"en/intelligence-absorption"
-,"reaction_based_on_interaction_during_magnetic_field_disturbance":"en/reaction_based_on_interaction_during_magnetic_field_disturbance"
-,"air-pocket":"en/air-pocket"
-,"evaporation":"en/evaporation"
+,"shadow":"en/shadow"
 ,"condensation":"en/condensation"
-,"precipitation":"en/precipitation"
-,"perpetual_motion_machine":"en/perpetual_motion_machine"
-,"pattern_matching":"en/pattern_matching"
-,"intelligence":"en/intelligence"
-,"remember":"en/remember"
+,"imagination":"en/imagination"
+,"calculation":"en/calculation"
+,"creativity":"en/creativity"
+,"reproductive":"en/reproductive"
+,"solution":"en/solution"
+,"balance":"en/balance"
+,"gravity":"en/gravity"
+,"digestion":"en/digestion"
+,"memorization":"en/memorization"
+,"xml":"en/xml"
 }}}

@@ -465,5 +465,5 @@
   });
 
   return index;
-
+// data was sent to /js/tagcloudlog.js file in top folder
 })));

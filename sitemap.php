@@ -1,6 +1,4 @@
 <?php
-gethostname();
-$ip = $localIp = gethostbyname(gethostname());
 $line = '<br><br>recent changes<br>';
 $f = fopen('./en/database.html', 'r');
 $cursor = -1;

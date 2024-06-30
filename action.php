@@ -19,9 +19,14 @@ header( 'Referrer-Policy:  same-origin' );
 header( 'Accept-Language: en-US,en;q=0.5' );
 header( 'Connection: Keep-alive' );
 $answer1 = $_POST['secure-form-answer'];        
-$totalCorrect = 1;           
+$totalCorrect = 1;  
+$answer2 = $_POST[''];        
+$totalCorrect = 0;                    
 if ($answer1 == "Human") { $totalCorrect++; }            
 echo "<div id='results'>$totalCorrect /  1 correct</div>";
+if ($answer2 == "") { $totalCorrect++; }            
+
+
 foreach($_POST as $variable => $value) 
 {
 	$value = str_replace(' ', '_', $value);	
@@ -51,8 +56,7 @@ foreach($_POST as $variable => $value)
 	."\""
     .">\n"
     ."<style>fieldset{position:absolute;width:100%;height: 100%;}</style>\n<title>$value</title>\n</head>\n<body>"
-//    ."<script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script>\n"
-    ."<fieldset>\n<legend>$value</legend>\n</fieldset>\n</body>\n<html>");
+    ."<fieldset>\n<legend>$value</legend><script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script\n</fieldset>\n</body>\n<html>");
 }	
 	foreach($_POST as $variable => $value) 
 {
@@ -61,8 +65,9 @@ foreach($_POST as $variable => $value)
 	fwrite($handle, 
 	  "<a href=" 
 	. "\"" 
-	. "../index.html#en/" 
-	. $value  
+	. "./" 
+	. $value
+	. ".html"
 	. "\"" 
 	. "class=" 
 	. "\"" 
@@ -75,6 +80,14 @@ foreach($_POST as $variable => $value)
 	. "</a>"
 	. "\r\n");
 }
+
+foreach($_POST as $variable => $value) 
+{
+$handle = fopen("./en/$value.txt", "a");
+	fwrite($handle, "$value"
+	 . "\r\n");
+}
+
 
 foreach($_POST as $variable => $value) 
 {
@@ -101,13 +114,13 @@ foreach($_POST as $variable => $value)
 	foreach($_POST as $variable => $value) 
 {	
     $value = str_replace(' ', '_', $value);		
-	$handle = fopen("./js/tagcloud.js", "a");
+	$handle = fopen("./js/tagcloudlog.js", "a");
 	// load the data and delete the line from the array 
-	$lines = file('./js/tagcloud.js'); 
+	$lines = file('./js/tagcloudlog.js'); 
 	$last = sizeof($lines) - 1 ; 
 	unset($lines[$last]); 
 	// write the new data to the file 
-	file_put_contents('./js/tagcloud.js', $lines); 
+	file_put_contents('./js/tagcloudlog.js', $lines); 
 	$value = str_replace(' ', '_', $value);
 	fwrite($handle, 	
 	  "\""
@@ -118,26 +131,6 @@ foreach($_POST as $variable => $value)
 	. "];var tc = TagCloud('.content', texts);console.log(tc);");
 }
 	
-	foreach($_POST as $variable => $value) 
-{    
-    $value = str_replace(' ', '_', $value);	
-	$handle = fopen("./js/chatbot.js", "a");
-	// load the data and delete the line from the array 
-	$lines = file('./js/chatbot.js'); 
-	$last = sizeof($lines) - 1 ; 
-	unset($lines[$last]); 
-	// write the new data to the file 
-	file_put_contents('./js/chatbot.js', $lines); 
-	$value = str_replace(' ', '_', $value);
-	fwrite($handle, 	
-	  "\""
-	. $value
-	. "\""
-	. ","
-	. "\n"
-	. "];return responses[Math.floor(Math.random() * responses.length)];}window.onblur = function (tabs) {alert('switch tabs alert');};");
-}	
-
 foreach($_POST as $variable => $value) 
 {    
     $value = str_replace(' ', '_', $value);	
@@ -162,7 +155,57 @@ foreach($_POST as $variable => $value)
 	. "\n"
     . "}}}");
 }
-	
+
+foreach($_POST as $variable => $value) 
+{
+	$handle = fopen("./en/index.html", "a");
+	// load the data and delete the line from the array 
+	$lines = file('./en/index.html'); 
+	$last = sizeof($lines) - 1 ; 
+	unset($lines[$last]); 
+	// write the new data to the file 
+	file_put_contents('./en/index.html', $lines); 
+	$value = str_replace(' ', '_', $value);
+	fwrite($handle, 	
+	  "<li><a data-page=" 
+	. "\"" 
+	. $value  
+	. "\"" 
+	. "class=" 
+	. "\"" 
+	. "titleInput" 
+	. "\"" 
+	. ">" 
+	. $value
+	. "</a></li>"
+	. "\n"
+	. "</ul><script type="
+	. "\"" 
+	."text/javascript"
+	. "\"" 
+	."src="
+	. "\"" 
+	."../js/edit.js"
+	. "\"" 
+	. ">"
+	."></script>"
+	. "\r\n");
+}	
+
+foreach($_POST as $variable => $value) 
+{	
+    $value = str_replace(' ', '_', $value);		
+	$handle = fopen("./rss.xml", "a");
+	// load the data and delete the line from the array 
+	$lines = file('./rss.xml'); 
+	$last = sizeof($lines) - 1 ; 
+	unset($lines[$last]); 
+	// write the new data to the file 
+	file_put_contents('./rss.xml', $lines); 
+	fwrite($handle, 	
+     "<$value>en/$value</$value>\n"
+    ."</$value></en></root>");
+}
 //echo "<meta name='viewport' content='width=device-width'>successfully created <a href='./#en/$value.html'>$value</a>";
 echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/database.html'}</script>";
 echo "<script> var msg = new SpeechSynthesisUtterance('i will remember the word $value'); window.speechSynthesis.speak(msg); </script>";		
