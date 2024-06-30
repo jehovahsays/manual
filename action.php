@@ -56,7 +56,7 @@ foreach($_POST as $variable => $value)
 	."\""
     .">\n"
     ."<style>fieldset{position:absolute;width:100%;height: 100%;}</style>\n<title>$value</title>\n</head>\n<body>"
-    ."<fieldset>\n<legend>$value</legend><script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script\n</fieldset>\n</body>\n<html>");
+    ."<fieldset>\n<legend>$value</legend><script> var msg = new SpeechSynthesisUtterance('$value'); window.speechSynthesis.speak(msg); </script>\n</fieldset>\n</body>\n<html>");
 }	
 	foreach($_POST as $variable => $value) 
 {

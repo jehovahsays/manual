@@ -1,5 +1,6 @@
 # manual
 <br>
+speech utterance from back end and front end added
 unfinished still working on the loggers<br>
 these loggers write real-time user input data to pages<br>
 the loggers usually break because of human developer errors<br>
@@ -28,7 +29,7 @@ i added a delete button at bottom of every page a user creates.<br>
 welcome to:<br>
 <H3>manual</H3><br>
 For educational purposes only.<br>
-<a href="https://jehovahsays.github.io/manual/how/map.html">click here</a> to view how the search engine works<br>
+<a href="http://jehovahsays.github.io/manual/how/map.html">click here</a> to view how the search engine works<br>
 hardware: iphone<br>
 software: phpwin iphone app<br>
 http web server with php<br>
