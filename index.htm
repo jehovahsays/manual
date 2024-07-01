@@ -7,9 +7,6 @@ charset="charset=UTF-8">
 <meta 
 name="viewport" 
 content="width=device-width" />
-<title>
-index
-</title>
 <style>
 input[type="text"] {
   font-family: monospace;
@@ -54,6 +51,9 @@ input[type="text"] {
   }
 }
 </style>
+<title>
+manual
+</title>
 </head>
 <body>
 <script>
@@ -77,28 +77,34 @@ function titleInput() {
   }  
 }
 </script>
-<br>
-<input 
-id="filterInput" 
-onkeyup="titleInput(this.value)" 
-placeholder="find your search" 
-type="text"
-type="search"  
-maxlength="30" 
-autocomplete="true" 
-autocorrect="on" 
+<form
+id="secure-form-answer"
+action="./action.php" 
+method="post">	
+<input
+style="position:absolute;top:25px;left:10px;width:220px;"
+id="filterInput"
+onkeyup="titleInput()"
+autocomplete="true"
+autocorrect="off"  
 autocapitalize="off" 
 spellcheck="true"
+type="text" 
+name="secure-form-answer-Human"
+maxlength="524288" 
+value=""
+aria-label="search"  
+placeholder="search database" 
+x-webkit-speech
 required>
-</form>	
-<br><br><br><br>		
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>
+</form>
 <ul id="filterInput">
 <a href="./index.html#en/index"class="titleInput"><button>index</button></a>
-<a href="./index.html#en/about"class="titleInput"><button>about</button></a>
 <a href="./index.html#en/database"class="titleInput"><button>database</button></a>
-<a href="./index.html#en/barycenter"class="titleInput"><button>barycenter</button></a>
-<a href="./index.html#en/gravity"class="titleInput"><button>gravity</button></a>
-<a href="./index.html#en/pendulum-oscillation"class="titleInput"><button>pendulum-oscillation</button></a>
-<a href="./index.html#en/core"class="titleInput"><button>core</button></a>
-<a href="./index.html#en/intelligence"class="titleInput"><button>intelligence</button></a>
-<a href="./index.html#en/alignment"class="titleInput"><button>alignment</button></a>
+<a href="./index.html#en/about"class="titleInput"><button>about</button></a>

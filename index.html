@@ -2,7 +2,6 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>index</title>
         <meta name="viewport" content="width=device-width"/>
 		<link rel="shortcut icon" href="./files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
 		<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: light)" />
@@ -60,6 +59,7 @@ input[type="text"] {
   }
 }
 </style>
+<title>manual</title>
 	</head>
 	<body>
 	
@@ -67,33 +67,32 @@ input[type="text"] {
 
 			<div id="header">
 					<h1>
-					<a href="./en/database.html">Start Game</a>
+					<a href="./index.htm">manual</a>
 					</h1>
 
 				<div id="sections">
 					<span class="selected"></span>
 					<br>
 <br>
-<form 
+<form
+id="secure-form-answer"
 action="./action.php" 
-method="post" 
-id="secure-form">
-<input 
-id="secure-form-answer" 
+method="post">	
+<input
+id="secure-form-answer"
+onkeyup="titleInput()"
+autocomplete="true"
+autocorrect="off"  
+autocapitalize="off" 
+spellcheck="true"
 type="text" 
 name="secure-form-answer-Human"
 maxlength="524288" 
 value=""
 aria-label="search"  
-class="titleInput" 
-style="height: 20px; width: 110px;" 
-maxlength="140" 
-autocomplete="true" 
-autocorrect="off" 
-autocapitalize="off" 
-spellcheck="true" 
-placeholder="create pages" 
-x-webkit-speech>
+placeholder="search database" 
+x-webkit-speech
+required>
 <noscript>
 <label 
 for="secure-form-answer-Human">
