@@ -19,13 +19,13 @@ input[type="text"] {
   color: peru;
 }
 fieldset{
-	position:relative
+	position:absolute
 	top:0;
 	left:0;
 	width:99%;
 	height:99%;
 }
-.filterInput {
+filterInput {
         list-style: none;
         padding: 0px;
         margin: 0px;
@@ -37,8 +37,8 @@ fieldset{
 .titleInput {
         margin: 0px;
 	    position: absolute;		
-	    top: 180px;
-        left: 142px;
+	    top: 135px;
+        left: 120px;
         font-size: 1.0em;
         padding: 0px;
         animation: fadeIn 0.5s ease-in-out;
@@ -47,8 +47,8 @@ fieldset{
 .titleInput:last-child {        
         margin: 0px;
 	    position: absolute;		
-	    top: 180px;
-        left: 142px;
+	    top: 20px;
+        left: 250px;
         font-size: 1.0em;
         padding: 0px;
         border-bottom: none;
@@ -65,13 +65,6 @@ fieldset{
 }
   }
 }  
-
-chatbot-text {
-	left:50px;
-}
-chatbot-message {
-	    left:50px;
-}
 </style>
 
 <title>
@@ -94,9 +87,13 @@ href="../files/main.css">
 
 
 </head>
+<center>
+
 <body>
 
 <fieldset class="fieldset">
+<legend>database</legend>
+<center>
 <br>
 <div id="inputWrapper">
 <form
@@ -108,7 +105,7 @@ method="post">
 <!-- script function titleInput input = document get element by id nodes value | document get element by class titleInput -->
 <div id="inputWrapper">
 <input
-style="position:absolute;top:360px;left:90px;width:220px;"
+style="position:absolute;top:25px;left:25px;width:220px;"
 id="filterInput"
 onkeyup="titleInput()"
 autocomplete="true"
@@ -172,8 +169,8 @@ style="
 position: absolute;
 padding: 0px;
 margin: 0px;
-top: 15px;
-left: 15px;			
+top: 30px;
+left: 70px;			
 font-size: 10px;">
 <!-- <script> var msg = new SpeechSynthesisUtterance('connected'); window.speechSynthesis.speak(msg); </script> -->
 <!-- content -->
@@ -701,9 +698,8 @@ src="../js/tagcloudlog.js">
 
 		</script>
 
-											
-					
-
+</center>											
+</fieldset>					
 <!-- input id = nodes onkeyup = titleInput() autocomplete = true autocorrect = on -->
 <!-- ul id = nodes li a href = # class = titleInput -->
 <!-- script function titleInput input = document get element by id nodes value | document get element by class titleInput -->
@@ -711,3 +707,7 @@ src="../js/tagcloudlog.js">
 <a href="../index.html#en/index"class="titleInput"><button>index</button></a>
 <a href="../index.html#en/about"class="titleInput"><button>about</button></a>
 <a href="../index.html#en/database"class="titleInput"><button>database</button></a>
+<a href="../index.html#en/barycenter"class="titleInput"><button>barycenter</button></a>
+<a href="../index.html#en/gravity"class="titleInput"><button>gravity</button></a>
+<a href="../index.html#en/pendulum-oscillation"class="titleInput"><button>pendulum-oscillation</button></a>
+<a href="../index.html#en/core"class="titleInput"><button>core</button></a>

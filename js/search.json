@@ -6,4 +6,8 @@
 	"index":"en/index",
 	"about":"en/about"
 ,"database":"en/database"
+,"barycenter":"en/barycenter"
+,"gravity":"en/gravity"
+,"pendulum-oscillation":"en/pendulum-oscillation"
+,"core":"en/core"
 }}}

@@ -5,4 +5,8 @@
 <index>en/index</index>
 <about>en/about</about>
 <database>en/database</database>
+<barycenter>en/barycenter</barycenter>
+<gravity>en/gravity</gravity>
+<pendulum-oscillation>en/pendulum-oscillation</pendulum-oscillation>
+<core>en/core</core>
 </root></en></root>
