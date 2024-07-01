@@ -6,4 +6,6 @@ var texts = [
 "gravity",
 "pendulum-oscillation",
 "core",
+"intelligence",
+"alignment",
 ];var tc = TagCloud('.content', texts);console.log(tc);
