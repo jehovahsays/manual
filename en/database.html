@@ -13,6 +13,16 @@
 <http-epuiv="X-XSS-Protection" content="1; mode=block">
 <http-equiv="X-Content-Type-Options" content="nosniff">
 <style>
+.earth {
+        margin: 0px;
+		width: 250px;
+		height: 250px;
+	    position: absolute;		
+	    top: 30px;
+        left: 0px;
+        padding: 0px;
+        animation: fadeIn 0.5s ease-in-out;
+}
 input[type="text"] {
   font-family: monospace;
   font-size: 10px;
@@ -37,8 +47,8 @@ filterInput {
 .titleInput {
         margin: 0px;
 	    position: absolute;		
-	    top: 135px;
-        left: 120px;
+	    top: 20px;
+        left: 250px;
         font-size: 1.0em;
         padding: 0px;
         animation: fadeIn 0.5s ease-in-out;
@@ -170,10 +180,11 @@ position: absolute;
 padding: 0px;
 margin: 0px;
 top: 30px;
-left: 70px;			
-font-size: 10px;">
+left: 75px;			
+font-size: 15px;">
 <!-- <script> var msg = new SpeechSynthesisUtterance('connected'); window.speechSynthesis.speak(msg); </script> -->
 <!-- content -->
+<img src="../img/cube.png" class="earth" style="background: transparent;">
  <script 
 type="text/javascript" 
 src="../js/tagcloudlog.js">

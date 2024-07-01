@@ -177,7 +177,7 @@
           itemEl.style.willChange = 'transform, opacity, filter';
           itemEl.style.position = 'absolute';
           itemEl.style.top = '70%';
-          itemEl.style.left = '70%';
+          itemEl.style.left = '50%';
           itemEl.style.zIndex = index + 1;
           itemEl.style.filter = 'alpha(opacity=0)';
           itemEl.style.opacity = 0;
@@ -420,7 +420,7 @@
   TagCloud.list = [];
   // default config
   TagCloud._defaultConfig = {
-    radius: 90,
+    radius: 120,
     // rolling radius, unit `px`
     maxSpeed: 'normal',
     // rolling max speed, optional: `slow`, `normal`(default), `fast`
