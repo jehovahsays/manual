@@ -117,7 +117,7 @@
       // calculate config
       self.radius = self.config.radius; // rolling radius
       self.depth = 2 * self.radius; // rolling depth
-      self.size = 1.3 * self.radius; // rolling area size with mouse
+      self.size = 1.7 * self.radius; // rolling area size with mouse
       self.maxSpeed = TagCloud._getMaxSpeed(self.config.maxSpeed); // rolling max speed
       self.initSpeed = TagCloud._getInitSpeed(self.config.initSpeed); // rolling init speed
       self.direction = self.config.direction; // rolling init direction
@@ -150,6 +150,7 @@
         $el.className = self.config.containerClass;
         if (self.config.useContainerInlineStyles) {
           $el.style.position = 'relative';
+		  $el.style.color = 'white';
           $el.style.width = "".concat(2 * self.radius, "px");
           $el.style.height = "".concat(2 * self.radius, "px");
         }
@@ -176,8 +177,8 @@
         if (self.config.useItemInlineStyles) {
           itemEl.style.willChange = 'transform, opacity, filter';
           itemEl.style.position = 'absolute';
-          itemEl.style.top = '70%';
-          itemEl.style.left = '50%';
+          itemEl.style.top = '55%';
+          itemEl.style.left = '90%';
           itemEl.style.zIndex = index + 1;
           itemEl.style.filter = 'alpha(opacity=0)';
           itemEl.style.opacity = 0;
@@ -465,5 +466,5 @@
   });
 
   return index;
-// data was sent to /js/tagcloudlog.js file in top folder
+// data was sent to /tagcloudlog.js file in top folder
 })));

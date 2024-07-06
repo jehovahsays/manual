@@ -1,110 +1,15 @@
-<!DOCTYPE html>
-<html 
-lang="en">
-<head>
-<meta 
-charset="charset=UTF-8">
-<meta 
-name="viewport" 
-content="width=device-width" />
-<style>
-input[type="text"] {
-  font-family: monospace;
-  font-size: 10px;
-  color: peru;
-  width:250px;
-}
-.filterInput {
-	    position: fixed;
-        padding: 0;
-        margin: 0;
-	    top: 60;
-        left: 10px;			
-        list-style: none;
-}
-.titleInput {
-	    position: fixed;
-	    padding: 0;
-        margin: 0;
-	    top: 60px;
-        left: 10px;			
-        font-size: 1.0em;
-        animation: fadeIn 0.5s ease-in-out;
-} 
-.titleInput:last-child { 
-        position: fixed;       
-        padding: 0;
-        margin: 0;
-	    top: 60;
-        left: 10px;			
-        border-bottom: none;
-}
-@keyframes fadeIn {
-   from {
-        opacity: 0;
-        transform: translateY(-10px);
-}
-   to   {
-        opacity: 1;
-        transform: translateY(0);
-}
-  }
-}
-</style>
-<title>
-manual
-</title>
-</head>
-<body>
-<script>
-function titleInput() {
-	
-  let input = document.getElementById('filterInput').value;
-
-  input = input.toLowerCase();
-
-  let x = document.getElementsByClassName('titleInput');
- 
-  for (i = 0; i < x.length; i++) {
-
-    if (!x[i].innerHTML.toLowerCase().includes(input)) {
-
-      x[i].style.display = "none";
-    }
-    else {
-      x[i].style.display = "list-item";
-    }
-  }  
-}
-</script>
-<form
-id="secure-form-answer"
-action="./action.php" 
-method="post">	
-<input
-style="position:absolute;top:25px;left:10px;width:220px;"
-id="filterInput"
-onkeyup="titleInput()"
-autocomplete="true"
-autocorrect="off"  
-autocapitalize="off" 
-spellcheck="true"
-type="text" 
-name="secure-form-answer-Human"
-maxlength="524288" 
-value=""
-aria-label="search"  
-placeholder="search database" 
-x-webkit-speech
-required>
-<noscript>
-<label 
-for="secure-form-answer-Human">
-Human
-</label>
-</noscript>
-</form>
-<ul id="filterInput">
-<a href="./index.html#en/index"class="titleInput"><button>index</button></a>
-<a href="./index.html#en/database"class="titleInput"><button>database</button></a>
-<a href="./index.html#en/about"class="titleInput"><button>about</button></a>
+<a href="./index.html#en/hey"class="titleInput"><button>hey</button></a>
+<a href="./index.html#en/connect"class="titleInput"><button>connect</button></a>
+<a href="./index.html#en/very_good"class="titleInput"><button>very_good</button></a>
+<a href="./index.html#en/update"class="titleInput"><button>update</button></a>
+<a href="./index.html#en/intelligence"class="titleInput"><button>intelligence</button></a>
+<a href="./index.html#en/hello_again"class="titleInput"><button>hello_again</button></a>
+<a href="./index.html#en/hello"class="titleInput"><button>hello</button></a>
+<a href="./index.html#en/talk_about"class="titleInput"><button>talk_about</button></a>
+<a href="./index.html#en/good"class="titleInput"><button>good</button></a>
+<a href="./index.html#en/pi"class="titleInput"><button>pi</button></a>
+<a href="./index.html#en/knows_what"class="titleInput"><button>knows_what</button></a>
+<a href="./index.html#en/how_do_i"class="titleInput"><button>how_do_i</button></a>
+<a href="./index.html#en/focus"class="titleInput"><button>focus</button></a>
+<a href="./index.html#en/spherical"class="titleInput"><button>spherical</button></a>
+<a href="./index.html#en/half"class="titleInput"><button>half</button></a>

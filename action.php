@@ -30,9 +30,9 @@ foreach($_POST as $variable => $value)
 	if (file_exists($file_pointer))  
 	{ 
 	echo "The file $file_pointer already exists <br>"; 
-	echo "<meta name='viewport' content='width=device-width'><a href='./en/$value.html'>$value</a>";
-	//echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before. here.. is... what i found'); window.speechSynthesis.speak(msg); </script>";
-	//echo "<body onload='loadout()'><script>function loadout(){window.location.href = './en/$value.html'}</script>";
+	echo "<meta name='viewport' content='width=device-width'><a href='./index.html#$value'>$value</a>";
+	echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before.'); window.speechSynthesis.speak(msg); </script>";
+	//echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
 	exit();
 	}
 }
@@ -202,9 +202,26 @@ foreach($_POST as $variable => $value)
      "<$value>en/$value</$value>\n"
     ."</root></en></root>");
 }
-echo "<meta name='viewport' content='width=device-width'>successfully created <br> <a href='./#en/$value.html'>$value</a>";
-//echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.htm'}</script>";
-//echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
+foreach($_POST as $variable => $value) 
+{
+	$handle = fopen("./js/chatbot.js", "a");
+	// load the data and delete the line from the array 
+	$lines = file('./js/chatbot.js'); 
+	$last = sizeof($lines) - 1 ; 
+	unset($lines[$last]); 
+	// write the new data to the file 
+	file_put_contents('./js/chatbot.js', $lines); 
+	fwrite($handle, 	
+	  "\""
+	. $value
+	. "\""
+	. ","
+	. "\n"
+	. "];return responses[Math.floor(Math.random() * responses.length)];};");
+}
+ echo "<meta name='viewport' content='width=device-width'>successfully created <br> <a href='./index.html#$value'>$value</a>";
+ //echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
+ echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
 fclose($handle);
 exit();
 ?>

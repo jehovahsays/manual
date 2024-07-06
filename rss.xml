@@ -1,8 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<root>
-<en>
-<manual>
-<index>en/index</index>
-<database>en/database</database>
-<about>en/about</about>
+<connect>en/connect</connect>
+<very_good>en/very_good</very_good>
+<update>en/update</update>
+<intelligence>en/intelligence</intelligence>
+<hello_again>en/hello_again</hello_again>
+<hello>en/hello</hello>
+<talk_about>en/talk_about</talk_about>
+<good>en/good</good>
+<pi>en/pi</pi>
+<knows_what>en/knows_what</knows_what>
+<how_do_i>en/how_do_i</how_do_i>
+<focus>en/focus</focus>
+<spherical>en/spherical</spherical>
+<half>en/half</half>
 </root></en></root>
