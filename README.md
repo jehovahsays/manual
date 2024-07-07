@@ -1,6 +1,12 @@
 # manual
 <br>
 <br>
+drop this folder into an http server<br>
+that has php open browser navigate to http://127.0.0.1/manual/index.html<br>
+first add your intelligence using the first input box<br>
+then after you complete that ask the chat bot some questions<br>
+using the input box at the bottom of the page.<br>
+if the chat bot seems smart or intelligent let me know thanks.<br>
 Please remember to get a full experience of this repository website<br>
 if you are a develepoer make this unfinish repository into something better in your own named repository<br>
 visit http://morgansbyers.scienceontheweb.net/index.html

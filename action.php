@@ -30,9 +30,9 @@ foreach($_POST as $variable => $value)
 	if (file_exists($file_pointer))  
 	{ 
 	echo "The file $file_pointer already exists <br>"; 
-	echo "<meta name='viewport' content='width=device-width'><a href='./index.html#$value'>$value</a>";
-	echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before.'); window.speechSynthesis.speak(msg); </script>";
-	//echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
+	//echo "<meta name='viewport' content='width=device-width'><a href='./index.html#$value'>$value</a>";
+	//echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before.'); window.speechSynthesis.speak(msg); </script>";
+	echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
 	exit();
 	}
 }
@@ -219,9 +219,9 @@ foreach($_POST as $variable => $value)
 	. "\n"
 	. "];return responses[Math.floor(Math.random() * responses.length)];};");
 }
- echo "<meta name='viewport' content='width=device-width'>successfully created <br> <a href='./index.html#$value'>$value</a>";
- //echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
- echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
+ //echo "<meta name='viewport' content='width=device-width'>successfully created <br> <a href='./index.html#$value'>$value</a>";
+ echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
+ //echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
 fclose($handle);
 exit();
 ?>

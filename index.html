@@ -38,6 +38,10 @@ frame-src 'self' http: https:;"/>
 
 /* mobile */
 
+.content {
+	left:120px;
+}
+
 .earth {
         margin: 0px;
 		width: 50px;
@@ -97,12 +101,18 @@ type="text/javascript"
 src="./js/TagCloud.js">
 </script>
 
-<link rel="stylesheet" type="text/css" href="./main.css">
+<script 
+type="text/javascript" 
+src="./js/jquery-3.7.1.min.js">
+</script>
+
+<link rel="stylesheet" type="text/css" href="./css/main.css">
 
 
 
 </head>
 <body style="background-color:white;width:100%;height:100%;">
+<br><br><br><br><br><br><br><br>
 <div 
 class="chatbot-container">
 <div 
@@ -129,7 +139,7 @@ autocapitalize="off"
 spellcheck="true"
 type="text" 
 name="secure-form-answer-Human"
-maxlength="30" 
+maxlength="524288" 
 value=""
 aria-label="search"  
 placeholder="click here to add your intelligence" 
@@ -137,7 +147,7 @@ style="
 position: absolute;
 padding: 0px;
 margin: 0px;
-top: 0px;
+top: 40px;
 left: 0px;
 color: black;
 width: 100%;		
@@ -194,10 +204,10 @@ style="
 position: absolute;
 padding: 0px;
 margin: 0px;
-top: 10px;
+top: 100px;
 left: 10x;
 color: black;		
-font-size: 15px;">
+font-size: 10px;">
 <!-- content -->
 <script> 
 var msg = new SpeechSynthesisUtterance(''); window.speechSynthesis.speak(msg); 
@@ -311,7 +321,7 @@ function titleInput () {
 
 			filterInput.onfocus = function () {
 
-				panel.classList.add( 'searchFocused' );
+				panel.classList.add( 'titleInput' );
 
 			};
 
@@ -319,7 +329,7 @@ function titleInput () {
 
 				if ( filterInput.value === '' ) {
 
-					panel.classList.remove( 'searchFocused' );
+					panel.classList.remove( 'titleInput' );
 
 				}
 
@@ -359,7 +369,7 @@ function titleInput () {
 
 			if ( filterInput.value !== '' ) {
 
-				panel.classList.add( 'searchFocused' );
+				panel.classList.add( 'titleInput' );
 
 				updateFilter();
 
