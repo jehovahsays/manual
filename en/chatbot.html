@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0" />
+<meta http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Clear-Site-Data" content="*">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-epuiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referer" content="same-origin">
+<meta http-equiv="Content-Type" content="text/html">
+<!-- <meta http-equiv="Set-Cookie" content="HttpOnly"> -->
+<meta http-equiv="Connection" content="Keep-alive">
+<meta http-equiv="Referrer-Policy" content="no-referrer">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=()">
+<meta http-equiv="Content-Security-Policy" content="
+default-src 'self' http: https:;
+script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:;
+style-src 'self' 'unsafe-inline' http: https:;
+img-src data: http: https:;
+font-src 'self' http: https:;
+connect-src http: https:;
+frame-src 'self' http: https:;"/>
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<link rel="icon" type="image/png" href="./favicon.ico">
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: dark)"/>
+<link rel="shortcut icon" href="./favicon.ico" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+<title>manual</title>
+<style>
+
+/* mobile */
+
+.filterInput{
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+		position: fixed;
+		color: black;
+	    top: 10px;
+        left: 10px;			
+}
+
+.titleInput{
+        margin: 0px;
+	    position: fixed;		
+	    top: 10px;
+        left: 10px;
+		color: black;
+        font-size: 1.0em;
+        padding: 0px;
+        animation: fadeIn 0.5s ease-in-out;
+} 
+
+.titleInput:last-child {        
+        margin: 0px;
+	    position: fixed;		
+	    top: 10px;
+        left: 10px;
+		color: black;
+        font-size: 1.0em;
+        padding: 0px;
+        border-bottom: none;
+}
+
+@keyframes fadeIn {
+   from {
+        opacity: 0;
+        transform: translateY(-10px);
+}
+   to   {
+        opacity: 1;
+        transform: translateY(0);
+}
+  }
+}  
+</style>
+
+
+<script 
+type="text/javascript" 
+src="../js/jquery-3.7.1.min.js">
+</script>
+
+
+</head>
+<body style="background-color:white;width:100%;height:90%;">
+<a href="../index.html"><button>return to homepage</button></a>
+<br><br>
+
+<div 
+class="chatbot-container">
+<div 
+id="chatbot">
+<div 
+id="conversation">
+<div 
+class="chatbot-message">
+<p 
+class="chatbot-text">
+</p>
+</div>
+<br><br>
+
+<form 
+id="secure-form-answer">
+<message-container>
+This Project is Created by:-(https://github.com/hegdepavankumar) 
+
+<input 
+style="position:absolute;top:30px;left:15px;width:340px;"
+id="filterInput"
+onkeyup="titleInput()"
+name="secure-form-answer-Human"
+maxlength="40" 
+autocomplete="true" 
+autocorrect="on" 
+autocapitalize="off" 
+spellcheck="true"
+type="text" 
+placeholder="chat bot responds with random keywords">
+<noscript>
+<label 
+for="secure-form-answer-Human">
+Human
+</label>
+</noscript>	
+</message-container>		 	            
+</form>
+
+</div> 
+</div>
+</div>
+
+<script 
+src="../js/chatbot.js">
+</script>	
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+"playlist",
+"tv",
+"edit",
+"delete",
+"chatbot",
+"tagcloud",
+"articles",
+"dictionary",
+"reviews",
+];var tc = TagCloud('.content', texts);console.log(tc);
