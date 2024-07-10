@@ -1,5 +1,7 @@
 # manual
 <br>
+to get full experience of website visit<br>
+http://morgansbyers.scienceontheweb.net/index.html<br>
 merged multiple projects i was working on in this update.<br>
 I added SpeechSynthesisUtterance to ELIZA chat bot.<br>
 ELIZA is an early natural language processing computer program<br>
