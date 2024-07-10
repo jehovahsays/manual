@@ -54,13 +54,15 @@ function generateResponse(input) {
     // Add chatbot logic here
 	// Do not delete the last line of this file because the logger will break and delete entire file. 
     const responses = [
-"/en/playlist",
-"/en/tv",
-"/en/edit",
-"/en/delete",
-"/en/chatbot",
-"/en/tagcloud",
-"/en/articles",
-"/en/dictionary",
-"/en/reviews",
+"en/playlist",
+"en/tv",
+"en/edit",
+"en/delete",
+"en/chatbot",
+"en/tagcloud",
+"en/articles",
+"en/dictionary",
+"en/reviews",
+"en/elizabot",
+"en/index",
 ];return responses[Math.floor(Math.random() * responses.length)];};

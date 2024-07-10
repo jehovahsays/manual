@@ -31,7 +31,7 @@ foreach($_POST as $variable => $value)
 	{ 
 	echo "The file $file_pointer already exists <br>"; 
 	//echo "<meta name='viewport' content='width=device-width'><a href='./index.html#$value'>$value</a>";
-	//echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before.'); window.speechSynthesis.speak(msg); </script>";
+	echo "<script> var msg = new SpeechSynthesisUtterance(' i remember hearing.. the word $value.. before.'); window.speechSynthesis.speak(msg); </script>";
 	echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
 	exit();
 	}
@@ -67,7 +67,7 @@ foreach($_POST as $variable => $value)
 	. "<body>"
 	. "<a href="
 	. "\""
-	. "../index.html"
+	. "../"
 	. "\""
 	. "><button>return to homepage</button></a><br><br>"
 	. "<br><br>" 
@@ -86,6 +86,50 @@ foreach($_POST as $variable => $value)
 	. "</div>"
 	. "</body>"
 	. "<html>");
+}	
+
+foreach($_POST as $variable => $value) 
+{
+$value = str_replace(' ', '_', $value);
+$handle = fopen("./en/$value.txt", "a");
+	fwrite($handle, "$value"
+	 . "\r\n");
+}
+
+foreach($_POST as $variable => $value) 
+{
+	$handle = fopen("./en/articles.html", "a");
+	// load the data and delete the line from the array 
+	$lines = file('./en/articles.html'); 
+	$last = sizeof($lines) - 1 ; 
+	unset($lines[$last]); 
+	// write the new data to the file 
+	file_put_contents('./en/articles.html', $lines); 
+	$value = str_replace(' ', '_', $value);
+	fwrite($handle, 	
+	  "<li><a data-page=" 
+	. "\"" 
+	. $value  
+	. "\"" 
+	. "class=" 
+	. "\"" 
+	. "titleInput" 
+	. "\"" 
+	. ">" 
+	. $value
+	. "</a></li>"
+	. "\n"
+	. "</ul><script type="
+	. "\"" 
+	."text/javascript"
+	. "\"" 
+	."src="
+	. "\"" 
+	."../js/edit.js"
+	. "\"" 
+	. ">"
+	."></script>"
+	. "\r\n");
 }		
 		
 		foreach($_POST as $variable => $value) 
@@ -101,6 +145,7 @@ foreach($_POST as $variable => $value)
 	$value = str_replace(' ', '_', $value);
 	fwrite($handle, 	
 	  "\""
+	. "en/"
 	. $value 
 	. "\""
 	. ","
@@ -145,6 +190,7 @@ foreach($_POST as $variable => $value)
 	file_put_contents('./js/chatbot.js', $lines); 
 	fwrite($handle, 	
 	  "\""
+	. "en/"
 	. $value
 	. "\""
 	. ","
@@ -152,8 +198,8 @@ foreach($_POST as $variable => $value)
 	. "];return responses[Math.floor(Math.random() * responses.length)];};");
 }
  //echo "<meta name='viewport' content='width=device-width'>successfully created <br> <a href='./index.html#$value'>$value</a>";
- echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html#intelligence'}</script>";
- //echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
+ echo "<body onload='loadout()'><script>function loadout(){window.location.href = './index.html'}</script>";
+ echo "<script> var msg = new SpeechSynthesisUtterance('i never heard. that word before!.. i will remember. the word $value for further analysis'); window.speechSynthesis.speak(msg); </script>";		
 fclose($handle);
 exit();
 ?>
