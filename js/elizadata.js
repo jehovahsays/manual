@@ -609,3 +609,23 @@ var elizaPostTransforms = [
 ];
 
 // eof
+
+var elizaInitials = [
+"en/playlist",
+"en/tv",
+"en/edit",
+"en/delete",
+"en/chatbot",
+"en/tagcloud",
+"en/articles",
+"en/dictionary",
+"en/reviews",
+"en/elizabot",
+"en/index",
+"en/update"
+,"en/think"
+,"en/With great power comes great responsibility"
+,"en/just say no"
+,"en/be all you can be"
+,"en/every time you create a page i use it as a response"
+];

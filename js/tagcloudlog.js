@@ -9,4 +9,10 @@
 "en/reviews",
 "en/elizabot",
 "en/index",
+"en/update",
+"en/think",
+"en/With_great_power_comes_great_responsibility",
+"en/just_say_no",
+"en/be_all_you_can_be",
+"en/every_time_you_create_a_page_i_use_it_as_a_response",
 ];var tc = TagCloud('.content', texts);console.log(tc);
