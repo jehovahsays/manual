@@ -3,6 +3,8 @@
 to get full experience of website visit<br>
 http://morgansbyers.scienceontheweb.net/index.html<br>
 # recent updates<br>
+i upgraded database to spell out input data<br>
+this allows for previewing the real-time speech utterances of chatbot responses<br>
 i have connected a logger that writes the user data input<br>
 into the elizabot data file of elizaInitials responses<br>
 this will allow elizabot to choose user data to talk<br>
