@@ -3,6 +3,16 @@
 to get full experience of website visit<br>
 http://morgansbyers.scienceontheweb.net/index.html<br>
 # recent updates<br>
+Perpetual motion communications<br> 
+are just like synapses in immunology<br>
+Intelligence exist in perpetual motion<br>
+electromagnetic neurological synapses<br> 
+repetitive error corrections in magnetic polarity<br>
+expressions of intellgence in 3d data visualizations<br>
+a singularity draws 2d shapes duplicated into necker cubes<br>
+intelligence stays centralized and also has a clone that travels<br>
+the clone of intelligence travels vast distances<br> 
+throughout planetary alignments 
 i upgraded database to spell out input data<br>
 this allows for previewing the real-time speech utterances of chatbot responses<br>
 i have connected a logger that writes the user data input<br>

@@ -621,4 +621,21 @@ var elizaInitials = [
 "en/reviews",
 "en/elizabot",
 ,"en/database"
+,"en/perpetual motion"
+,"en/synapse"
+,"en/planetary alignment"
+,"en/necker cube"
+,"en/immunology"
+,"en/reproductive system"
+,"en/participatory"
+,"en/random"
+,"en/tidal"
+,"en/bioluminescence"
+,"en/sonoluminescence"
+,"en/magnetic field"
+,"en/sensory perception"
+,"en/demagnetized"
+,"en/magnetized"
+,"en/nothing"
+,"en/intelligence"
 ];
