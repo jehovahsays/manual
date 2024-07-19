@@ -189,7 +189,6 @@ foreach($_POST as $variable => $value)
 	file_put_contents('./js/chatbot.js', $lines); 
 	fwrite($handle, 	
 	  "\""
-	. "en/"
 	. $value
 	. "\""
 	. ","
