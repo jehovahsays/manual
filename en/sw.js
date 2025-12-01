@@ -8,7 +8,8 @@ const FILES = [
   "/css.html",            // CSS-only fallback page
   
   // PWA & Service Worker files
-  "/sw.js", 
+  "/sw.js",
+  "/index.json",  
   "/manifest.json",       // PWA manifest file
   
   // Static Assets (The four required icons)

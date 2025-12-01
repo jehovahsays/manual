@@ -11,3 +11,6 @@ Disallow: /edit
 
 # Let crawlers index only the base route
 Allow: /
+
+# Sitemap
+Sitemap: https://jehovahsays.github.io/mev/sitemap.xml

@@ -3,26 +3,26 @@
 	{
 	"MEV Wiki Navigation":
 	{
-	"Main":"en/index",
-	"NoJS":"en/css"
+	"Main":"index",
+	"CSS":"css"
 	},
 	"ToolBox":
 	{
 	"V0":"en/V0",
-	"V1":"en/ToolBox/V1",
-	"V2":"en/ToolBox/V2",
-	"V3":"en/ToolBox/V3",
-	"V4":"en/ToolBox/V4",
-	"V5":"en/ToolBox/V5",
+	"V1":"ToolBox/V1",
+	"V2":"ToolBox/V2",
+	"V3":"ToolBox/V3",
+	"V4":"ToolBox/V4",
+	"V5":"ToolBox/V5",
 	"V6":"en/ToolBox/V6",
-	"V7":"en/ToolBox/V7",
-	"V8":"en/ToolBox/V8",
-	"V9":"en/ToolBox/V9",
-	"V10":"en/ToolBox/V10",
-	"V11":"en/ToolBox/V11",
-	"V12":"en/ToolBox/V12",
-	"V13":"en/ToolBox/V13",
-	"V14":"en/ToolBox/V14",
-	"V15":"en/ToolBox/V15"
+	"V7":"ToolBox/V7",
+	"V8":"ToolBox/V8",
+	"V9":"ToolBox/V9",
+	"V10":"ToolBox/V10",
+	"V11":"ToolBox/V11",
+	"V12":"ToolBox/V12",
+	"V13":"ToolBox/V13",
+	"V14":"ToolBox/V14",
+	"V15":"ToolBox/V15"
 	}
 }}
