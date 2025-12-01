@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MEV Wiki</title>
+  <meta name="description" content="MEV Wiki – Offline Encyclopedia. Learn, edit, explore." />
+  <meta name="theme-color" content="#3366cc" />
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- 
+  CRITICAL: Removed external link for Tailwind CSS. 
+  All previously used Tailwind classes are now manually defined below 
+  using the defined CSS variables for styling consistency.
+  -->
+  
+  <!-- 1. Embedded CSS Styles and Utilities (Hardened/Tailwind-Replacement) -->
+  <style>
+    /* * 1. THEME VARIABLES (Default: Light Mode) */
+    :root {
+        --bg-page: #f9fafb;
+        --bg-card: #ffffff;
+        --text-primary: #1f2937;
+        --text-secondary: #4b5563;
+        --color-link: #3b82f6;
+        --color-accent: #10b981;
+        --border-color: #e5e7eb;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        --menu-icon-color: #1f2937;
+        --color-green: #10b981;
+        --color-green-hover: #059669;
+        --color-blue: #3b82f6;
+        --color-blue-hover: #2563eb;
+        --color-red: #ef4444;
+        --color-red-hover: #dc2626;
+        --color-gray-200: #e5e7eb;
+        --color-gray-100: #f3f4f6;
+    }
+
+    /* Dark Mode Overrides */
+    .dark-mode {
+        --bg-page: #111827;
+        --bg-card: #1f2937;
+        --text-primary: #f3f4f6;
+        --text-secondary: #9ca3af;
+        --color-link: #60a5fa;
+        --color-accent: #34d399;
+        --border-color: #374151;
+        --menu-icon-color: #f3f4f6;
+        --color-gray-200: #374151;
+        --color-gray-100: #1f2937;
+    }
+    
+    /* Base Layout Styles */
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      font-family: 'Inter', system-ui, "Segoe UI", Arial, sans-serif;
+      transition: background 0.3s ease, color 0.3s ease;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+
+    /* Utility Classes */
+    .p-6 { padding: 1.5rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mt-4 { margin-top: 1rem; }
+    .w-full { width: 100%; }
+    .text-center { text-align: center; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .font-extrabold { font-weight: 800; }
+    .font-semibold { font-weight: 600; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .block { display: block; }
+    .inline-block { display: inline-block; }
+    .text-white { color: #ffffff; }
+    .shadow-lg { box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color); }
+    .bg-green-500 { background-color: var(--color-green); }
+    .hover\:bg-green-600:hover { background-color: var(--color-green-hover); }
+    .bg-blue-500 { background-color: var(--color-blue); }
+    .hover\:bg-blue-600:hover { background-color: var(--color-blue-hover); }
+    .bg-red-500 { background-color: var(--color-red); }
+    .hover\:bg-red-600:hover { background-color: var(--color-red-hover); }
+    .bg-gray-100 { background-color: var(--color-gray-100); }
+    .hover\:bg-gray-200:hover { background-color: var(--color-gray-200); }
+    
+    /* Layout */
+    #app-wrapper {
+      display: flex;
+      height: 100%;
+      max-width: 100vw; /* Prevent layout shift */
+    }
+
+    /* Sidebar - Mobile/Desktop Responsive */
+    #sidebar {
+      flex-shrink: 0;
+      width: 280px;
+      padding: 1.5rem;
+      border-right: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      overflow-y: auto;
+      transition: transform 0.3s ease-in-out;
+      z-index: 50; /* Above main content on mobile */
+    }
+
+    /* Main Content Area */
+    #main-content-wrapper {
+      flex-grow: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%; 
+      padding: 1.5rem;
+      background-color: var(--bg-page);
+    }
+    
+    /* Mobile styles for sidebar */
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        box-shadow: 2px 0 5px var(--shadow-color);
+      }
+      #sidebar.open {
+        transform: translateX(0);
+      }
+      #menu-button {
+        display: block; /* Show menu button on mobile */
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 60;
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+      #main-content-wrapper {
+        padding-top: 5rem; /* Space for the fixed menu button */
+      }
+    }
+
+    @media (min-width: 769px) {
+      #menu-button {
+        display: none; /* Hide menu button on desktop */
+      }
+    }
+    
+    /* Utility for Links */
+    a {
+      color: var(--color-link);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Input Fields */
+    input[type="text"], input[type="search"], textarea {
+        width: 100%;
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        background-color: var(--bg-card);
+        color: var(--text-primary);
+        transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus {
+        border-color: var(--color-link);
+        outline: none;
+    }
+    textarea {
+        min-height: 400px;
+        resize: vertical;
+        font-family: monospace;
+    }
+    
+    /* Page Content Styling (Markdown Rendered) */
+    .page-content {
+        line-height: 1.8;
+    }
+    .page-content h1 { font-size: 2.25rem; font-weight: 800; margin-top: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+    .page-content h2 { font-size: 1.875rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; color: var(--text-primary); }
+    .page-content h3 { font-size: 1.5rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+    .page-content p { margin-bottom: 1rem; }
+    .page-content ul, .page-content ol { margin-left: 2rem; margin-bottom: 1rem; }
+    .page-content li { margin-bottom: 0.5rem; }
+    .page-content code { background-color: var(--color-gray-100); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: monospace; }
+    .page-content pre { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .page-content pre code { background-color: transparent; padding: 0; border-radius: 0; }
+    .page-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    .page-content th, .page-content td { border: 1px solid var(--border-color); padding: 0.75rem; text-align: left; }
+    .page-content th { background-color: var(--color-gray-100); font-weight: 600; }
+    .page-content blockquote { border-left: 4px solid var(--color-link); padding-left: 1rem; margin-left: 0; color: var(--text-secondary); }
+    
+    /* Sidebar Navigation Links */
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem;
+        color: var(--text-primary);
+        transition: background-color 0.2s;
+    }
+    .nav-link:hover {
+        background-color: var(--color-gray-200);
+        text-decoration: none;
+    }
+    .nav-link.active {
+        background-color: var(--color-link);
+        color: var(--bg-card);
+        font-weight: 600;
+    }
+    .nav-link.active svg {
+        fill: var(--bg-card);
+    }
+    .nav-link svg {
+        fill: var(--menu-icon-color);
+        margin-right: 0.75rem;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    .nav-link.active:hover {
+        background-color: var(--color-blue-hover);
+    }
+    
+    /* Status Message Box */
+    .status-message {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      background-color: var(--color-accent);
+      color: white;
+      font-weight: 600;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .status-message.show {
+        opacity: 1;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    .modal-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .modal-content {
+        background-color: var(--bg-card);
+        padding: 2rem;
+        border-radius: 0.75rem;
+        max-width: 90%;
+        width: 400px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(-50px);
+        transition: transform 0.3s ease;
+    }
+    .modal-overlay.open .modal-content {
+        transform: translateY(0);
+    }
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+  </style>
+</head>
+
+<body>
+<div id="app-wrapper">
+    
+    <!-- Mobile Menu Button -->
+    <button id="menu-button" aria-label="Open Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="var(--menu-icon-color)">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </button>
+
+    <!-- Sidebar / Navigation -->
+    <aside id="sidebar">
+        <!-- Content generated by renderSidebar() -->
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="main-content-wrapper">
+        <div id="page-container">
+            <!-- Dynamic content loaded here -->
+            <section id="page-view">
+                <!-- Page content will be injected here -->
+            </section>
+        </div>
+    </main>
+    
+    <!-- Global Status/Toast Message -->
+    <div id="status-message" class="status-message"></div>
+    
+    <!-- Global Modal for Delete Confirmation / Prompts (Replaces alert/confirm) -->
+    <div id="global-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-lg font-semibold mb-4"></h3>
+            <p id="modal-message" class="text-sm text-gray-700"></p>
+            <input type="text" id="modal-input" style="display:none;" />
+            <div class="modal-footer">
+                <button id="modal-cancel" class="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200">Cancel</button>
+                <button id="modal-confirm" class="px-4 py-2 text-sm font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 2. Embedded JavaScript Logic -->
+<script>
+  // --- Constants and Globals ---
+  const DEFAULT_PAGES = {
+    "Main Page": "# Welcome to MEV Wiki\n\nThis is your personal, offline-first knowledge base. All content is stored right here in your browser's local storage.\n\n### Features\n- **Offline:** Works without internet connection.\n- **Private:** Data never leaves your device.\n- **Fast:** Single file, no dependencies.\n\n### Quick Links\n- [[Settings]]\n- [[About]]\n- [[Recent Changes]]\n\nCreate a new page by typing a title in double brackets, like [[New Idea]], and clicking the link when you see it on the page.",
+    "Settings": "# Settings\n\n## Theme\n\nSelect a theme for the wiki.\n\n- [Light Mode](#theme-light-set)\n- [Dark Mode](#theme-dark-set)\n\n## Data Management\n\n- [Export All Pages](#export-data)\n- [Delete All Data](#delete-all-data)"
+  };
+  const STORAGE_KEY = 'mev-wiki-pages';
+  const RECENT_KEY = 'mev-wiki-recent';
+  const THEME_KEY = 'mev-wiki-theme';
+
+  let pages = {};
+  let recent = [];
+  let currentTitle = null; // Track the currently viewed page title
+
+  // --- Utility Functions ---
+  /** Converts Markdown to HTML, processing internal wiki links [[Page Title]] */
+  const convertMarkdown = (markdown) => {
+    // Basic Markdown to HTML conversion (simplified)
+    let html = markdown
+      // Headings
+      .replace(/^#{1,6}\s*(.*)$/gm, (match, content) => {
+        const level = match.indexOf(' ');
+        return `<h${level}>${content}</h${level}>`;
+      })
+      // Lists (simple)
+      .replace(/^\*\s*(.*)$/gm, '<li>$1</li>')
+      .replace(/(\n<li>.*<\/li>(\n|$))+/gs, (match) => `<ul>${match}</ul>`)
+      // Bold/Italic
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/__(.*?)__/g, '<strong>$1</strong>')
+      .replace(/_(.*?)_/g, '<em>$1</em>')
+      // Links
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+      // Code blocks (simple)
+      .replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>')
+      .replace(/`(.*?)`/g, '<code>$1</code>')
+      // Paragraphs
+      .split('\n').map(line => line.trim()).filter(line => line.length > 0 && !line.startsWith('<h') && !line.startsWith('<u') && !line.startsWith('<pre'))
+      .map(line => `<p>${line}</p>`)
+      .join('\n');
+      
+    // IMPORTANT: Process Wiki Links [[Page Title]]
+    html = html.replace(/\[\[(.*?)\]\]/g, (match, title) => {
+      const pageExists = pages.hasOwnProperty(title);
+      const linkClass = pageExists ? 'page-link' : 'new-page-link';
+      return `<a href="#${encodeURIComponent(title)}" class="${linkClass}">${title}</a>`;
+    });
+    
+    // Clean up empty lines created by multi-line replacements
+    html = html.replace(/<p>\s*<\/p>/g, '');
+    
+    return html;
+  };
+  
+  /** Shows a temporary status message/toast */
+  const showStatus = (message) => {
+    const statusEl = document.getElementById('status-message');
+    statusEl.textContent = message;
+    statusEl.classList.add('show');
+    setTimeout(() => {
+      statusEl.classList.remove('show');
+    }, 3000);
+  };
+  
+  /** Shows a custom modal for confirmation/prompt (replaces alert/confirm) */
+  const showModal = ({ title, message, isPrompt = false, confirmText = 'Confirm', onConfirm, onCancel }) => {
+    const modalOverlay = document.getElementById('global-modal');
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    
+    const inputEl = document.getElementById('modal-input');
+    inputEl.style.display = isPrompt ? 'block' : 'none';
+    if (isPrompt) inputEl.value = '';
+    
+    document.getElementById('modal-confirm').textContent = confirmText;
+    
+    const confirmHandler = () => {
+      onConfirm(isPrompt ? inputEl.value : true);
+      closeModal();
+    };
+    const cancelHandler = () => {
+      if (onCancel) onCancel();
+      closeModal();
+    };
+    
+    const closeModal = () => {
+      modalOverlay.classList.remove('open');
+      document.getElementById('modal-confirm').removeEventListener('click', confirmHandler);
+      document.getElementById('modal-cancel').removeEventListener('click', cancelHandler);
+    };
+    
+    document.getElementById('modal-confirm').addEventListener('click', confirmHandler);
+    document.getElementById('modal-cancel').addEventListener('click', cancelHandler);
+    
+    modalOverlay.classList.add('open');
+  };
+
+
+  // --- Data Management (localStorage) ---
+  
+  const loadPages = () => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      pages = stored ? JSON.parse(stored) : {};
+    } catch (e) {
+      console.error("Failed to load pages from localStorage:", e);
+      pages = {};
+    }
+    // Ensure default pages exist
+    Object.keys(DEFAULT_PAGES).forEach(title => {
+      if (!pages.hasOwnProperty(title)) {
+        pages[title] = DEFAULT_PAGES[title];
+      }
+    });
+  };
+
+  const savePage = (title, content) => {
+    pages[title] = content;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(pages));
+      updateRecent(title);
+      updateSidebar();
+      showStatus(`Page "${title}" saved.`);
+    } catch (e) {
+      console.error("Failed to save page to localStorage:", e);
+      showStatus(`Error: Failed to save page "${title}".`);
+    }
+  };
+  
+  const deletePage = (title) => {
+    showModal({
+      title: `Delete Page: "${title}"`,
+      message: `Are you sure you want to permanently delete the page "${title}"? This cannot be undone.`,
+      confirmText: 'Delete',
+      onConfirm: () => {
+        if (pages.hasOwnProperty(title)) {
+          delete pages[title];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(pages));
+          removeFromRecent(title);
+          updateSidebar();
+          showPage("Main Page");
+          showStatus(`Page "${title}" deleted.`);
+        }
+      },
+      confirmText: "Delete",
+      onCancel: () => showStatus(`Deletion of "${title}" cancelled.`)
+    });
+  };
+
+  const loadRecent = () => {
+    try {
+      const stored = localStorage.getItem(RECENT_KEY);
+      recent = stored ? JSON.parse(stored) : [];
+      // Filter out deleted pages and duplicates
+      recent = recent.filter((title, index, self) => pages.hasOwnProperty(title) && self.indexOf(title) === index);
+    } catch (e) {
+      console.error("Failed to load recent changes:", e);
+      recent = [];
+    }
+  };
+
+  const updateRecent = (title) => {
+    // Remove old entry if it exists
+    recent = recent.filter(t => t !== title);
+    // Add to top
+    recent.unshift(title);
+    // Limit to 10 entries
+    recent = recent.slice(0, 10); 
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+    } catch (e) {
+      console.error("Failed to save recent changes:", e);
+    }
+  };
+  
+  const removeFromRecent = (title) => {
+    recent = recent.filter(t => t !== title);
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+    } catch (e) {
+      console.error("Failed to update recent changes after deletion:", e);
+    }
+  }
+  
+  const deleteAllData = () => {
+    showModal({
+      title: 'Danger: Delete All Data',
+      message: 'This will permanently erase ALL pages and settings from your browser\'s storage. Do you wish to proceed?',
+      confirmText: 'ERASE ALL',
+      onConfirm: () => {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(RECENT_KEY);
+        // Do not remove theme, but reset pages/recent
+        pages = {};
+        recent = [];
+        loadPages(); // Reload default pages
+        updateSidebar();
+        showPage("Main Page");
+        showStatus("All wiki data has been erased. Default pages reloaded.");
+      },
+      onCancel: () => showStatus("Data erasure cancelled.")
+    });
+  };
+  
+  const exportData = () => {
+    const data = {
+        pages: pages,
+        recent: recent,
+        theme: localStorage.getItem(THEME_KEY)
+    };
+    const jsonString = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mev_wiki_export.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showStatus("Data exported successfully!");
+  };
+
+  // --- Theme Management ---
+  const getDarkMode = () => localStorage.getItem(THEME_KEY) === 'dark';
+  
+  const setDarkMode = (isDark) => {
+    const appWrapper = document.getElementById('app-wrapper');
+    if (isDark) {
+      appWrapper.classList.add('dark-mode');
+      localStorage.setItem(THEME_KEY, 'dark');
+    } else {
+      appWrapper.classList.remove('dark-mode');
+      localStorage.setItem(THEME_KEY, 'light');
+    }
+    updateSidebar();
+  };
+
+
+  // --- Rendering & Routing ---
+
+  const renderSidebar = (userId) => {
+    const isDark = getDarkMode();
+    const allTitles = Object.keys(pages).sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+
+    const navLinks = [
+        { title: "Main Page", hash: "#Main Page", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>' },
+        { title: "Search", hash: "#search", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>' },
+        { title: "Recent Changes", hash: "#recent", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.51 0-2.91-.49-4.06-1.3l-1.42 1.42c1.45 1.25 3.31 2.02 5.48 2.02 4.97 0 9-4.03 9-9s-4.03-9-9-9zM12 8v5l4 2-1 2-3-2V8h-2z"/></svg>' },
+        { title: "Settings", hash: "#settings", icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.09-.73-1.71-.98l-.37-2.65c-.06-.27-.3-.46-.57-.46h-4c-.27 0-.51.19-.57.46l-.37 2.65c-.62.25-1.19.59-1.71.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.31.61.22l2.49-1c.52.39 1.09.73 1.71.98l.37 2.65c.06.27.3.46.57.46h4c.27 0 .51-.19.57-.46l.37-2.65c.62-.25 1.19-.59 1.71-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>' },
+    ];
+    
+    const pageLinks = allTitles.map(title => 
+        `<a href="#${encodeURIComponent(title)}" class="nav-link text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="var(--menu-icon-color)">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-3 8h-1V4h1v6zm-1-7h-1V4h1v-1zm4 10h-1V4h1v10zm-1-7h-1V4h1v3zm1 14h-1v-1h1v1zm1 0h-1v-1h1v1z"/>
+            </svg>
+            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</span>
+        </a>`
+    ).join('');
+    
+    return `
+      <h1 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">MEV Wiki</h1>
+      <div class="mb-6">
+        <a id="create-link" href="#edit-new-page" class="block w-full text-center px-4 py-2 text-lg font-semibold rounded-lg text-white bg-green-500 hover:bg-green-600">
+          + Create New Page
+        </a>
+      </div>
+      
+      <div class="space-y-1 mb-8">
+        ${navLinks.map(link => 
+          `<a href="${link.hash}" id="${link.title.toLowerCase().replace(/\s/g, '-')}-link" class="nav-link">
+            ${link.icon}
+            <span>${link.title}</span>
+          </a>`
+        ).join('')}
+      </div>
+
+      <h2 class="text-lg font-semibold mb-4 border-b pb-1" style="color: var(--text-primary); border-bottom-color: var(--border-color);">All Pages (${allTitles.length})</h2>
+      <div class="space-y-1">
+        ${pageLinks}
+      </div>
+      
+      <div class="mt-8 pt-4 border-t" style="border-top-color: var(--border-color);">
+        <p class="text-sm" style="color: var(--text-secondary);">Theme: 
+          <a href="#theme-light-set" id="theme-light" class="${!isDark ? 'font-bold' : ''}">Light</a> / 
+          <a href="#theme-dark-set" id="theme-dark" class="${isDark ? 'font-bold' : ''}">Dark</a>
+        </p>
+      </div>
+    `;
+  };
+
+  const updateSidebar = () => {
+    document.getElementById('sidebar').innerHTML = renderSidebar();
+  };
+  
+  const showPage = (title, forceEdit = false) => {
+    currentTitle = title;
+    location.hash = encodeURIComponent(title);
+    const container = document.getElementById('page-container');
+    container.innerHTML = ''; // Clear content
+
+    if (forceEdit || !pages.hasOwnProperty(title)) {
+      // Show "New Page Found" or "Edit Page" view
+      container.innerHTML = renderEditPage(title, forceEdit ? pages[title] : '');
+      document.getElementById('edit-content').focus();
+    } else {
+      // Show Read View
+      updateRecent(title);
+      container.innerHTML = `
+        <section id="page-view" class="p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="flex justify-between items-center mb-4 border-b" style="border-bottom-color: var(--border-color);">
+            <h1 class="text-3xl font-extrabold pb-2" style="color: var(--text-primary);">${title}</h1>
+            <div class="flex space-x-2">
+              <button id="edit-button" class="px-3 py-1 text-sm font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600">
+                Edit
+              </button>
+              <button id="delete-button" class="px-3 py-1 text-sm font-semibold rounded-lg text-white bg-red-500 hover:bg-red-600">
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="page-content">
+            ${convertMarkdown(pages[title])}
+          </div>
+        </section>
+      `;
+      // Attach listeners for Edit/Delete buttons
+      document.getElementById('edit-button').addEventListener('click', () => showPage(title, true));
+      document.getElementById('delete-button').addEventListener('click', () => deletePage(title));
+    }
+    document.getElementById('sidebar').classList.remove('open'); // Close menu on mobile
+    
+    // Set active link in sidebar (needs to be done after rendering)
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    const activeLink = document.querySelector(`a[href="#${encodeURIComponent(title)}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  };
+  
+  const renderEditPage = (title, content = '') => {
+    // If the page does not exist, use a placeholder title
+    const displayTitle = title === 'new-page' ? 'New Page' : title;
+    
+    return `
+      <section id="edit-view" class="p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+        <h1 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">
+          ${displayTitle === 'New Page' ? 'Create New Page' : `Editing: ${displayTitle}`}
+        </h1>
+        ${displayTitle === 'New Page' ? `
+          <label for="edit-title" class="block text-sm font-semibold" style="color: var(--text-secondary);">Page Title</label>
+          <input type="text" id="edit-title" placeholder="Enter a unique page title..." value="" />
+        ` : `<input type="hidden" id="edit-title" value="${title}" />`}
+
+        <label for="edit-content" class="block text-sm font-semibold" style="color: var(--text-secondary);">Markdown Content</label>
+        <textarea id="edit-content" placeholder="Start writing your Markdown content here...">${content}</textarea>
+        
+        <div class="flex justify-between space-x-4 mt-4">
+          <button id="save-button" class="flex-grow px-4 py-2 text-lg font-semibold rounded-lg text-white bg-green-500 hover:bg-green-600">
+            Save Page
+          </button>
+          <button id="cancel-button" class="flex-grow px-4 py-2 text-lg font-semibold rounded-lg bg-gray-100 hover:bg-gray-200" style="color: var(--text-primary);">
+            Cancel
+          </button>
+        </div>
+      </section>
+    `;
+  };
+  
+  const createPage = () => {
+    currentTitle = 'new-page';
+    location.hash = '#new-page';
+    const container = document.getElementById('page-container');
+    container.innerHTML = renderEditPage('new-page', '');
+    document.getElementById('edit-title').focus();
+    
+    // Attach listeners
+    document.getElementById('save-button').addEventListener('click', saveEdit);
+    document.getElementById('cancel-button').addEventListener('click', () => handleHashChange());
+    document.getElementById('sidebar').classList.remove('open');
+    
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+  };
+
+  const saveEdit = () => {
+    const titleEl = document.getElementById('edit-title');
+    const contentEl = document.getElementById('edit-content');
+    let title = titleEl.value.trim();
+    const content = contentEl.value;
+    
+    if (title === "") {
+        showStatus("Error: Page title cannot be empty.");
+        titleEl.focus();
+        return;
+    }
+    
+    // Check for unique title when creating a NEW page (currentTitle is 'new-page')
+    if (currentTitle === 'new-page' && pages.hasOwnProperty(title)) {
+        showStatus(`Error: A page titled "${title}" already exists. Please choose a different title.`);
+        titleEl.focus();
+        return;
+    }
+    
+    savePage(title, content);
+    showPage(title);
+  };
+  
+  const showRecent = () => {
+    currentTitle = 'Recent Changes';
+    location.hash = '#recent';
+    const container = document.getElementById('page-container');
+    const recentList = recent.map(title => `
+      <li class="mb-2">
+        <a href="#${encodeURIComponent(title)}" class="page-link text-lg">${title}</a>
+      </li>
+    `).join('');
+    
+    container.innerHTML = `
+      <section id="recent-view" class="p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+        <h1 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Recent Changes</h1>
+        <ul class="list-disc list-inside">
+          ${recent.length > 0 ? recentList : '<li style="color: var(--text-secondary);">No recent changes found. Start editing!</li>'}
+        </ul>
+      </section>
+    `;
+    document.getElementById('sidebar').classList.remove('open');
+    
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    document.getElementById('recent-changes-link')?.classList.add('active');
+  };
+  
+  const showSettings = () => {
+    currentTitle = 'Settings';
+    location.hash = '#settings';
+    
+    const container = document.getElementById('page-container');
+    const content = pages['Settings'] || DEFAULT_PAGES['Settings'];
+    
+    container.innerHTML = `
+        <section id="settings-view" class="p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="page-content">
+            ${convertMarkdown(content)}
+          </div>
+          <div class="mt-8 pt-4 border-t" style="border-top-color: var(--border-color);">
+            <button id="export-button" class="mt-4 px-4 py-2 text-sm font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600">
+                Export All Data
+            </button>
+            <button id="delete-all-button" class="mt-4 ml-4 px-4 py-2 text-sm font-semibold rounded-lg text-white bg-red-500 hover:bg-red-600">
+                Delete All Data
+            </button>
+          </div>
+        </section>
+    `;
+    
+    // Attach listeners for settings actions
+    document.getElementById('export-button').addEventListener('click', exportData);
+    document.getElementById('delete-all-button').addEventListener('click', deleteAllData);
+    
+    document.getElementById('sidebar').classList.remove('open');
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    document.getElementById('settings-link')?.classList.add('active');
+  };
+  
+  const showSearch = () => {
+    currentTitle = 'Search';
+    location.hash = '#search';
+    
+    const container = document.getElementById('page-container');
+    container.innerHTML = `
+      <section id="search-view" class="p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+        <h1 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Search Wiki</h1>
+        <input type="search" id="search-input" placeholder="Enter search term..." />
+        <div id="search-results" class="mt-4 space-y-2">
+          <p style="color: var(--text-secondary);">Start typing to see results...</p>
+        </div>
+      </section>
+    `;
+    
+    const searchInput = document.getElementById('search-input');
+    const resultsDiv = document.getElementById('search-results');
+    
+    const performSearch = () => {
+      const term = searchInput.value.toLowerCase().trim();
+      resultsDiv.innerHTML = '';
+      if (term.length < 2) {
+        resultsDiv.innerHTML = '<p style="color: var(--text-secondary);">Start typing to see results...</p>';
+        return;
+      }
+      
+      const foundTitles = Object.keys(pages)
+        .filter(title => title.toLowerCase().includes(term));
+        
+      const foundContent = Object.keys(pages)
+        .filter(title => pages[title].toLowerCase().includes(term) && !foundTitles.includes(title));
+        
+      const allResults = [...foundTitles, ...foundContent];
+      
+      if (allResults.length === 0) {
+        resultsDiv.innerHTML = `<p style="color: var(--text-secondary);">No pages found containing "${term}".</p>`;
+        return;
+      }
+      
+      const resultsHTML = allResults.map(title => `
+        <a href="#${encodeURIComponent(title)}" class="block p-3 rounded-lg hover:bg-gray-100" style="background-color: var(--bg-page); border: 1px solid var(--border-color);">
+          <h3 class="font-semibold" style="color: var(--text-primary);">${title}</h3>
+        </a>
+      `).join('');
+      
+      resultsDiv.innerHTML = resultsHTML;
+    };
+    
+    searchInput.addEventListener('input', performSearch);
+    searchInput.focus();
+    
+    document.getElementById('sidebar').classList.remove('open');
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    document.getElementById('search-link')?.classList.add('active');
+  };
+
+  const handleHashChange = () => {
+    const hash = location.hash.slice(1);
+    const pageTitle = decodeURIComponent(hash);
+
+    // Handle special actions/views
+    if (pageTitle === "search") {
+      showSearch();
+    } else if (pageTitle === "recent") {
+      showRecent();
+    } else if (pageTitle === "settings") {
+      showSettings();
+    } else if (pageTitle.startsWith("edit-new-page") || pageTitle === "new-page") {
+      createPage();
+    } else if (pageTitle === "") {
+        showPage("Main Page");
+    } else if (pageTitle.startsWith("theme-")) {
+        // Handle theme change action
+        if (pageTitle === "theme-dark-set") setDarkMode(true);
+        else if (pageTitle === "theme-light-set") setDarkMode(false);
+        // Navigate back to the page the user was on
+        history.replaceState(null, null, `#${encodeURIComponent(currentTitle || 'Main Page')}`);
+        // Re-render the page to reflect theme
+        if (currentTitle) showPage(currentTitle, currentTitle.startsWith('Editing:')); 
+    } else if (pageTitle === "delete-all-data") {
+        deleteAllData();
+    } else if (pageTitle === "export-data") {
+        exportData();
+    } else {
+      // Treat as a page title
+      showPage(pageTitle);
+    }
+  };
+
+
+  // --- Initialization ---
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Load Data
+    loadPages();
+    loadRecent();
+    
+    // 2. Apply Theme
+    setDarkMode(getDarkMode());
+
+    // 3. Render initial Sidebar (must happen before hash change for link logic)
+    document.getElementById('sidebar').innerHTML = renderSidebar();
+
+    // 4. Attach global listeners
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Theme buttons
+    document.getElementById('theme-light')?.addEventListener('click', () => setDarkMode(false));
+    document.getElementById('theme-dark')?.addEventListener('click', () => setDarkMode(true));
+    
+    // Create Page link
+    document.getElementById('create-link')?.addEventListener('click', e => {
+      e.preventDefault();
+      createPage();
+    });
+
+    // Mobile Menu Toggle
+    const sidebar = document.getElementById('sidebar');
+    const menuButton = document.getElementById('menu-button');
+
+    menuButton.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        // Simple class-based visibility toggle for mobile
+        if (sidebar.classList.contains('open')) {
+             sidebar.style.transform = 'translateX(0)';
+        } else {
+             sidebar.style.transform = 'translateX(-100%)';
+        }
+    });
+
+    // Initial routing
+    handleHashChange();
+
+    // 5. Service Worker Registration (for PWA / Offline support)
+    // NOTE: This assumes a valid sw.js is available at the root (see file 2).
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('✅ Service Worker registered'))
+        .catch(err => console.error('❌ SW registration failed:', err));
+    }
+  });
+
+</script>
+</body>
+</html>
+

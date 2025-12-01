@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEV Wiki (CSS Anchor Only)</title>
+      <script src="https://cdn.tailwindcss.com"></script> 
+    <style>
+        /* * 1. THEME VARIABLES (Default: Light Mode) */
+        :root {
+            --bg-page: #f9fafb;
+            --bg-card: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --color-link: #3b82f6;
+            --color-accent: #10b981;
+            --border-color: #e5e7eb;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --menu-icon-color: #1f2937;
+        }
+
+        /* Dark Mode */
+        #theme-dark-set:target ~ #app-wrapper,
+        #app-wrapper.dark-mode {
+            --bg-page: #111827;
+            --bg-card: #1f2937;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --color-link: #60a5fa;
+            --color-accent: #34d399;
+            --border-color: #374151;
+            --shadow-color: rgba(255, 255, 255, 0.05);
+            --menu-icon-color: #f3f4f6;
+        }
+        
+        .sidebar-link {
+            color: var(--text-primary);
+            background-color: var(--bg-card);
+            transition: background-color 0.2s;
+        }
+        .sidebar-link:hover {
+            background-color: var(--bg-page);
+        }
+
+        /* * 2. LAYOUT & ANIMATION */
+        html, body {
+            margin: 0; padding: 0; height: 100%;
+            overflow: hidden; scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #app-wrapper {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Sidebar positioning */
+        #sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 50; /* Topmost layer */
+            width: 80%; max-width: 300px;
+            height: 100%;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 2px 0 10px var(--shadow-color);
+            overflow-y: auto;
+        }
+
+        #main-content {
+            padding-top: 56px; 
+            flex-grow: 1;
+            padding: 2rem 1rem;
+            max-width: 800px; width: 100%;
+            margin: 0 auto;
+        }
+
+        /* * 3. CHECKBOX HACK CONTROLS */
+        
+        /* Slide Sidebar In */
+        #menu-toggle:checked ~ #app-wrapper #sidebar {
+            transform: translateX(0);
+        }
+
+        /* Overlay Visibility */
+        #overlay-label {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40; /* Between Header and Sidebar */
+            transition: opacity 0.3s;
+        }
+        #menu-toggle:checked ~ #app-wrapper #overlay-label {
+            display: block;
+        }
+        
+        /* Header Icon Swapping */
+        #menu-toggle:checked ~ #app-wrapper #hamburger-icon { display: none; }
+        #menu-toggle:not(:checked) ~ #app-wrapper #close-icon { display: none; }
+        #menu-toggle:checked ~ #app-wrapper #close-icon { display: block; }
+        
+        /* * 4. ANCHOR NAVIGATION */
+        #main-content > section {
+            display: none;
+            padding: 1rem 0;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Logic to show active section */
+        #main-content > section:target { display: block; }
+        #main-content > section#main { display: block; } /* Default fallback */
+        #main-content > section:target ~ section#main { display: none; } /* Hide default if target exists */
+        #main-content > section#main:target { display: block; } /* Force show if targeted explicitly */
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<!-- 
+        MANDATORY REQUIREMENT: 
+        If JavaScript is enabled, redirect to the full index.html.
+        This script will run only if JS is on.
+    -->
+   <script>
+   window.location.replace("index.html#main" + window.location.hash);
+  </script> 
+    
+
+    <script>
+        if(window.location.hash === "") { window.location.replace("css.html#main"); }
+    </script>
+</head>
+
+<body>
+    <input type="checkbox" id="menu-toggle" class="hidden" aria-controls="sidebar">
+    
+    <a id="logged-in" href="#" hidden></a>
+    <a id="logged-out" href="#" hidden></a>
+    <a id="theme-dark-set" href="#" hidden></a>
+    <a id="theme-light-set" href="#" hidden></a>
+
+    <div id="app-wrapper">
+        
+        <label for="menu-toggle" id="overlay-label"></label>
+
+        <header class="fixed top-0 left-0 w-full backdrop-blur-sm shadow-md z-30 flex items-center justify-between p-3 border-b"
+                style="background-color: var(--bg-card); border-color: var(--border-color);">
+            
+            <label for="menu-toggle" class="cursor-pointer text-xl p-1 rounded-md hover:bg-gray-100"
+                   style="color: var(--menu-icon-color);">
+                <span id="hamburger-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </span>
+                <span id="close-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </span>
+            </label>
+
+            <h1 class="text-lg font-semibold" style="color: var(--text-primary);">MEV Wiki</h1>
+            
+            <a href="#search" class="text-xl p-1 rounded-md" style="color: var(--menu-icon-color);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </a>
+        </header>
+
+        <aside id="sidebar" class="text-sm flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center" style="border-color: var(--border-color);">
+                <h2 class="text-lg font-bold" style="color: var(--color-accent);">Wiki Menu</h2>
+                
+                <label for="menu-toggle" class="cursor-pointer p-1 rounded hover:bg-gray-200" style="color: var(--text-secondary);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </label>
+            </div>
+            
+            <nav class="flex flex-col p-4 space-y-2 flex-grow">
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#main" class="sidebar-link block p-2 rounded-lg font-medium hover:bg-gray-100">🏠 Main Page</a>
+                </label>
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#recent" class="sidebar-link block p-2 rounded-lg font-medium hover:bg-gray-100">🕒 Recent Changes</a>
+                </label>
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#settings" class="sidebar-link block p-2 rounded-lg font-medium hover:bg-gray-100">⚙️ Settings</a>
+                </label>
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#about" class="sidebar-link block p-2 rounded-lg font-medium hover:bg-gray-100">ℹ️ About This Site</a>
+                </label>
+                
+                <hr class="my-2 border-gray-200" style="border-color: var(--border-color);">
+
+                <p class="text-xs uppercase mt-4 mb-1 font-semibold" style="color: var(--text-secondary);">Content</p>
+                
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#create-page" class="sidebar-link block p-2 rounded-lg font-medium bg-green-100 hover:bg-green-200" style="color: var(--text-primary); background-color: var(--color-accent); opacity: 0.9;">➕ Create New Page</a>
+                </label>
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#edit-page" class="sidebar-link block p-2 rounded-lg font-medium hover:bg-gray-100">✏️ Edit Current Page</a>
+                </label>
+                <label for="menu-toggle" class="cursor-pointer">
+                    <a href="#new-page-found" class="sidebar-link block p-2 rounded-lg font-medium hover:bg-gray-100">✨ New Page</a>
+                </label>
+                
+                <hr class="my-2 border-gray-200" style="border-color: var(--border-color);">
+
+                <p class="text-xs uppercase mt-4 mb-1 font-semibold" style="color: var(--text-secondary);">Account</p>
+                
+                <div id="account-actions-logged-out" class="space-y-2">
+                    <style>
+                        #logged-in:target ~ #app-wrapper #account-actions-logged-out { display: none; }
+                        #logged-out:target ~ #app-wrapper #account-actions-logged-in { display: none !important; }
+                        #logged-in:target ~ #app-wrapper #account-actions-logged-in { display: flex !important; }
+                    </style>
+                    <label for="menu-toggle" class="cursor-pointer">
+                        <a href="#login" class="sidebar-link block p-2 rounded-lg font-medium text-blue-500 hover:bg-blue-50" style="color: var(--color-link);">🔑 Login</a>
+                    </label>
+                    <label for="menu-toggle" class="cursor-pointer">
+                        <a href="#create-account" class="sidebar-link block p-2 rounded-lg font-medium text-blue-500 hover:bg-blue-50" style="color: var(--color-link);">📝 Create Account</a>
+                    </label>
+                </div>
+
+                <div id="account-actions-logged-in" class="space-y-2 hidden"> 
+                    <label for="menu-toggle" class="cursor-pointer">
+                        <a href="#profile" class="sidebar-link block p-2 rounded-lg font-medium text-blue-500 hover:bg-blue-50" style="color: var(--color-link);">👤 My Profile</a>
+                    </label>
+                    <label for="menu-toggle" class="cursor-pointer">
+                        <a href="#logged-out" class="sidebar-link block p-2 rounded-lg font-medium text-red-500 hover:bg-red-50" style="color: var(--text-primary);">➡️ Logout</a>
+                    </label>
+                </div>
+            </nav>
+        </aside>
+
+        <div id="main-content">
+            
+            <a id="login-success" href="#profile" hidden></a>
+            <a id="account-create-success" href="#profile" hidden></a>
+
+            <section id="main" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Welcome to the MEV Wiki!</h2>
+                <p class="text-lg mb-4" style="color: var(--text-secondary);">
+                    This is the Main Page. Navigation is CSS-only. Click the menu icon to open/close sidebar.
+                </p>
+                <div class="space-y-3 text-sm" style="color: var(--text-secondary);">
+                    <h3 class="font-semibold text-base" style="color: var(--text-primary);">Key Concepts</h3>
+                    <p><a href="#ProofOfStake" class="font-medium" style="color: var(--color-link);">[[Proof of Stake]]</a></p>
+					<a href="index.zip">Download Source Version: 1.2.0-standalone</a>
+
+                </div>
+            </section>
+
+            <section id="recent" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Recent Changes</h2>
+                <ul class="mt-4 space-y-2 text-sm">
+                    <li class="p-2 border-b" style="border-color: var(--border-color);">
+                        <span class="font-medium" style="color: var(--color-accent);">12:34 UTC</span> - Edited <a href="#Consensus" class="font-medium" style="color: var(--color-link);">[[Consensus Mechanism]]</a>
+                    </li>
+                </ul>
+            </section>
+            
+            <section id="settings" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">User Settings</h2>
+                <div class="flex space-x-4">
+                    <a href="#theme-light-set" class="px-4 py-2 rounded-lg border hover:bg-gray-50" style="color: var(--text-primary); border-color: var(--border-color);">☀️ Light</a>
+                    <a href="#theme-dark-set" class="px-4 py-2 rounded-lg border bg-gray-800 text-white hover:bg-gray-700">🌙 Dark</a>
+                </div>
+            </section>
+            
+            <section id="about" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">About MEV Wiki</h2>
+                <p style="color: var(--text-secondary);">A demonstration of a CSS-only multi-page application.</p>
+            </section>
+
+            <section id="profile" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">User Profile</h2>
+                
+                <div id="profile-content-logged-in">
+                    <style>
+                        #logged-in:target ~ #app-wrapper #profile-content-logged-out, 
+                        #login-success:target ~ #app-wrapper #profile-content-logged-out,
+                        #account-create-success:target ~ #app-wrapper #profile-content-logged-out { display: none; }
+                    </style>
+                    <p class="text-lg mb-4 font-semibold" style="color: var(--color-accent);">🎉 Welcome back!</p>
+                    <a href="#logged-out" class="mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-lg bg-red-500 text-white hover:bg-red-600">Logout</a>
+                </div>
+
+                <div id="profile-content-logged-out">
+                    <style>
+                        #logged-in:target ~ #app-wrapper #profile-content-logged-out, 
+                        #login-success:target ~ #app-wrapper #profile-content-logged-out,
+                        #account-create-success:target ~ #app-wrapper #profile-content-logged-out { display: none; }
+                        #logged-in:target ~ #app-wrapper #profile-content-logged-in,
+                        #login-success:target ~ #app-wrapper #profile-content-logged-in,
+                        #account-create-success:target ~ #app-wrapper #profile-content-logged-in { display: block !important; }
+                    </style>
+                    <p class="mb-4" style="color: var(--text-secondary);">You are logged out.</p>
+                    <a href="#login" class="px-4 py-2 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-600">Login</a>
+                </div>
+            </section>
+            
+            <section id="login" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Login</h2>
+                <a href="#login-success" class="block w-full text-center px-4 py-2 text-lg font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600">Login</a>
+            </section>
+            
+            <section id="create-account" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Create Account</h2>
+                <a href="#account-create-success" class="block w-full text-center px-4 py-2 text-lg font-semibold rounded-lg text-white bg-green-500 hover:bg-green-600">Create</a>
+            </section>
+
+            <section id="create-page" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Create Page</h2>
+                <a href="#main" class="block w-full text-center px-4 py-2 text-lg font-semibold rounded-lg text-white bg-green-500 hover:bg-green-600">Publish</a>
+            </section>
+            
+            <section id="edit-page" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Edit Page</h2>
+                <a href="#main" class="block w-full text-center px-4 py-2 text-lg font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600">Save</a>
+            </section>
+            
+            <section id="new-page-found" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">New Page Found</h2>
+                <a href="#edit-page" class="mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 hover:bg-gray-200" style="background-color: var(--bg-page); color: var(--text-primary);">Edit this Page</a>
+            </section>
+            
+            <section id="search" class="bg-white p-6 rounded-xl shadow-lg" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <h2 class="text-3xl font-extrabold mb-4" style="color: var(--text-primary);">Search</h2>
+                <input type="search" placeholder="Enter search..." class="w-full p-2 rounded border border-gray-300 mt-4" style="background-color: var(--bg-page); border-color: var(--border-color); color: var(--text-primary);">
+            </section>
+        </div>
+    </div>
+
+	
+</body>
+</html>

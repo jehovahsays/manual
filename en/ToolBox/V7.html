@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="MEV Wiki – Offline Encyclopedia">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<title>MEV Wiki - Main Page</title>
+
+<script type="text/javascript" src="TagCloud.js"></script>
+
+<style>
+    /* =========================================
+       GLOBAL RESET & SHARED STYLES
+       ========================================= */
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Inter', monospace, sans-serif; overflow: hidden; }
+    
+    /* Default Body (Landing Mode) */
+    body { background-color: black; color: white; transition: background 0.3s ease; }
+
+    /* App Mode Body (When Wiki is active) */
+    body.app-active { background-color: #fff; color: #000; font-family: system-ui, sans-serif; }
+    body.app-active.dark { background-color: #121212; color: #e0e0e0; }
+
+    /* Helper Classes */
+    .hidden { display: none !important; }
+    .js-only { display: none; }
+    html.js .js-only { display: block; }
+
+    /* =========================================
+       VIEW 1: LANDING PAGE (The Main Page)
+       ========================================= */
+    #landing-view {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 100;
+        background: black;
+        display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        padding-top: 50px;
+        overflow-y: auto;
+    }
+
+    .landing-fieldset {
+        border: 1px solid peru; width: 90%; max-width: 600px; 
+        padding: 20px; position: relative;
+        display: flex; flex-direction: column; align-items: center;
+        background: rgba(20, 20, 20, 0.9);
+        box-shadow: 0 0 20px rgba(205, 133, 63, 0.2);
+    }
+
+    .landing-input-wrapper input {
+        font-family: monospace; font-size: 16px; color: peru; background: #111;
+        border: 1px solid peru; padding: 10px; width: 250px; text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* THE WIKI CONTENT ON LANDING PAGE */
+    #landing-main-content {
+        color: white;
+        font-family: monospace;
+        text-align: center;
+        margin-top: 20px;
+        line-height: 1.6;
+        width: 100%;
+    }
+    #landing-main-content h3 { color: peru; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    #landing-main-content ul { list-style: none; padding: 0; }
+    #landing-main-content li { margin: 5px 0; color: #ccc; }
+    #landing-main-content a { color: peru; text-decoration: none; }
+
+    .landing-nav {
+        list-style: none; padding: 0; margin-top: 30px; text-align: center; width: 100%; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    }
+    
+    .landing-btn {
+        background: #222; color: peru; border: 1px solid peru; padding: 5px 15px;
+        cursor: pointer; font-family: monospace; transition: 0.2s;
+    }
+    .landing-btn:hover { background: peru; color: black; }
+
+    /* =========================================
+       VIEW 2: WIKI APP (The Application)
+       ========================================= */
+    #app-view {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        z-index: 50;
+    }
+
+    /* Header */
+    header {
+        background: #3366cc; color: white; padding: 10px 15px;
+        display: flex; align-items: center; justify-content: space-between; height: 60px;
+        flex-shrink: 0;
+    }
+    body.app-active.dark header { background: #1f1f1f; }
+
+    #app-search-bar { flex-grow: 1; margin: 0 15px; display: flex; max-width: 600px; }
+    #app-input { flex: 1; padding: 8px; border: none; border-radius: 4px 0 0 4px; }
+    #app-search-btn { padding: 8px 15px; background: #ffcc00; border: none; border-radius: 0 4px 4px 0; cursor: pointer; color: black; font-weight: bold; }
+
+    /* Layout */
+    #app-container { display: flex; flex: 1; overflow: hidden; position: relative; }
+    
+    /* Sidebar */
+    #sidebar {
+        width: 250px; background: #f8f9fa; border-right: 1px solid #ccc;
+        padding: 10px; overflow-y: auto; display: none; flex-shrink: 0;
+    }
+    body.app-active.dark #sidebar { background: #1c1c1c; border-right: 1px solid #444; }
+    #sidebar a { display: block; padding: 5px; color: #3366cc; text-decoration: none; }
+    body.app-active.dark #sidebar a { color: #80bfff; }
+
+    /* Main Content */
+    #main-content { flex: 1; padding: 20px; overflow-y: auto; background-color: inherit; }
+    
+    /* Content Styling */
+    .page h2 { border-bottom: 2px solid #ccc; padding-bottom: 5px; }
+    .edit-btn, .delete-btn { padding: 8px 12px; border: none; border-radius: 4px; color: white; cursor: pointer; margin-top: 10px; margin-right: 5px; }
+    .edit-btn { background: #3366cc; }
+    .delete-btn { background: #cc3333; }
+    
+    textarea.editor { width: 100%; height: 300px; padding: 10px; font-family: monospace; border: 1px solid #ccc; background: inherit; color: inherit; }
+
+    /* Footer */
+    footer { background: #f1f1f1; padding: 5px 10px; font-size: 12px; display: flex; justify-content: space-between; border-top: 1px solid #ccc; }
+    body.app-active.dark footer { background: #1f1f1f; border-top: 1px solid #444; }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+        #sidebar { position: absolute; top: 0; left: 0; height: 100%; z-index: 200; box-shadow: 2px 0 5px rgba(0,0,0,0.5); }
+    }
+</style>
+
+<script>
+    // JS Detection immediately
+    document.documentElement.className = document.documentElement.className.replace("no-js", "js");
+</script>
+</head>
+
+<body>
+
+    <div id="landing-view">
+        <fieldset class="landing-fieldset">
+            <legend style="color: peru;">Wiki Search</legend>
+            
+            <div class="landing-input-wrapper">
+                <form id="landing-form" onsubmit="handleLandingSubmit(event)">
+                    <input 
+                        id="landing-input"
+                        type="text" 
+                        autocomplete="off"
+                        placeholder="Search or Create..." 
+                        x-webkit-speech
+                        autofocus
+                    >
+                </form>
+            </div>
+
+            <div id="landing-main-content">
+                </div>
+
+            <ul class="landing-nav js-only">
+                <li><button class="landing-btn" onclick="openApp('#Main Page')">Edit Page</button></li>
+                <li><button class="landing-btn" onclick="openApp('#recent')">Recent</button></li>
+                <li><button class="landing-btn" onclick="openApp('#settings')">Settings</button></li>
+                <li><button class="landing-btn" onclick="openApp('#about')">About</button></li>
+            </ul>
+
+            <div id="tagcloud-container" style="color:peru; font-size:10px; margin-top:20px; opacity:0.6;"></div>
+
+            <noscript>
+                <div style="text-align:center; margin-top:20px; color:red;">
+                    JavaScript is required for the full experience.
+                </div>
+            </noscript>
+        </fieldset>
+    </div>
+
+    <div id="app-view">
+        <header>
+            <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">☰</button>
+            <div id="app-search-bar">
+                <input id="app-input" type="text" placeholder="Search Wiki..." x-webkit-speech onkeyup="if(event.key==='Enter') performSearch()">
+                <button id="app-search-btn" onclick="performSearch()">Go</button>
+            </div>
+        </header>
+
+        <div id="app-container">
+            <nav id="sidebar">
+                <div style="margin-bottom:15px; font-weight:bold; color:#3366cc;">MEV Wiki Nav</div>
+                <a href="#main" onclick="showLanding()">🏠 Home / Landing</a>
+                <a href="#recent" onclick="openApp('#recent')">🕒 Recent Changes</a>
+                <a href="#settings" onclick="openApp('#settings')">⚙️ Settings</a>
+                <a href="#about" onclick="openApp('#about')">ℹ️ About</a>
+                <hr>
+                <div id="sidebar-page-list"></div>
+                <button class="edit-btn" style="width:100%; margin-top:10px;" onclick="createPage()">+ New Page</button>
+            </nav>
+
+            <main id="main-content">
+                </main>
+        </div>
+
+        <footer>
+            <span id="status-indicator">🟢 Online</span>
+            <span>MEV Wiki v2.1</span>
+        </footer>
+    </div>
+
+    <script>
+        const DB_KEY = "mev_wiki_pages";
+        const HIST_KEY = "mev_wiki_history";
+        
+        // --- INITIALIZATION ---
+        function init() {
+            ensureMainPage(); // Make sure data exists
+            
+            const hash = window.location.hash;
+            
+            // If Hash is empty or #main, show the Landing View (which now has content)
+            if (!hash || hash === "#main" || hash === "") {
+                showLanding();
+            } else {
+                // Otherwise go to App View
+                openApp(hash);
+            }
+
+            try {
+                if(typeof TagCloud !== 'undefined') {
+                    TagCloud('#tagcloud-container', ['MEV', 'Wiki', 'Local', 'Secure', 'Private', 'Offline'], { radius: 60 });
+                }
+            } catch(e) {}
+
+            loadTheme();
+            updateSidebarList();
+        }
+
+        // --- VIEW CONTROLLER ---
+        function switchView(viewName) {
+            const landing = document.getElementById('landing-view');
+            const app = document.getElementById('app-view');
+            
+            if (viewName === 'app') {
+                landing.style.display = 'none';
+                app.style.display = 'flex';
+                document.body.classList.add('app-active');
+            } else {
+                landing.style.display = 'flex';
+                app.style.display = 'none';
+                document.body.classList.remove('app-active');
+                window.location.hash = "#main";
+                // Render the content onto the landing page
+                renderLandingContent();
+                document.getElementById('landing-input').value = "";
+                document.getElementById('landing-input').focus();
+            }
+        }
+
+        function showLanding() {
+            switchView('landing');
+        }
+
+        function openApp(hashDestination) {
+            // Check if user clicked "Main Page" from within App -> Go to Landing instead
+            if(hashDestination === "#Main Page" || hashDestination === "#main") {
+                // However, if they want to EDIT "Main Page", we usually need App View.
+                // But for navigation flow, Home = Landing. 
+                // We will handle editing "Main Page" specifically via the button.
+            }
+            
+            window.location.hash = hashDestination;
+            switchView('app');
+            handleRouting(hashDestination);
+        }
+
+        function handleLandingSubmit(e) {
+            e.preventDefault();
+            const query = document.getElementById('landing-input').value.trim();
+            if (query) {
+                switchView('app'); 
+                document.getElementById('app-input').value = query;
+                answerAI(query);
+            }
+        }
+
+        // --- CORE DATA LOGIC ---
+        function loadDB() {
+            return JSON.parse(localStorage.getItem(DB_KEY)) || {};
+        }
+
+        function saveDB(db) {
+            localStorage.setItem(DB_KEY, JSON.stringify(db));
+            updateSidebarList();
+        }
+
+        // SET DEFAULT CONTENT AS REQUESTED
+        function ensureMainPage() {
+            const db = loadDB();
+            if (!db["Main Page"]) {
+                db["Main Page"] = {
+                    title: "Main Page",
+                    content: "== Welcome to MEV Wiki ==\n\nThis is your private, offline encyclopedia.\n\n* Uses Local Storage\n* No Server Needed\n* Type in the search bar to create new pages!",
+                    lastMod: new Date().toLocaleString()
+                };
+                saveDB(db);
+            }
+        }
+
+        // Renders the "Main Page" content onto the Landing View
+        function renderLandingContent() {
+            const db = loadDB();
+            const page = db["Main Page"];
+            const container = document.getElementById('landing-main-content');
+            if (page) {
+                container.innerHTML = parseWiki(page.content) + 
+                `<br><br><small style='color:grey'>Last edited: ${page.lastMod}</small>`;
+            }
+        }
+
+        // --- APP LOGIC ---
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash;
+            if(hash === "#main" || hash === "") showLanding();
+            else if(document.body.classList.contains('app-active')) handleRouting(hash);
+        });
+
+        function handleRouting(hash) {
+            const cleanHash = decodeURIComponent(hash.substring(1));
+            if(cleanHash === 'recent') showRecent();
+            else if(cleanHash === 'settings') showSettings();
+            else if(cleanHash === 'about') showAbout();
+            else showPage(cleanHash);
+            
+            if(window.innerWidth < 700) document.getElementById('sidebar').style.display = 'none';
+        }
+
+        function performSearch() {
+            const query = document.getElementById('app-input').value.trim();
+            if(query) answerAI(query);
+        }
+
+        function showPage(title) {
+            const db = loadDB();
+            const container = document.getElementById('main-content');
+            
+            if (db[title]) {
+                container.innerHTML = `
+                    <article class="page">
+                        <h2>${title}</h2>
+                        <div class="content">${parseWiki(db[title].content)}</div>
+                        <br><hr>
+                        <small>Last edited: ${db[title].lastMod}</small><br>
+                        <button class="edit-btn" onclick="editPage('${title}')">Edit</button>
+                        <button class="delete-btn" onclick="deletePage('${title}')">Delete</button>
+                    </article>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="page">
+                        <h2>Page Not Found: "${title}"</h2>
+                        <button class="edit-btn" onclick="createPage('${title}')">Create Page "${title}"</button>
+                    </div>
+                `;
+            }
+        }
+
+        function answerAI(query) {
+            const db = loadDB();
+            const lowerQ = query.toLowerCase();
+            const exact = Object.keys(db).find(k => k.toLowerCase() === lowerQ);
+            
+            if(exact) {
+                openApp('#' + exact);
+            } else {
+                const results = Object.keys(db).filter(k => k.toLowerCase().includes(lowerQ));
+                if(results.length > 0) {
+                    let html = `<h2>Results for "${query}"</h2><ul>`;
+                    results.forEach(r => html += `<li><a href="#${r}" onclick="openApp('#${r}')">${r}</a></li>`);
+                    html += `</ul><button class="edit-btn" onclick="createPage('${query}')">Create "${query}"</button>`;
+                    document.getElementById('main-content').innerHTML = html;
+                } else {
+                    showPage(query);
+                }
+            }
+        }
+
+        function editPage(title) {
+            const db = loadDB();
+            const content = db[title] ? db[title].content : "";
+            document.getElementById('main-content').innerHTML = `
+                <h2>Editing: ${title}</h2>
+                <textarea id="editor" class="editor">${content}</textarea>
+                <button class="edit-btn" onclick="savePage('${title}')">Save Changes</button>
+                <button class="delete-btn" onclick="openApp('#${title}')">Cancel</button>
+            `;
+        }
+
+        function savePage(title) {
+            const content = document.getElementById('editor').value;
+            const db = loadDB();
+            db[title] = { title, content, lastMod: new Date().toLocaleString() };
+            saveDB(db);
+            
+            // If they edited "Main Page", it will update on the landing screen next time they go there.
+            openApp('#' + title);
+        }
+
+        function createPage(suggested) {
+            const title = suggested || prompt("Enter page title:");
+            if(title) editPage(title);
+        }
+
+        function deletePage(title) {
+            if(confirm("Delete " + title + "?")) {
+                const db = loadDB();
+                delete db[title];
+                saveDB(db);
+                showLanding();
+            }
+        }
+
+        function showRecent() {
+            // Simple mockup of recent changes based on existing pages
+            const db = loadDB();
+            let html = `<h2>All Pages (Recent)</h2><ul>`;
+            Object.keys(db).forEach(k => {
+                html += `<li><a href="#${k}" onclick="openApp('#${k}')">${k}</a> <small>${db[k].lastMod}</small></li>`;
+            });
+            html += `</ul>`;
+            document.getElementById('main-content').innerHTML = html;
+        }
+
+        function showSettings() {
+            document.getElementById('main-content').innerHTML = `
+                <h2>Settings</h2>
+<a href="../#about"><button class="edit-btn"> default design</button></a>
+<a href="V1.html#settings"><button class="edit-btn"> V1 design</button></a>
+<a href="V2.html#about"><button class="edit-btn"> V2 design</button></a>
+<a href="V3.html#settings"><button class="edit-btn"> V3 design</button></a>
+<a href="V4.html#settings"><button class="edit-btn"> V4 design</button></a>
+<a href="V5.html#settings"><button class="edit-btn"> V5 design</button></a>
+<a href="V6.html#settings"><button class="edit-btn"> V6 design</button></a>
+<a href="V7.html#settings" onclick="closeSidebar()"><button class="edit-btn"> V7 design</button></a>
+<a href="V8.html#settings" onclick="closeSidebar()"><button class="edit-btn"> V8 design</button></a>
+
+<a href="search.html#search" onclick="closeSidebar()"><button class="edit-btn"> #search design</button></a>
+<a href="index.htm#settings" onclick="closeSidebar()"><button class="edit-btn"> htm design</button></a>
+
+                <button class="edit-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+                <button class="delete-btn" onclick="if(confirm('Reset?')){localStorage.clear();location.reload();}">Factory Reset</button>
+            `;
+        }
+
+        function showAbout() {
+            document.getElementById('main-content').innerHTML = `<h2>About</h2><p>MEV Wiki v2.1</p>`;
+        }
+
+        // --- UTILS ---
+        function parseWiki(text) {
+            let safe = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            safe = safe.replace(/^== (.*?) ==$/gm, '<h3>$1</h3>');
+            safe = safe.replace(/^=== (.*?) ===$/gm, '<h4>$1</h4>');
+            safe = safe.replace(/'''(.*?)'''/g, '<b>$1</b>');
+            safe = safe.replace(/\* (.*?)$/gm, '<li>$1</li>'); // Lists
+            safe = safe.replace(/\n/g, '<br>');
+            return safe;
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            sb.style.display = (sb.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function updateSidebarList() {
+            const db = loadDB();
+            const list = document.getElementById('sidebar-page-list');
+            list.innerHTML = "";
+            Object.keys(db).sort().forEach(k => {
+                if(k !== "Main Page") list.innerHTML += `<a href="#${k}" onclick="openApp('#${k}')">${k}</a>`;
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+        function loadTheme() {
+            if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
