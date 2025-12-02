@@ -3,9 +3,8 @@
   "short_name": "MEV Wiki",
   "description": "An offline-first, privacy-focused personal wiki powered entirely by your browser.",
   "version": "1.2.0-standalone",
-  // 🌟 CORRECTION: Added 'id' field for reliable PWA installation tracking.
   "id": "/", 
-  "start_url": "/index.html",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",

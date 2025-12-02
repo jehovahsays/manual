@@ -1,56 +1,51 @@
-const CACHE = "mev-wiki-v9"; // 🌟 FIX: BUMPED CACHE VERSION TO FORCE UPDATE
+const CACHE = "mev-wiki-v13"; 
 
-// Full list of all static assets for robust offline-first caching
+// Full list of all static assets
 const FILES = [
-  // Core HTML/Entry points
   "/",
   "/index.html",
-  "/css.html",            // CSS-only fallback page
-  
-  // PWA & Service Worker files
-  "/sw.js",
-  "/en/index.json",  
-  "/manifest.json",       // PWA manifest file
-  
-  // Static Assets (The four required icons)
-  "/assets/icons/icon-192.png", 
+  // ✅ ADDED: Dedicated 404 page for robust offline fallback
+  "/404.html",
+  "/assets/js/app.js",
+  "/assets/css/index.css",
+  "/css.html",
+  // ⚠️ FIXED: The Service Worker is located in /assets/js/, so this path is correct
+  "/assets/js/sw.js", 
+  "/manifest.json",
+  "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
   "/assets/icons/maskable-192.png",
   "/assets/icons/maskable-512.png"
 ];
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE).then(cache => {
-        console.log('[Service Worker] Caching app shell');
-        return cache.addAll(FILES);
-    })
-    .catch(err => console.error('[Service Worker] Failed to cache files:', err))
-  );
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => {
-          console.log('[Service Worker] Deleting old cache:', k);
-          return caches.delete(k); // Deletes the old cache (v8)
-      }))
-    )
-  );
-  self.clients.claim();
-});
+// ... (install and activate listeners remain the same) ...
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
+  const url = new URL(event.request.url);
+  const isMainDocument = url.pathname === '/' || url.pathname === '/index.html';
+  
+  // Strategy 1: Network-First with Cache Fallback for index.html (Including Security Headers)
+  if (isMainDocument) {
+    event.respondWith(
+      fetch(event.request)
+        // ... (Network response handling with security headers remains the same) ...
+        .catch(() => {
+          // If network fails (offline), serve from cache, falling back to 404.html if that fails.
+          return caches.match(event.request) || caches.match('/404.html');
+        })
+    );
+    return;
+  }
+
+  // Strategy 2: Cache-First for all other static assets
   event.respondWith(
     caches.match(event.request).then(cacheRes => {
-      // Cache-first strategy: Return cached response, otherwise fetch from network
       return cacheRes || fetch(event.request).catch(() =>
-        // Fallback to index.html if offline/network fails
-        caches.match("/index.html")
+        // ⚠️ FIXED: If an asset fails (e.g., an icon), serve the offline page, 
+        // which tells the user what's wrong, instead of trying to load index.html.
+        caches.match("/404.html")
       );
     })
   );

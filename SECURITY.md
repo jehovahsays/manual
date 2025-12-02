@@ -1,35 +1,68 @@
-# Security Policy for MEV Offline Wiki AI
+# Security Policy — MEV Offline Wiki AI
 
-## 🔐 Project Philosophy
+## 🔐 Overview
 
-This is a 100% client-side project. It does not transmit, store, or process user data on a remote server. All data remains within the user's browser.
+MEV is a fully client‑side application designed with privacy, resilience, and offline usage as priorities. No data is transmitted to any external server, cloud service, or analytics provider.
 
-## 🧱 Security Measures Implemented
+All user‑generated content remains stored locally in the browser.
 
-- **Strict CSP via `meta` tag**
-- **No `eval`, no dynamic function constructors**
-- **No right-click, selection, or dragstart events (optional)**
-- **Referrer and permissions policies enforced**
-- **Offline-first: No external tracking or analytics**
-- **Local-only `connect-src 'self'` enforcement**
-- **Sanitized user input and linkified wiki content**
+---
 
-## 🧪 Trusted Use Cases
+## 🛡 Security Measures
 
-- Air-gapped networks
-- Sensitive research environments
-- Privacy-first education or training platforms
+MEV applies multiple layers of defense:
 
-## 🛠 Reporting Issues
+- **Content Security Policy (CSP)** restricting execution to local assets only
+- **No external scripts, styles, or remote calls**
+- **No `eval()` or dynamic JavaScript execution**
+- **Sanitized input using `escapeHTML()`**
+- **Local‑only access enforced via: `connect-src 'self'`**
+- **Progressive Web App sandboxing**
 
-Please open a GitHub Issue if you identify any vulnerabilities. This project encourages community-based review and contributions.
+---
 
-## ❌ Known Limitations
+## 🔑 Encryption
 
-- Storage is limited by the browser’s localStorage (~5MB quota).
-- This is not intended for multi-user network collaboration.
-- No encryption or password system (intentionally excluded).
+MEV includes **optional PIN‑based encryption** using:
 
-## ✅ Current Status: Hardened
+- **AES‑GCM**
+- **PBKDF2 key derivation**
+- **Client‑side Web Crypto API**
 
-All scripts, HTML, and CSS are unified and secured in a 3-file architecture optimized for GitHub Pages hosting.
+If encryption is enabled, stored content is encrypted before being saved in the browser.
+
+---
+
+## 📦 Storage Model & Limitations
+
+MEV stores all content in the browser’s `localStorage`.
+
+Limitations:
+
+- Storage capacity is browser‑dependent (~5MB typical).
+- Clearing browser cache or storage may delete wiki content.
+- MEV is **not** intended for multi-user shared editing or remote collaboration.
+
+To prevent data loss, exporting regular backups is recommended.
+
+---
+
+## ❗ Known Limitations
+
+- No server‑level protection — everything is local by design.
+- Offline‑only architecture may not suit collaborative workflows.
+- Data loss can occur if storage is cleared or the device is wiped.
+
+---
+
+## 🛠 Reporting Vulnerabilities
+
+If you discover a vulnerability or security issue, please open a GitHub Issue in the repository.
+
+Security‑related discussion is welcome and encouraged.
+
+---
+
+## Status
+
+**Security posture: Hardened (Local‑Only Model)**
