@@ -7,14 +7,17 @@
   <meta name="description" content="MEV Wiki – Offline Encyclopedia. Learn, edit, explore." />
   <meta name="theme-color" content="#3366cc" />
   <meta name="color-scheme" content="light dark" />
+  <!-- <meta http-equiv="refresh" content="0;url=/w/#main"> -->
+
+  <link rel="canonical" href="https://jehovahsays.github.io/mev/" />
+
   <link rel="apple-touch-icon" href="/assets/icons/icon-512.png" /> 
-  
   <link rel="manifest" href="/manifest.json">
-  
+  <meta http-equiv="Referrer-Policy" content="no-referrer">
+
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline';">
   
   <link rel="stylesheet" href="assets/css/index.css"> 
-  
 </head>
 
 <body>
@@ -37,8 +40,16 @@
       id="ai-input" 
       placeholder="search or speak your query…" 
       aria-label="Search or question input"
-      data-action="filter-sidebar" 
-    >
+      data-action="filter-sidebar"
+list="search-suggestions">
+	
+	      <datalist id="search-suggestions">
+        <option value="Main Page">
+        <option value="About">
+        <option value="Recent Changes">
+        <option value="Formatting Examples">
+      </datalist>
+
     <button id="ai-button">Search Wiki</button>
   </div>
 </header>
@@ -52,7 +63,7 @@
 
 <div id="find-view">
     <div id="search-container">
-	This landing page #search is not a broken design.
+	<p id="search-note" style="font-size: 0.9em; margin-bottom: 10px;">This landing page #search is not a broken design.</p>
         <input
             id="filterInput-find"
             data-action="filter-findview" 
@@ -63,14 +74,15 @@
             type="text" 
             placeholder="Search wiki pages..." 
             aria-label="Search wiki pages" 
+            aria-describedby="search-note"
             required>
         
-        <ul id="page-list-find">
-            </ul>
+        <ul id="page-list-find"></ul>
         
         <div id="status-message-find">Start typing to filter pages...</div>
     </div>
 </div>
+
 <div id="container">
   <nav id="sidebar">
     <div id="auth-links">
@@ -80,12 +92,10 @@
       <a href="#profile" id="profile-link">My Profile</a><br>
       <a href="#logout" id="logout-link" class="hidden">Log Out</a> 
     </div>
-
     <hr/>
-    
     <h3>Navigation Filters</h3>
     <ul id="quick-filters">
-        <li class="titleInput"><button data-page-target="Main Page">Main Page</button></li>
+        <li class="titleInput"><button data-page-target="Main-Page">Main-Page</button></li>
         <li class="titleInput"><button data-nav-target="recent">Recent Changes</button></li>
         <li class="titleInput"><button data-nav-target="settings">Settings</button></li>
         <li class="titleInput"><button data-nav-target="about">About</button></li>
@@ -93,7 +103,6 @@
     </ul>
 
     <hr />
-
     <h3>Wiki Pages</h3>
     <ul id="page-list"></ul>
     
@@ -104,7 +113,8 @@
     </div>
   </nav>
 
-  <main id="main-content-wrapper">
+  <main id="main-content-wrapper" itemscope itemtype="https://schema.org/WebPage">
+    <meta itemprop="url" content="https://jehovahsays.github.io/mev/">
     <div id="page-container"></div> 
   </main>
 </div>
@@ -112,7 +122,7 @@
 <footer>
   <div id="status-indicator">🔴 Offline</div>
   <div id="ticker"><span id="ticker-content"></span></div>
-  <div id="app-version"><a href="index.zip">Download Source Version: 1.2.1-CSP-Hardened</a> – <span id="last-updated"></span></div>
+  <div id="app-version"><a href="mev.zip">Download mev.zip Source Version: 1.2.1-CSP-Hardened</a> – <span id="last-updated"></span></div>
 </footer>
 
 <div id="auth-modal" class="modal-overlay">
@@ -121,9 +131,9 @@
     <label for="auth-username">Username:</label>
     <input id="auth-username" type="text" autocomplete="username" /><br><br>
     
-    <label for="auth-pin">PIN (4-6 digits recommended):</label>
-    <input id="auth-pin" type="password" maxlength="6" autocomplete="current-password" />
-    <p style="font-size: 0.8em; color: red; margin-top: 10px;">⚠️ If you set a PIN, **all your data will be encrypted**. If you forget the PIN, the data will be permanently inaccessible.</p>
+    <label for="auth-pin">PIN/Passphrase (4-12 characters recommended):</label>
+    <input id="auth-pin" type="password" maxlength="12" autocomplete="current-password" />
+    <p style="font-size: 0.8em; color: red; margin-top: 10px;">⚠️ If you set a PIN/Passphrase, **all your data will be encrypted**. If you forget the PIN, the data will be permanently inaccessible.</p>
     
     <div class="modal-actions">
       <button id="submit-auth">Submit</button>
@@ -132,7 +142,8 @@
   </div>
 </div>
 
-<script src="assets/js/app.js"></script>
+<script type="text/javascript" src="assets/js/app.js" defer></script>
+
 
 </body>
 </html>

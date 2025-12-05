@@ -136,7 +136,15 @@
 </head>
 
 <body>
-    <input type="checkbox" id="menu-toggle" class="hidden" aria-controls="sidebar">
+    <input type="checkbox" id="menu-toggle" class="hidden" aria-controls="sidebar"
+	list="search-suggestions">
+	
+	      <datalist id="search-suggestions">
+        <option value="Main Page">
+        <option value="About">
+        <option value="Recent Changes">
+        <option value="Formatting Examples">
+      </datalist>
     
     <a id="logged-in" href="#" hidden></a>
     <a id="logged-out" href="#" hidden></a>

@@ -1,16 +1,26 @@
-const CACHE = "mev-wiki-v13"; 
+/**
+ * sw.js - Service Worker for MEV Wiki PWA
+ *
+ * This Service Worker implements a Cache-First strategy for static assets
+ * and a Network-First strategy for the main index page.
+ */
 
-// Full list of all static assets
+// A unique name for your cache. Increment this version number every time
+// you make changes to the files listed in the 'FILES' array.
+const CACHE = "mev-wiki-v14"; 
+
+// Full list of all static assets to cache during installation.
+// All paths must be relative to the Service Worker's scope (which is the root '/').
 const FILES = [
   "/",
   "/index.html",
-  // ✅ ADDED: Dedicated 404 page for robust offline fallback
+  // Dedicated 404 page for robust offline fallback
   "/404.html",
   "/assets/js/app.js",
   "/assets/css/index.css",
-  "/css.html",
-  // ⚠️ FIXED: The Service Worker is located in /assets/js/, so this path is correct
-  "/assets/js/sw.js", 
+  "/css.html", // Assuming this is another critical HTML file
+  // Correct path for the Service Worker itself, assuming it is in the root directory
+  "/sw.js", 
   "/manifest.json",
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
@@ -18,35 +28,90 @@ const FILES = [
   "/assets/icons/maskable-512.png"
 ];
 
-// ... (install and activate listeners remain the same) ...
+// --- Install Listener ---
+self.addEventListener("install", event => {
+  console.log('[Service Worker] Install Event - Caching App Shell:', CACHE);
+  // waitUntil ensures the Service Worker won't install until the cache is fully populated.
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache => {
+        // cache.addAll performs multiple fetches and adds to the cache
+        return cache.addAll(FILES);
+      })
+      .catch(err => {
+        // If caching fails for any file (e.g., a 404), the Service Worker installation fails.
+        console.error('[Service Worker] Failed to cache critical assets:', err);
+      })
+  );
+  // Force the new Service Worker to activate immediately instead of waiting for existing ones to close.
+  self.skipWaiting(); 
+});
 
+// --- Activate Listener ---
+self.addEventListener("activate", event => {
+  console.log('[Service Worker] Activate Event - Cleaning old caches.');
+  // Delete outdated caches to free up space.
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          // If the current cache name is not in the whitelist (i.e., it's an old version), delete it.
+          if (cacheName !== CACHE) {
+            console.log('[Service Worker] Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  // Claim clients immediately to take control of all open pages within the scope.
+  return self.clients.claim();
+});
+
+// --- Fetch Listener ---
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
+  // Check if the request is for the main document (root or index.html)
   const isMainDocument = url.pathname === '/' || url.pathname === '/index.html';
   
-  // Strategy 1: Network-First with Cache Fallback for index.html (Including Security Headers)
+  // Strategy 1: Network-First with Cache Fallback for index.html (and other non-static, critical URLs)
   if (isMainDocument) {
     event.respondWith(
       fetch(event.request)
-        // ... (Network response handling with security headers remains the same) ...
+        .then(networkRes => {
+          // If the network response is good (200 OK), clone it, cache it (optional, for update freshness), 
+          // and return the original response.
+          if (networkRes.status === 200) {
+            const resToCache = networkRes.clone();
+            caches.open(CACHE).then(cache => cache.put(event.request, resToCache));
+          }
+          return networkRes;
+        })
         .catch(() => {
-          // If network fails (offline), serve from cache, falling back to 404.html if that fails.
+          // If network fails (offline or error), serve from cache.
+          // This will serve the cached index.html, which is generally what you want for a navigation failure.
           return caches.match(event.request) || caches.match('/404.html');
         })
     );
     return;
   }
 
-  // Strategy 2: Cache-First for all other static assets
+  // Strategy 2: Cache-First for all other static assets (CSS, JS, Icons)
+  // This is the fastest strategy for assets that rarely change.
   event.respondWith(
     caches.match(event.request).then(cacheRes => {
-      return cacheRes || fetch(event.request).catch(() =>
-        // ⚠️ FIXED: If an asset fails (e.g., an icon), serve the offline page, 
-        // which tells the user what's wrong, instead of trying to load index.html.
-        caches.match("/404.html")
-      );
+      // Return cached response if available
+      return cacheRes || fetch(event.request)
+        .catch(() => {
+          // If both cache and network fail (e.g., a dynamic request), return the offline 404 page.
+          if (event.request.mode === 'navigate') {
+              return caches.match('/404.html');
+          }
+          // For sub-resources (images, scripts), failing silently is often better than serving HTML.
+        });
     })
   );
 });
+

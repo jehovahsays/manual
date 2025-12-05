@@ -1,156 +1,117 @@
-# MEV Offline Wiki AI
+# MEV: Multi Edit Vandalism Wiki AI
 
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fjehovahsays.github.io%2Fmev%2F)
 ![Last Commit](https://img.shields.io/github/last-commit/jehovahsays/mev)
 ![Repo Size](https://img.shields.io/github/repo-size/jehovahsays/mev)
 ![License](https://img.shields.io/github/license/jehovahsays/mev)
+![Version](https://img.shields.io/badge/Version-1.2.1--CSP--Hardened-blue)
 
 ## 📘 What is MEV?
 
-**MEV** originally stood for *Multi Edit Vandalism* — a personal response to gatekeeping and content control in public knowledge platforms. It now also stands for **Minimal, Efficient, Verifiable** — principles that define this project's architecture.
+**MEV** (originally **Multi Edit Vandalism**) is a personal response to content control and gatekeeping. It now primarily stands for **Minimal, Efficient, Verifiable**—the core principles defining its design (`MOTIVATION.md`).
 
-**MEV** is a fully offline, self-contained personal wiki and knowledge management tool that runs entirely in your browser. It requires no server, no database, and no internet connection once loaded.
+**MEV** is a fully **offline, self-contained personal wiki and knowledge management tool** that runs entirely in your browser. It requires **no server, no database, and no internet connection** once the core files are loaded.
 
-> ✨ Create, store, and protect your knowledge — all locally.
+> ✨ Create, store, and protect your knowledge — all locally, all under your control.
 
 ---
 
 ## 🚀 Key Features
 
-- **Offline‑First & Portable** – Works fully offline via your browser.
-- **Local-Only Storage** – All content is saved in your browser's `localStorage`.
-- **Optional Encryption** – PIN-based AES-GCM encryption protects your data.
-- **PWA** – Install as a web app on desktop or mobile.
-- **Self-Contained** – No external scripts, CDNs, or analytics.
-- **Zero Setup** – No build steps, no install required — just open `index.html`.
+* **Offline‑First PWA** 💾: Works fully offline via the Service Worker (`sw.js`). Can be installed as a native-like app on desktop or mobile (`manifest.json`).
+* **Local-Only Storage** 🔒: All content is stored exclusively in your browser's `localStorage` (`app.js`). **No data is ever transmitted externally.**
+* **Optional Encryption** 🔑: Includes **PIN-based encryption** using **AES-GCM** and **PBKDF2** for key derivation, powered by the client-side Web Crypto API (`SECURITY.md`).
+* **CSP Hardened Security** 🛡️: Enforced by a strict **Content Security Policy** (`index.html`) that forbids all external scripts, CDNs, and dynamic code execution (`eval()`) for maximum client security.
+* **3D Data Visualization** 🏙️: Explore your wiki as an interactive **Three.js**-powered 3D map environment (`map.html`), where pages are rendered as navigable buildings.
+* **Zero Setup** ⚙️: No build steps, no install required — just open `index.html`.
 
 ---
 
 ## 🏗️ Architecture & Security Overview
 
-### Structure
+### MEV Core Principles (Minimal, Efficient, Verifiable)
 
-- `index.html` – Main UI and logic entry point
-- `css.html` – Alternate anchor page (non-JS fallback)
-- `manifest.json` – PWA metadata
-- `assets/` – Scripts, styles, icons
-- `bin/index.bat` – Windows launcher for CLI URL tweaks
-- `.nojekyll` – Prevents GitHub Pages interference
-- `404.html` – Offline fallback page
+| Principle | Meaning | Source |
+| :--- | :--- | :--- |
+| **Minimal** | Runs without servers, databases, or installations. | `MOTIVATION.md` |
+| **Efficient** | Lightweight, fast, durable, and functions reliably across devices. | `MOTIVATION.md` |
+| **Verifiable** | Transparent code, readable architecture, and user-controlled data storage. | `MOTIVATION.md` |
 
-### Security Posture
+### Security Posture (`SECURITY.md`, `app.js`)
 
-- **Strict CSP** – No external scripts/styles allowed
-- **No `eval` or dynamic JS**
-- **Local-only access enforced via CSP (`connect-src 'self'`)**
-- **Input sanitization (via `escapeHTML`)**
-- **No server calls or remote APIs**
+The core application logic (`app.js`) is wrapped in a security layer that, alongside the strict CSP, enforces a local-only model:
 
----
-
-## 🧪 Storage & Limitations
-
-- Content is stored in `localStorage`, which is:
-  - Persistent until browser cache/storage is cleared
-  - Limited (~5MB depending on browser)
-- Not designed for collaborative, network-based editing
-- Manual `.json` export/import supports backup and sync
-
-> ⚠️ Make regular backups using export features to avoid accidental loss.
+* **Content Security Policy (CSP):** Restricting execution to local assets only (`default-src 'self'`).
+* **No Remote Connections:** Enforced by CSP (`connect-src 'self'`) and code review (`CONTRIBUTING.md`).
+* **Defense-in-Depth:** Includes client-side overrides to warn about dynamic code execution attempts (`eval` blocked in `app.js`).
+* **User Authentication:** Simple PIN/Passphrase support for encrypting data before it is written to local storage.
 
 ---
 
-## 📁 Exporting & Importing Your Data
+## 📂 Project File Index: Codebase Structure
 
-MEV stores all content locally in your browser. To prevent accidental data loss or to move your wiki to another device, you can export or import your data as a `.json` file.
+This table indexes the purpose of all root-level files, organized by function.
 
----
+### Core Application & PWA Files
 
-### 🔽 Export Your Data
+| File Name | Purpose and Key Functionality |
+| :--- | :--- |
+| `index.html` | The **main entry point**. Contains the UI structure, authentication modal, and the strict **CSP** meta tag. |
+| `app.js` | The **primary application logic**. Manages client-side security, internal routing, data encryption/decryption, and `localStorage` interactions. |
+| `index.css` | The **core CSS styling** for the main wiki UI, including light/dark mode variables and responsive design elements. |
+| `sw.js` | The **Service Worker** implementing a **Cache-First** strategy for all static assets and offline availability. |
+| `manifest.json` | The **PWA manifest** defining the app's metadata, icons, theme color, and `standalone` display mode. |
+| `css.html` | A **CSS Anchor Only** file used as a fallback for the UI or for setting theme variables via CSS anchor targets. |
+| `404.html` | The dedicated **offline fallback page** served by the Service Worker when a resource is unavailable. |
+| `robots.txt` | Directs search engines to **Disallow** indexing of all dynamic/user-specific paths (`/edit`, `/settings`, `/search`) for privacy. |
+| `sitemap.xml` | A minimal **Sitemap** listing only the canonical root URL for this Single Page Application (SPA). |
 
-1. Open the MEV interface.
-2. Go to the **Menu → Backup / Export** option.
-3. Click **Export as JSON**.
-4. Save the downloaded file somewhere safe (e.g., USB drive, cloud backup, encrypted storage).
+### 3D Map and Visualization
 
-> This file contains your entire wiki and can be restored later.
+| File Name | Purpose and Key Functionality |
+| :--- | :--- |
+| `map.html` | The **3D Map & Game Environment**. Contains the Three.js rendering logic, player movement, and article interaction detection. |
+| `main.css` | **Styling for the 3D Map/Game Environment** and mobile responsiveness for the canvas and embedded controls. |
+| `play.html` | The **Game Controls User Interface** (virtual joystick, Orbit Mode toggle) embedded as an iframe within `map.html`. |
+| `log.html` | The **Visual Log (3D)** timeline page, designed to visually display or replay the history of page and user changes. |
 
----
+### Documentation and Governance
 
-### 🔼 Import / Restore Data
-
-1. Open MEV on the device where you want to restore content.
-2. Navigate to **Menu → Import / Restore**.
-3. Select your previously exported `.json` file.
-4. Confirm the import when prompted.
-
-> ⚠️ Importing will overwrite existing wiki data. Export before replacing if unsure.
-
----
-
-### 💡 Best Practices
-
-- Export regularly — especially before clearing browser storage.
-- Keep backups encrypted if they contain personal or sensitive content.
-- Use meaningful file names like:  
-  `MEV-backup-2025-01-20.json`
+| File Name | Purpose and Key Functionality |
+| :--- | :--- |
+| `MOTIVATION.md` | Explains the project's **Philosophy** on **Offline Knowledge Ownership** and defines the **MEV** core principles. |
+| `SECURITY.md` | Details the **Security Policy**, outlining CSP, no external communication, and optional client-side encryption (AES-GCM). |
+| `CONTRIBUTING.md` | Provides **Development Guidelines** and strict security requirements for pull requests (e.g., no external scripts). |
+| `CODE_OF_CONDUCT.md` | Adopts the **Contributor Covenant Code of Conduct** to ensure a welcoming and inclusive community environment. |
+| `CHANGELOG.md` | Documents the history of changes and new features for the `v1.2.1-CSP-Hardened` version. |
+| `LICENSE` | Specifies the project is distributed under the **MIT License**. |
 
 ---
 
 ## 🛠️ Getting Started
 
-### 🖥️ Use Locally
+### 🖥️ Use Locally (Self-Hosted)
 
-1. Clone or download the repo
-2. Open `index.html` in any modern browser
-3. Start editing — your changes are auto-saved
-4. (Optional) Use `bin/index.bat` (Windows only) to manage CLI launch options
-
-### 🌐 Host on GitHub Pages
-
-1. Push files to a new GitHub repo
-2. Enable GitHub Pages (Settings → Pages)
-3. Access at: `https://<username>.github.io/<repo>/`
+1.  Clone or download the repository: `git clone https://github.com/jehovahsays/mev`
+2.  Open the file **`index.html`** in any modern web browser (Chrome, Firefox, Edge, Safari).
+3.  Start using it — your changes are auto-saved in your browser's storage.
 
 ### 📱 Install as PWA
 
-1. Visit live page: [https://jehovahsays.github.io/mev/](https://jehovahsays.github.io/mev/)
-2. Use your browser’s “Install App” or “Add to Home Screen”
-3. The app runs offline and stores everything locally
-
----
-
-## 🎯 Who Should Use This?
-
-- Developers needing a secure, offline wiki
-- Users who value privacy, self-hosting, and simplicity
-- Researchers in air-gapped or high-security environments
+1.  Visit the hosted page or open `index.html` locally.
+2.  Use your browser’s “Install App” or “Add to Home Screen” option.
+3.  The app will now run in a standalone window, fully offline, leveraging the Service Worker (`sw.js`).
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork this repo
-2. Make a feature branch
-3. Commit & push changes
-4. Open a Pull Request
+We welcome contributions that align with the MEV principles of **Minimalism, Efficiency, and Verifiability**.
 
-Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
+Please see the [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for detailed guidelines and security requirements before submitting a Pull Request.
 
 ---
 
 ## 📄 License
 
-MIT — see [`LICENSE`](LICENSE) for full terms.
-
----
-
-## 🧠 Philosophy
-
-MEV is about:
-- ✨ Freedom from censorship and deletion
-- 🔐 Privacy by design
-- 🛠️ Simplicity and transparency
-- 🌍 Running anywhere, for anyone
-
-Built with resilience and creativity in mind.
+MEV is distributed under the **MIT License**. See [`LICENSE`](LICENSE) for the full terms.

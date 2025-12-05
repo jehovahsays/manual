@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MEV Wiki Visual Log (3D)</title>
+ <style>
+    :root {
+      --bg: #020617;
+      --bg-elevated: #020617;
+      --panel-bg: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.15);
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border-subtle: #1f2933;
+      --page-node: #fbbf24; /* Yellow */
+      --user-node: #34d399; /* Green */
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 55%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 0.75rem 1rem 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(to right, #020617dd, #020617f6);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    h1 {
+      font-size: 1.05rem;
+      margin: 0;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .badge span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.18);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.5rem 0 0.75rem;
+    }
+
+    .top-panel {
+      padding: 0.25rem 1rem 0.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .metrics-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    .metric-pill {
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      padding: 0.15rem 0.5rem;
+      background: radial-gradient(circle at top left, #0b1120 0, #020617 65%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .metric-pill strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .controls-card {
+      border-radius: 0.9rem;
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, #020617 0, #020617e8 50%, #020617f8 100%);
+      box-shadow: 0 18px 60px rgba(15,23,42,0.65);
+      padding: 0.6rem 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .controls-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .button-group {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      background: #020617;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      padding: 0.35rem 0.55rem;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.2rem;
+      cursor: pointer;
+      transition: background 0.1s ease, color 0.1s ease, transform 0.06s ease;
+      touch-action: manipulation;
+    }
+
+    .btn span.icon {
+      font-size: 1rem;
+    }
+
+    .btn:not(:last-child) {
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .btn:hover {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.24), rgba(15,23,42,0.8));
+      color: white;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at top, var(--accent-strong), #0284c7);
+      color: #0b1120;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: radial-gradient(circle at top, #38bdf8, #0ea5e9);
+      color: #020617;
+    }
+
+    .speed-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    .speed-row span.value {
+      min-width: 2.2rem;
+      text-align: right;
+      color: var(--accent-strong);
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent-strong);
+    }
+
+    .toggle-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      padding: 0.18rem 0.55rem;
+      border: 1px solid var(--border-subtle);
+      background: #020617;
+    }
+
+    .toggle-pill input {
+      accent-color: var(--accent-strong);
+    }
+
+    .timeline-status {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      opacity: 0.9;
+    }
+
+    .timeline-status strong {
+      color: var(--accent-strong);
+      font-weight: 500;
+    }
+
+    .canvas-wrapper {
+      padding: 0.5rem 0.5rem 0.25rem;
+    }
+
+    /* New style for the embedded iframe */
+    #vizFrame {
+      width: 100%;
+      height: 60vh;
+      max-height: 480px;
+      border-radius: 1rem;
+      border: 1px solid var(--border-subtle);
+      display: block;
+      background: radial-gradient(circle at 20% 0%, #0b1120 0, #020617 40%, #020617 100%);
+      box-shadow:
+        0 0 0 1px rgba(148,163,184,0.06),
+        0 18px 60px rgba(15,23,42,0.8),
+        0 0 50px rgba(56,189,248,0.08);
+      /* Remove default iframe border */
+      border: none;
+    }
+
+    .summary-panel {
+      padding: 0.25rem 1rem 0.5rem;
+    }
+
+    .summary-card {
+      border-radius: 0.9rem;
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top, #020617 0, #020617f0 55%, #020617 100%);
+      padding: 0.55rem 0.65rem;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      max-height: 220px;
+      overflow: auto;
+    }
+
+    .summary-card h2 {
+      margin: 0 0 0.3rem;
+      font-size: 0.8rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .summary-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: minmax(0,1fr);
+      gap: 0.15rem;
+    }
+
+    .summary-item {
+      padding: 0.18rem 0.35rem;
+      border-radius: 0.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
+      border: 1px solid transparent;
+      background: transparent;
+    }
+
+    .summary-item span.title {
+      color: var(--text);
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    .summary-item span.meta {
+      font-size: 0.7rem;
+    }
+
+    @media (min-width: 768px) {
+      main {
+        padding: 0.75rem 1.25rem 1rem;
+      }
+      .canvas-wrapper {
+        padding-inline: 0;
+      }
+      #vizFrame { /* Adjusted for consistency */
+        height: 68vh;
+        max-height: none;
+      }
+      .summary-card {
+        max-height: 260px;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <h1>MEV Wiki Visual Log (3D View)</h1>
+      <div class="badge">
+        <span class="dot"></span>
+        Local analytics • Offline
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="top-panel">
+      <div class="metrics-row">
+        <div class="metric-pill">
+          📄 Pages: <strong id="metric-pages">0</strong>
+        </div>
+        <div class="metric-pill">
+          👤 Users: <strong id="metric-users">0</strong>
+        </div>
+        <div class="metric-pill">
+          🕒 Events: <strong id="metric-events">0</strong>
+        </div>
+      </div>
+
+      <section class="controls-card" aria-label="Playback and display controls">
+        <div class="controls-main-row">
+          <div class="button-group" aria-label="Timeline transport controls">
+            <button class="btn" id="btn-rewind" title="Rewind (jump back 5%)">
+              <span class="icon">⏪</span>
+            </button>
+            <button class="btn" id="btn-back" title="Step back one event">
+              <span class="icon">◀️</span>
+            </button>
+            <button class="btn btn-primary" id="btn-play-pause" title="Play / Pause">
+              <span class="icon" id="play-icon">▶️</span>
+            </button>
+            <button class="btn" id="btn-forward" title="Step forward one event">
+              <span class="icon">▶️</span>
+            </button>
+            <button class="btn" id="btn-ff" title="Fast-forward (jump forward 5%)">
+              <span class="icon">⏩</span>
+            </button>
+            <button class="btn" id="btn-stop" title="Stop & reset visualization">
+              <span class="icon">⏹️</span>
+            </button>
+          </div>
+
+          <div class="speed-row">
+            <span>Speed</span>
+            <input
+              type="range"
+              id="speed-slider"
+              min="0.25"
+              max="5"
+              step="0.25"
+              value="1.5"
+              aria-label="Playback speed (events per second)"
+              disabled
+            />
+            <span class="value" id="speed-value">N/A</span>
+          </div>
+        </div>
+
+        <div class="toggle-row" aria-label="Display options">
+          <label class="toggle-pill">
+            <input type="checkbox" id="toggle-page-labels" checked disabled />
+            <span>Labels (3D not supported)</span>
+          </label>
+          <label class="toggle-pill">
+            <input type="checkbox" id="toggle-user-labels" checked disabled />
+            <span>Users (3D not supported)</span>
+          </label>
+          <label class="toggle-pill">
+            <input type="checkbox" id="toggle-trails" checked disabled />
+            <span>Trails (3D not supported)</span>
+          </label>
+        </div>
+
+        <div class="timeline-status">
+          <span id="status-frame">Event 0 / 0</span>
+          <span id="status-time">—</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="canvas-wrapper">
+      <iframe id="vizFrame" src="map.html" frameborder="0" scrolling="no" title="3D Wiki Activity Map"></iframe>
+    </div>
+
+    <section class="summary-panel">
+      <div class="summary-card" aria-label="Created pages summary">
+        <h2>
+          Pages & Creators
+          <span style="font-size:0.7rem;color:var(--text-soft);font-weight:400;">
+            Data from localStorage
+          </span>
+        </h2>
+        <ul class="summary-list" id="summary-list">
+          </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      // --- Data loading from MEV Wiki localStorage ---------------------------
+
+      const STORAGE_KEYS = {
+        pages: "wiki_pages",
+        changes: "wiki_changes",
+        users: "wiki_users",
+      };
+
+      function safeJsonParse(str, fallback) {
+        if (!str) return fallback;
+        try {
+          return JSON.parse(str);
+        } catch {
+          console.error("Failed to parse JSON from localStorage:", str);
+          return fallback;
+        }
+      }
+
+      const pagesRaw = localStorage.getItem(STORAGE_KEYS.pages);
+      const changesRaw = localStorage.getItem(STORAGE_KEYS.changes);
+      const usersRaw = localStorage.getItem(STORAGE_KEYS.users);
+
+      // { title: { title, createdBy, lastEdited, ... } }
+      const pages = safeJsonParse(pagesRaw, {}); 
+      // [ { type, title, time, user } ]
+      const changes = safeJsonParse(changesRaw, []); 
+      const usersFromStore = safeJsonParse(usersRaw, []); 
+
+      // Normalize / derive user names
+      const userSet = new Set();
+      changes.forEach((c) => {
+        if (c && c.user) userSet.add(String(c.user));
+      });
+      Object.values(pages).forEach((p) => {
+        if (p && p.createdBy) userSet.add(String(p.createdBy));
+      });
+      usersFromStore.forEach((u) => {
+        if (u && u.name) userSet.add(String(u.name));
+      });
+
+      const allUsers = Array.from(userSet);
+
+      // Sort changes by time ascending so playback is chronological
+      const events = changes
+        .filter((c) => c && c.title && c.time)
+        .slice()
+        .sort((a, b) => new Date(a.time) - new Date(b.time));
+
+      // --- Populate metrics & summary list ----------------------------------
+
+      const metricPagesEl = document.getElementById("metric-pages");
+      const metricUsersEl = document.getElementById("metric-users");
+      const metricEventsEl = document.getElementById("metric-events");
+      const summaryListEl = document.getElementById("summary-list");
+      const statusFrameEl = document.getElementById("status-frame");
+      const statusTimeEl = document.getElementById("status-time");
+
+      if (metricPagesEl) metricPagesEl.textContent = Object.keys(pages).length;
+      if (metricUsersEl) metricUsersEl.textContent = allUsers.length;
+      if (metricEventsEl) metricEventsEl.textContent = events.length;
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (m) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;",
+          }[m])
+        );
+      }
+      
+      if (summaryListEl) {
+        const titles = Object.keys(pages).sort((a, b) => a.localeCompare(b));
+        summaryListEl.innerHTML = "";
+        titles.forEach((title) => {
+          const page = pages[title];
+          const li = document.createElement("li");
+          li.className = "summary-item";
+          const creator = page && page.createdBy ? String(page.createdBy) : "Unknown";
+          const last = page && page.lastEdited ? new Date(page.lastEdited) : null;
+          const lastText = last ? last.toLocaleString() : "—";
+          li.innerHTML = `
+            <span class="title">${escapeHtml(title)}</span>
+            <span class="meta">by <strong>${escapeHtml(creator)}</strong> • last edited ${escapeHtml(lastText)}</span>
+          `;
+          summaryListEl.appendChild(li);
+        });
+        if (titles.length === 0) {
+            summaryListEl.innerHTML = '<li style="padding: 0.5rem; text-align: center;">No pages found in localStorage.</li>';
+        }
+      }
+
+      // --- Controls & Status (Simplified for static 3D view) ----------------
+
+      // All playback buttons and toggles are now purely decorative 
+      // or only update the status display, as the 3D map is static
+      // and cannot be controlled from the parent frame without complex IPC.
+      
+      // Set status to reflect the static nature of the embedded 3D map
+      function updateStatus() {
+        if (!events.length) {
+          statusFrameEl.textContent = "No events found";
+          statusTimeEl.textContent = "Data loaded, but 3D view is currently static.";
+          return;
+        }
+        
+        const firstTime = new Date(events[0].time);
+        const lastTime = new Date(events[events.length - 1].time);
+        const progress = 100; // Visualization is complete (all data rendered at once)
+
+        statusFrameEl.textContent = `City Built (All ${events.length} Events)`;
+        statusTimeEl.innerHTML = 
+            `Progress: ${progress}% • ${firstTime.toLocaleDateString()} &rarr; ${lastTime.toLocaleDateString()}`;
+
+        // Ensure play/pause reflects the static state
+        const playIcon = document.getElementById("play-icon");
+        const playBtn = document.getElementById("btn-play-pause");
+
+        if (playIcon) playIcon.textContent = "⏸️";
+        if (playBtn) playBtn.classList.remove('btn-primary');
+      }
+
+      // Disable or update controls to reflect the static visualization
+      const speedSlider = document.getElementById("speed-slider");
+      const speedValueEl = document.getElementById("speed-value");
+      const controlButtons = [
+        document.getElementById("btn-rewind"),
+        document.getElementById("btn-back"),
+        document.getElementById("btn-play-pause"),
+        document.getElementById("btn-forward"),
+        document.getElementById("btn-ff"),
+        document.getElementById("btn-stop"),
+      ];
+      const toggleElements = [
+        document.getElementById("toggle-page-labels"),
+        document.getElementById("toggle-user-labels"),
+        document.getElementById("toggle-trails"),
+      ];
+
+      if (speedSlider) speedSlider.disabled = true;
+      if (speedValueEl) speedValueEl.textContent = "Static";
+      
+      controlButtons.forEach(btn => {
+        if (btn) btn.disabled = true; // Disable all transport controls
+      });
+
+      toggleElements.forEach(el => {
+        if (el) el.disabled = true; // Disable all display toggles
+      });
+
+      // Call status update once to show the final state
+      updateStatus();
+
+    })();
+  </script>
+</body>
+</html>

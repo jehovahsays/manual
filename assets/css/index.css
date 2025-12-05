@@ -188,9 +188,13 @@ transition: background-color 0.2s;
     justify-content: space-between;
     padding: 0 20px;
     border-radius: 8px 8px 0 0;
+    /* FIX CONTRAST: Ensure all general footer text is dark enough */
+    color: #333333; 
   }
 
-  #status-indicator { font-size: 14px; color: #555; font-weight: 600;}
+  /* FIX CONTRAST: Status indicator color was #555 (too light) */
+  #status-indicator { font-size: 14px; color: #333333; font-weight: 600;}
+  
   #ticker { white-space: nowrap; overflow: hidden; width: 100%; position: relative; margin: 0 15px; }
   #ticker span {
     display: inline-block; padding-left: 100%; animation: scroll-left 20s linear infinite;
@@ -274,6 +278,10 @@ transition: background-color 0.2s;
   }
   body.dark footer {
     background: #181818; border-top: 1px solid #444;
+  }
+  body.dark #status-indicator {
+    /* Ensure status indicator text is visible in dark mode, inheriting body color or setting explicitly */
+    color: #e0e0e0; 
   }
 
   #page-container {
@@ -444,9 +452,11 @@ transition: background-color 0.2s;
   body.dark .titleInput-find button:hover {
       background-color: #555;
   }
-  #status-message-find { color: #888; margin-top: 10px; text-align: center; font-size: 0.9em; }
+  /* FIX CONTRAST: Status message color was #888 (failed contrast) */
+  #status-message-find { color: #444444; margin-top: 10px; text-align: center; font-size: 0.9em; }
 
   @keyframes fadeIn {
      from { opacity: 0; transform: translateY(-10px); }
      to   { opacity: 1; transform: translateY(0); }
   }
+

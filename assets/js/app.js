@@ -738,7 +738,7 @@ function setupAuth() {
     updateAuthUI();
     updateUserStatus();
     updateStorageBar();
-    await showPage("Main Page");
+    await showPage("Main-Page");
   }
   
   function logout() {
@@ -829,8 +829,7 @@ async function deletePage(title) {
   const changes = await loadData(STORAGE_KEYS.changes, []); 
   const user = getCurrentUser();
   
-  if (!pages[title]) { console.error("Page not found."); return; }
-  
+  // Custom modal UI should be used here instead of confirm() for a proper PWA
   if (!window.confirm(`Are you sure you want to delete the page "${title}"? This cannot be undone.`)) { return; }
   
   delete pages[title];
@@ -860,10 +859,8 @@ async function showPage(title) {
     const suggest = all.filter(t => t.toLowerCase().includes(title.toLowerCase()));
     let html = `<section class="page"><h2>No page found for "${escapeHTML(title)}"</h2>`;
     if (suggest.length) {
-      // CSP-SAFE: Use data-page-link instead of onclick
       html += `<p>Did you mean: ${suggest.map(t => `<a href="#" data-page-link="${t}">${escapeHTML(t)}</a>`).join(', ')}</p>`;
     }
-    // CSP-SAFE: Use data-create-page instead of onclick
     html += `<p>Would you like to create it?</p><button class="edit-btn" data-create-page="${escapeHTML(title)}">Create Page "${escapeHTML(title)}"</button></section>`;
     c.innerHTML = html;
     speak(`No page found for ${title}.`);
@@ -872,28 +869,40 @@ async function showPage(title) {
   }
   
   const finalSafeHTML = parseWiki(page.content); 
+  const pageUrl = `${location.origin}#${encodeURIComponent(page.title)}`;
+  const dateMod = new Date(page.lastEdited).toISOString();
+  const authorName = escapeHTML(page.createdBy || 'Guest');
 
+  // SCHEMA FIX: Injected fully compliant Article schema
   c.innerHTML = `
     <article class="page" 
              itemscope 
              itemtype="https://schema.org/Article"
-             itemid="${location.origin}#${encodeURIComponent(page.title)}"
-             itemprop="mainEntityOfPage"
+             itemid="${pageUrl}"
     >
+      <meta itemprop="mainEntityOfPage" content="${pageUrl}">
       <h2 itemprop="headline">${escapeHTML(page.title)}</h2>
-      <p style="font-size: 0.85rem; color: #555555;">Last edited: ${new Date(page.lastEdited).toLocaleString()} by ${escapeHTML(page.createdBy)}</p>
+      
+      <div class="meta-info" style="font-size: 0.85rem; color: #555555; margin-bottom: 10px;">
+        Last edited: <time itemprop="dateModified" datetime="${dateMod}">${new Date(page.lastEdited).toLocaleString()}</time> 
+        by <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">${authorName}</span></span>
+      </div>
+
+      <meta itemprop="image" content="${location.origin}/assets/icons/icon-512.png">
+      
       <div class="content" itemprop="articleBody">${finalSafeHTML}</div>
+      
+      <hr style="margin-top:20px; border-top: 1px solid #ccc;">
       <button class="edit-btn" id="edit-btn">Edit</button>
       <button class="delete-btn" id="delete-btn">Delete Page</button>
-      <div class="semantic-status">✔️ Semantic HTML Loaded for ${escapeHTML(title)}</div>
+      <div class="semantic-status">✔️ Semantic HTML Loaded</div>
     </article>
   `;
 
-  // CSP-SAFE: Attaching listeners to the newly created buttons
   document.getElementById('edit-btn')?.addEventListener('click', () => editPage(title));
   document.getElementById('delete-btn')?.addEventListener('click', () => deletePage(title));
   
-  if (title === "Main Page") {
+  if (title === "Main-Page") {
       location.hash = "#main";
   } else {
       location.hash = `#${encodeURIComponent(title)}`;
@@ -973,7 +982,7 @@ You can use equal signs to create headings:
 # Step Two
 
 === Internal Links ===
-Link to the Main Page: [[Main Page]]
+Link to the Main-Page: [[Main-Page]]
 
 === Code Blocks ===
 Inline code: \`let x = 5;\`
@@ -993,15 +1002,15 @@ greet('User');
 
 async function ensureMainPage() {
   const pages = await loadData(STORAGE_KEYS.pages, {}); 
-  if (!pages["Main Page"]) {
-    pages["Main Page"] = {
-      title: "Main Page",
+  if (!pages["Main-Page"]) {
+    pages["Main-Page"] = {
+      title: "Main-Page",
       content: "== Welcome to MEV Wiki ==\n\nAn offline‑first encyclopedia powered by your browser. No tracking, no server. You can search the wiki using the bar above, or create a new page now!",
       lastEdited: new Date().toISOString(),
       createdBy: "System"
     };
     await saveData(STORAGE_KEYS.pages, pages); 
-    console.log("✅ Main Page created.");
+    console.log("✅ Main-Page created.");
   }
 }
 
@@ -1010,7 +1019,7 @@ async function answerAI(query) {
   console.log("Search query:", query);
   const txt = query.trim();
   if (!txt) {
-      await showPage("Main Page"); 
+      await showPage("Main-Page"); 
       return;
   }
   
@@ -1055,7 +1064,7 @@ async function generatePageButtonsFindView() {
   listEl.innerHTML = '';
   
   const staticLinks = [
-      { title: "Main Page", hash: "main" },
+      { title: "Main-Page", hash: "main" },
       { title: "Recent Changes", hash: "recent" },
       { title: "Settings", hash: "settings" },
       { title: "About", hash: "about" }
@@ -1290,7 +1299,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Hash Change Listener (remains functional)
   window.addEventListener('hashchange', async () => { 
     const hash = decodeURIComponent(location.hash.slice(1));
-    if (hash === "main") await showPage("Main Page");
+    if (hash === "main") await showPage("Main-Page");
     else if (hash === "settings") await showSettings();
     else if (hash === "about") await showAbout();
     else if (hash === "recent") await showRecent();
@@ -1299,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     else if (hash) { 
         await showPage(hash); 
     } else {
-        await showPage("Main Page"); 
+        await showPage("Main-Page"); 
     }
   });
 
@@ -1322,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (query) {
       await answerAI(query);
     } else {
-      await showPage("Main Page");
+      await showPage("Main-Page");
     }
     
     if (inp) inp.value = '';
@@ -1361,21 +1370,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!cliActionHandled) {
     const initialHash = decodeURIComponent(location.hash.slice(1));
     if (initialHash && initialHash !== "search" && initialHash !== "notfound") {
-      if (initialHash === "main") await showPage("Main Page");
+      if (initialHash === "main") await showPage("Main-Page");
       else if (initialHash === "settings") await showSettings();
       else if (initialHash === "about") await showAbout();
       else if (initialHash === "recent") await showRecent();
       else if (initialHash === "profile") showProfile();
       else await showPage(initialHash); 
     } else {
-        await showPage("Main Page");
+        await showPage("Main-Page");
     }
   }
 
   // SW Registration (kept for completeness)
   if ('serviceWorker' in navigator) {
     // ✅ PATH UPDATED TO ABSOLUTE PATH
-    navigator.serviceWorker.register('/assets/js/sw.js')
+    navigator.serviceWorker.register('/sw.js')
       .then(() => console.log('✅ Service Worker registered'))
       .catch(err => console.error('❌ SW registration failed:', err));
   }
@@ -1391,3 +1400,4 @@ if ('serviceWorker' in navigator) {
         window.location.reload();
     }, { once: true }); // Use { once: true } to prevent multiple reloads
 }
+

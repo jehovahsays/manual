@@ -10,6 +10,7 @@ Disallow: /edit
 Disallow: /search
 Disallow: /notfound
 
+
 # Let crawlers index only the base route
 Allow: /
 
