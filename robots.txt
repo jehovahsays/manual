@@ -1,0 +1,15 @@
+# robots.txt for MEV Offline Wiki 
+# Index homepage only — block user-generated & dynamic paths.
+User-agent: *
+Disallow: /#*
+Disallow: /?*
+Disallow: /recent
+Disallow: /settings
+Disallow: /profile
+Disallow: /edit
+Disallow: /search
+Disallow: /notfound
+Disallow: /blackhole/
+
+# Let crawlers index only the base route
+Allow: /
