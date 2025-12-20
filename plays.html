@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="charset=UTF-8">
+<http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="Cache-Control" content="private, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Clear-Site-Data" content="*">	
+	<style>
+        body { margin: 0; overflow: hidden; touch-action: none; }
+        
+        /* Joystick */
+        #joystick {
+            position: fixed;
+            bottom: 50px;
+            left: 50px;
+            width: 100px;
+            height: 100px;
+            background: black;
+            border-radius: 50%;
+            touch-action: none;
+        }
+
+        #joystick-handle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 255, 0.8);
+            border-radius: 50%;
+            left: 30px;
+            top: 30px;
+            transition: 0.1s;
+        }
+        
+        /* Orbital Controls UI */
+        #orbit-controls-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            z-index: 100;
+        }
+        
+        /* Toggle button for orbit mode */
+        #orbit-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            border: none;
+            z-index: 100;
+            cursor: pointer;
+        }
+    </style>
+		
+	<style>
+	.lil-gui {
+	z-index: 2 !important; /* TODO Solve this in HTML */
+}
+
+@media all and ( max-width: 640px ) {
+	.lil-gui.root { 
+		right: 0px;
+		top: auto;
+		max-height: 100%;
+		max-width: 30%;
+		bottom: 0px;
+	}
+}
+	</style>
+	
+<title>play</title>	
+		
+</head>
+
+<body>  
+
+		<div id="info"></div>
+        
+        <!-- Orbit controls info display -->
+        <div id="orbit-controls-info">
+		<a href="index.html" target="_blank" rel="noopener"><button class="infobox">home</button></a><br><br>
+            Orbital Controls:<br>
+             1 finger: Rotate<br>
+             2 fingers: Zoom<br>
+             3 fingers: Pan
+        </div>
+        
+        <!-- Toggle button for orbit mode -->
+        <button id="orbit-toggle">Orbit Mode: OFF</button>
+	
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./examples/build/three.module.js",
+                "three/addons/": "./examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import Stats from 'three/addons/libs/stats.module.js';
+        import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    //import { color, fog, float, positionWorld, triNoise3D, positionView, normalWorld, uniform } from 'three/tsl';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let container, stats, clock, gui, mixer, actions, activeAction, previousAction, camera, scene, renderer, model, controls;
+        let moveX = 0, moveZ = 0; 
+		// Movement variables
+		//let camera, scene, renderer, model, face;
+		//let buildings = {}; // Store buildings by filename
+        
+        // Orbital controls variables
+        let orbitControls;
+        let orbitMode = false;
+        let cameraTarget = new THREE.Vector3(0, 0, 0);
+        let cameraOffset = new THREE.Vector3(-1, 8, -25);
+		// Add these variables to your existing code (at the top of your script)
+let playerScore = 0;
+let playerHealth = 3;
+let playerSize = 1.0;
+let bullets = [];
+let boss = null;
+let bossHealth = 5;
+let bossAttackTimer = 0;
+let gameActive = true;
+
+// Create a boss entity
+function createBoss() {
+  const geometry = new THREE.BoxGeometry(5, 5, 5);
+  const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+  boss = new THREE.Mesh(geometry, material);
+  boss.position.set(0, 5, -20);
+  scene.add(boss);
+  bossHealth = 5;
+}
+
+// Create bullet function
+function createBullet(position, direction) {
+  const geometry = new THREE.SphereGeometry(0.5, 8, 8);
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+  const bullet = new THREE.Mesh(geometry, material);
+  
+  // Set bullet position to player position
+  bullet.position.copy(position);
+  
+  // Add direction and speed properties
+  bullet.direction = direction;
+  bullet.speed = 2.0;
+  bullet.isPlayerBullet = true;
+  
+  scene.add(bullet);
+  bullets.push(bullet);
+}
+
+// Create boss bullet function
+function createBossBullet() {
+  if (!boss || !gameActive) return;
+  
+  const geometry = new THREE.SphereGeometry(0.8, 8, 8);
+  const material = new THREE.MeshBasicMaterial({ color: 0xff4500 });
+  const bullet = new THREE.Mesh(geometry, material);
+  
+  // Set bullet position to boss position
+  bullet.position.copy(boss.position);
+  
+  // Calculate direction towards player
+  const direction = new THREE.Vector3();
+  direction.subVectors(camera.position, boss.position).normalize();
+  
+  bullet.direction = direction;
+  bullet.speed = 1.0;
+  bullet.isPlayerBullet = false;
+  
+  scene.add(bullet);
+  bullets.push(bullet);
+}
+
+// Update bullets function
+function updateBullets(deltaTime) {
+  for (let i = bullets.length - 1; i >= 0; i--) {
+    const bullet = bullets[i];
+    
+    // Move bullet
+    bullet.position.x += bullet.direction.x * bullet.speed;
+    bullet.position.y += bullet.direction.y * bullet.speed;
+    bullet.position.z += bullet.direction.z * bullet.speed;
+    
+    // Check for out of bounds
+    if (bullet.position.distanceTo(camera.position) > 100) {
+      scene.remove(bullet);
+      bullets.splice(i, 1);
+      continue;
+    }
+    
+    // Check for collisions
+    if (bullet.isPlayerBullet) {
+      // Player bullet hitting boss
+      if (boss && bullet.position.distanceTo(boss.position) < 3) {
+        bossHealth--;
+        scene.remove(bullet);
+        bullets.splice(i, 1);
+        
+        // Boss defeated
+        if (bossHealth <= 0) {
+          scene.remove(boss);
+          boss = null;
+          playerScore += 10;
+          playerSize += 0.2;
+          updatePlayerSize();
+          showNotification("You defeated the boss! +10 points");
+          
+          // Respawn boss after 5 seconds
+          setTimeout(createBoss, 5000);
+        }
+      }
+    } else {
+      // Boss bullet hitting player
+      if (bullet.position.distanceTo(camera.position) < 2) {
+        playerHealth--;
+        scene.remove(bullet);
+        bullets.splice(i, 1);
+        
+        if (playerHealth <= 0) {
+          gameActive = false;
+          playerScore -= 5;
+          showNotification("You died! -5 points");
+          showRespawnButton();
+        }
+      }
+    }
+  }
+}
+
+// Update boss movement and attacks
+function updateBoss(deltaTime) {
+  if (!boss || !gameActive) return;
+  
+  // Simple boss movement - float around
+  boss.position.y = 5 + Math.sin(Date.now() * 0.001) * 2;
+  boss.position.x = Math.sin(Date.now() * 0.0005) * 10;
+  
+  // Boss looking at player
+  boss.lookAt(camera.position);
+  
+  // Boss attack timer
+  bossAttackTimer += deltaTime;
+  if (bossAttackTimer > 2) { // Attack every 2 seconds
+    createBossBullet();
+    bossAttackTimer = 0;
+  }
+}
+
+// Update player size
+function updatePlayerSize() {
+  if (model) { // Assuming you have a player model
+    player.scale.set(playerSize, playerSize, playerSize);
+  }
+}
+
+// Create UI elements
+function createUI() {
+  // Score display
+  const scoreElement = document.createElement('div');
+  scoreElement.id = 'scoreDisplay';
+  scoreElement.style.position = 'absolute';
+  scoreElement.style.top = '10px';
+  scoreElement.style.left = '10px';
+  scoreElement.style.color = 'white';
+  scoreElement.style.fontFamily = 'Arial, sans-serif';
+  scoreElement.style.fontSize = '18px';
+  scoreElement.style.fontWeight = 'bold';
+  document.body.appendChild(scoreElement);
+  
+  // Health display
+  const healthElement = document.createElement('div');
+  healthElement.id = 'healthDisplay';
+  healthElement.style.position = 'absolute';
+  healthElement.style.top = '40px';
+  healthElement.style.left = '10px';
+  healthElement.style.color = 'white';
+  healthElement.style.fontFamily = 'Arial, sans-serif';
+  healthElement.style.fontSize = '18px';
+  healthElement.style.fontWeight = 'bold';
+  document.body.appendChild(healthElement);
+  
+  // Notification area
+  const notificationElement = document.createElement('div');
+  notificationElement.id = 'notification';
+  notificationElement.style.position = 'absolute';
+  notificationElement.style.top = '50%';
+  notificationElement.style.left = '50%';
+  notificationElement.style.transform = 'translate(-50%, -50%)';
+  notificationElement.style.color = 'white';
+  notificationElement.style.fontFamily = 'Arial, sans-serif';
+  notificationElement.style.fontSize = '24px';
+  notificationElement.style.fontWeight = 'bold';
+  notificationElement.style.textAlign = 'center';
+  notificationElement.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+  notificationElement.style.padding = '20px';
+  notificationElement.style.borderRadius = '10px';
+  notificationElement.style.display = 'none';
+  document.body.appendChild(notificationElement);
+}
+
+// Update UI
+function updateUI() {
+  const scoreElement = document.getElementById('scoreDisplay');
+  const healthElement = document.getElementById('healthDisplay');
+  
+  if (scoreElement) {
+    scoreElement.textContent = `Score: ${playerScore}`;
+  }
+  
+  if (healthElement) {
+    healthElement.textContent = `Health: ${playerHealth}`;
+  }
+}
+
+// Show notification
+function showNotification(message) {
+  const notificationElement = document.getElementById('notification');
+  if (notificationElement) {
+    notificationElement.textContent = message;
+    notificationElement.style.display = 'block';
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+      notificationElement.style.display = 'none';
+    }, 3000);
+  }
+}
+
+// Show respawn button
+function showRespawnButton() {
+  const respawnButton = document.createElement('button');
+  respawnButton.id = 'respawnButton';
+  respawnButton.textContent = 'Respawn';
+  respawnButton.style.position = 'absolute';
+  respawnButton.style.top = '60%';
+  respawnButton.style.left = '50%';
+  respawnButton.style.transform = 'translate(-50%, -50%)';
+  respawnButton.style.padding = '10px 20px';
+  respawnButton.style.fontSize = '20px';
+  respawnButton.style.backgroundColor = '#4CAF50';
+  respawnButton.style.color = 'white';
+  respawnButton.style.border = 'none';
+  respawnButton.style.borderRadius = '5px';
+  respawnButton.style.cursor = 'pointer';
+  
+  respawnButton.addEventListener('click', respawnPlayer);
+  
+  document.body.appendChild(respawnButton);
+}
+
+// Respawn player
+function respawnPlayer() {
+  playerHealth = 3;
+  gameActive = true;
+  
+  // Remove respawn button
+  const respawnButton = document.getElementById('respawnButton');
+  if (respawnButton) {
+    respawnButton.remove();
+  }
+  
+  // Reset player position if needed
+  // camera.position.set(0, 2, 0);
+}
+
+// Add keyboard event listener for shooting
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'Space' && gameActive) {
+    // Create bullet from player position in the direction they're looking
+    const bulletPosition = camera.position.clone();
+    
+    // Get direction from camera
+    const bulletDirection = new THREE.Vector3();
+    camera.getWorldDirection(bulletDirection);
+    
+    createBullet(bulletPosition, bulletDirection);
+  }
+});
+
+// Add mouse click for shooting (alternative control)
+document.addEventListener('click', () => {
+  if (gameActive) {
+    const bulletPosition = camera.position.clone();
+    
+    const bulletDirection = new THREE.Vector3();
+    camera.getWorldDirection(bulletDirection);
+    
+    createBullet(bulletPosition, bulletDirection);
+  }
+});
+
+// Initialize game elements
+function initGameEnhancements() {
+  createUI();
+  createBoss();
+}
+
+		
+		const api = { state: 'Walking' };
+
+        init();
+		
+		function createCity() {
+    const numBuildings = 50; // Number of buildings
+    const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x555555 });
+
+    for (let i = 0; i < numBuildings; i++) {
+        const width = Math.random() * 2 + 1;  // Random width between 1 and 3
+        const height = Math.random() * 10 + 5; // Random height between 5 and 15
+        const depth = Math.random() * 2 + 1;  // Random depth between 1 and 3
+
+        const buildingGeometry = new THREE.BoxGeometry(width, height, depth);
+        const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+
+        // Position buildings randomly within a 100x100 area
+        building.position.set(
+            Math.random() * 100 - 50, // X position
+            height / 2,               // Y position (to sit on the ground)
+            Math.random() * 100 - 50  // Z position
+        );
+
+        scene.add(building);
+    }
+}
+
+// Call function to create buildings
+createCity();
+
+
+
+        function init() {
+            container = document.createElement('div');
+            document.body.appendChild(container);
+
+            camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.25, 100);
+            camera.position.set(-1, 8, -25);
+            camera.lookAt(0, -2, 0);
+			
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xe0e0e0);
+            scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
+
+            clock = new THREE.Clock();
+			
+
+
+            // Lights
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3);
+            hemiLight.position.set(0, 20, 0);
+            scene.add(hemiLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 3);
+            dirLight.position.set(0, 20, 10);
+            scene.add(dirLight);
+
+            // Ground
+            const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0xcbcbcb, depthWrite: false }));
+            mesh.rotation.x = -Math.PI / 2;
+            scene.add(mesh);
+
+            const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000);
+            grid.material.opacity = 0.2;
+            grid.material.transparent = true;
+            scene.add(grid);
+			
+			
+
+            // Load Model
+			    
+            const loader = new GLTFLoader();
+            loader.load('./examples/models/gltf/RobotExpressive/RobotExpressive.glb', function (gltf) {
+                model = gltf.scene;
+				//player.scale.set(0, 0, 0);
+                scene.add(model);
+				
+                createGUI( model, gltf.animations );
+                
+                // Set up orbital controls once model is loaded
+                setupOrbitControls();
+
+				}, undefined, function ( e ) {
+
+					console.error( e );
+
+				} );
+				
+	    // Camera Follow Function
+    function updateCamera() {
+        if (player) {
+            camera.position.lerp(player.position.clone().add(new THREE.Vector3(0, 3, -5)), 0.1);
+            camera.lookAt(player.position);
+        }
+    }  
+			
+				
+    // Camera Follow Function
+    //function updateCamera() {
+        //if (model && !orbitMode) {
+            //camera.lookAt(model.position);
+        //}
+    //}  
+	
+    // Setup Orbit Controls
+    function setupOrbitControls() {
+        // Initialize OrbitControls
+        orbitControls = new OrbitControls(camera, renderer.domElement);
+        orbitControls.enableDamping = true;
+        orbitControls.dampingFactor = 0.05;
+        orbitControls.screenSpacePanning = false;
+        orbitControls.minDistance = 5;
+        orbitControls.maxDistance = 50;
+        orbitControls.maxPolarAngle = Math.PI / 2;
+        
+        // Initially disable orbit controls
+        orbitControls.enabled = false;
+        
+        // Set target to model position if available
+        if (model) {
+            orbitControls.target.copy(model.position);
+        }
+    }
+
+				          
+            renderer = new THREE.WebGLRenderer({ antialias: false });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setAnimationLoop(animate);
+            container.appendChild(renderer.domElement);
+
+            window.addEventListener('resize', onWindowResize);
+            
+            // Set up toggle button for orbit mode
+            setupOrbitToggle();
+        }
+        
+        function setupOrbitToggle() {
+            const toggleButton = document.getElementById('orbit-toggle');
+            const infoPanel = document.getElementById('orbit-controls-info');
+            
+            toggleButton.addEventListener('click', () => {
+                orbitMode = !orbitMode;
+                toggleButton.textContent = `Orbit Mode: ${orbitMode ? 'ON' : 'OFF'}`;
+                
+                if (orbitMode) {
+                    // Enable orbit controls and save camera position
+                    if (model) {
+                        orbitControls.target.copy(model.position);
+                    }
+                    orbitControls.enabled = true;
+                    infoPanel.style.display = 'block';
+                    
+                    // Hide joystick in orbit mode
+                    document.getElementById('joystick').style.display = 'none';
+                } else {
+                    // Disable orbit controls and restore camera position
+                    orbitControls.enabled = false;
+                    infoPanel.style.display = 'none';
+                    
+                    // Show joystick when not in orbit mode
+                    document.getElementById('joystick').style.display = 'block';
+                }
+            });
+        }
+		
+        function setupAnimation(animations) {
+            mixer = new THREE.AnimationMixer(model);
+            const action = mixer.clipAction(animations.find(anim => anim.name === 'Walking'));
+            action.play();
+        }
+
+
+        function createGUI( model, animations ) {
+
+				const states = [ 'Idle', 'Walking', 'Running', 'Dance', 'Death', 'Sitting', 'Standing' ];
+				const emotes = [ 'Jump', 'Yes', 'No', 'Wave', 'Punch', 'ThumbsUp' ];
+
+				gui = new GUI();
+
+				mixer = new THREE.AnimationMixer( model );
+
+				actions = {};
+
+				for ( let i = 0; i < animations.length; i ++ ) {
+
+					const clip = animations[ i ];
+					const action = mixer.clipAction( clip );
+					actions[ clip.name ] = action;
+
+					if ( emotes.indexOf( clip.name ) >= 0 || states.indexOf( clip.name ) >= 4 ) {
+
+						action.clampWhenFinished = true;
+						action.loop = THREE.LoopOnce;
+
+					}
+
+				}
+				
+				// states
+
+				const statesFolder = gui.addFolder( 'States' );
+
+				const clipCtrl = statesFolder.add( api, 'state' ).options( states );
+
+				clipCtrl.onChange( function () {
+
+					fadeToAction( api.state, 0.5 );
+
+				} );
+
+				//statesFolder.open();
+				statesFolder.close();
+
+				// emotes
+
+				const emoteFolder = gui.addFolder( 'Emotes' );
+
+				function createEmoteCallback( name ) {
+
+					api[ name ] = function () {
+
+						fadeToAction( name, 0.2 );
+
+						mixer.addEventListener( 'finished', restoreState );
+
+					};
+
+					emoteFolder.add( api, name );
+
+				}
+
+				function restoreState() {
+
+					mixer.removeEventListener( 'finished', restoreState );
+
+					fadeToAction( api.state, 0.2 );
+
+				}
+
+				for ( let i = 0; i < emotes.length; i ++ ) {
+
+					createEmoteCallback( emotes[ i ] );
+
+				}
+
+				emoteFolder.open();
+				//emoteFolder.close();
+
+				// expressions
+
+				//face = model.getObjectByName( 'Head_4' );
+
+				//const expressions = Object.keys( face.morphTargetDictionary );
+				//const expressionFolder = gui.addFolder( 'Expressions' );
+
+				//for ( let i = 0; i < expressions.length; i ++ ) {
+
+					//expressionFolder.add( face.morphTargetInfluences, i, 0, 1, 0.01 ).name( expressions[ i ] );
+
+				//}
+
+				activeAction = actions[ 'Walking' ];
+				activeAction.play();
+
+				//expressionFolder.open();
+				//expressionFolder.close();
+
+			}
+
+			function fadeToAction( name, duration ) {
+
+				previousAction = activeAction;
+				activeAction = actions[ name ];
+
+				if ( previousAction !== activeAction ) {
+
+					previousAction.fadeOut( duration );
+
+				}
+
+				activeAction
+					.reset()
+					.setEffectiveTimeScale( 1 )
+					.setEffectiveWeight( 1 )
+					.fadeIn( duration )
+					.play();
+
+			}
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+function animate() {
+	
+// Add this to your existing animation/render loop
+function updateGame(deltaTime) {
+  updateBullets(deltaTime);
+  updateBoss(deltaTime);
+  updateUI();
+}
+
+// Add these function calls to your initialization code
+initGameEnhancements();
+
+// Modify your existing animation loop to include:
+// Inside your animate or render function:
+// const deltaTime = clock.getDelta(); // If you already have a clock
+// updateGame(deltaTime);
+	
+	
+	
+    const dt = clock.getDelta();
+
+    if (mixer) mixer.update(dt);
+
+    // Move character based on joystick input when not in orbit mode
+    if (model && !orbitMode) {
+        model.position.x += moveX * dt * 5; // Adjust speed factor
+        model.position.z += moveZ * dt * 5;
+        
+        updateCamera(); // Call function to adjust camera position
+    }
+    
+    // Update orbit controls if in orbit mode
+    if (orbitMode && orbitControls) {
+        orbitControls.update();
+    }
+
+    renderer.render(scene, camera);
+}
+
+// Update Camera Position to Follow Model
+function updateCamera() {
+    if (model && !orbitMode) {
+        const offset = new THREE.Vector3(0, 5, -15); // Adjust height and distance behind model
+        const newCameraPos = model.position.clone().add(offset);
+
+        camera.position.lerp(newCameraPos, 0.1); // Smooth transition
+        camera.lookAt(model.position); // Keep looking at the model
+    }
+}
+        // Joystick Control
+        let joystick = document.createElement('div');
+        joystick.id = "joystick";
+        document.body.appendChild(joystick);
+
+        let handle = document.createElement('div');
+        handle.id = "joystick-handle";
+        joystick.appendChild(handle);
+
+        let touchStartX = 0, touchStartY = 0;
+
+        joystick.addEventListener("touchstart", (event) => {
+            const touch = event.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        });
+
+        joystick.addEventListener("touchmove", (event) => {
+            event.preventDefault(); // Prevent scrolling while using joystick
+            const touch = event.touches[0];
+            moveX = (touch.clientX - touchStartX) / -50;
+            moveZ = (touch.clientY - touchStartY) / -50;
+
+            handle.style.transform = `translate(${moveX * 20}px, ${moveZ * 20}px)`;
+        });
+
+        joystick.addEventListener("touchend", () => {
+            moveX = 0;
+            moveZ = 0;
+            handle.style.transform = "translate(0px, 0px)";
+        });
+
+    </script>
+ 
+</body>
+</html>
+

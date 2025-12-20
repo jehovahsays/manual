@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>map</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="./files/main.css">
+<style>
+.infobox {
+      position: fixed;
+	  top: 250px;
+    }
+</style>
+	</head>
+	<body>
+		 <div id="info">
+		<center><a href="/mev/plays.html" target="_blank" rel="noopener"><button class="infobox">play</button></a></center>
+		</div>
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./examples/build/three.webgpu.js",
+					"three/webgpu": "./examples/build/three.webgpu.js",
+					"three/tsl": "./examples/build/three.tsl.js",
+					"three/addons/": "./examples/jsm/"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+			import { color, fog, float, positionWorld, triNoise3D, positionView, normalWorld, uniform } from 'three/tsl';
+
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+			let camera, scene, renderer;
+			let controls;
+			
+			// Clock is added to enable time-based math for the day cycle
+			let clock = new THREE.Clock();
+			
+
+			init();
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 600 );
+				camera.position.set( 30, 15, 30 );
+
+				scene = new THREE.Scene();
+
+				// custom fog
+
+				const skyColor = color( 0xf0f5f5 );
+				const groundColor = color( 0xd0dee7 );
+
+				const fogNoiseDistance = positionView.z.negate().smoothstep( 0, camera.far - 300 );
+
+				const distance = fogNoiseDistance.mul( 20 ).max( 4 );
+				const alpha = .98;
+				const groundFogArea = float( distance ).sub( positionWorld.y ).div( distance ).pow( 3 ).saturate().mul( alpha );
+
+				// a alternative way to create a TimerNode
+				const timer = uniform( 0 ).onFrameUpdate( ( frame ) => frame.time );
+
+				const fogNoiseA = triNoise3D( positionWorld.mul( .005 ), 0.2, timer );
+				const fogNoiseB = triNoise3D( positionWorld.mul( .01 ), 0.2, timer.mul( 1.2 ) );
+
+				const fogNoise = fogNoiseA.add( fogNoiseB ).mul( groundColor );
+
+				// apply custom fog
+
+				scene.fogNode = fog( fogNoiseDistance.oneMinus().mix( groundColor, fogNoise ), groundFogArea );
+				scene.backgroundNode = normalWorld.y.max( 0 ).mix( groundColor, skyColor );
+
+				// builds
+
+				const buildWindows = positionWorld.y.mul( 10 ).floor().mod( 4 ).sign().mix( color( 0x000066 ).add( fogNoiseDistance ), color( 0xffffff ) );
+
+				const buildGeometry = new THREE.BoxGeometry( 1, 1, 1 );
+				const buildMaterial = new THREE.MeshPhongNodeMaterial( {
+					colorNode: buildWindows
+				} );
+
+				const buildMesh = new THREE.InstancedMesh( buildGeometry, buildMaterial, 4000 );
+				scene.add( buildMesh );
+
+				const dummy = new THREE.Object3D();
+				const center = new THREE.Vector3();
+
+				for ( let i = 0; i < buildMesh.count; i ++ ) {
+
+					const scaleY = Math.random() * 7 + .5;
+
+					dummy.position.x = Math.random() * 600 - 300;
+					dummy.position.z = Math.random() * 600 - 300;
+
+					const distance = Math.max( dummy.position.distanceTo( center ) * .012, 1 );
+
+					dummy.position.y = .5 * scaleY * distance;
+
+					dummy.scale.x = dummy.scale.z = Math.random() * 3 + .5;
+					dummy.scale.y = scaleY * distance;
+
+					dummy.updateMatrix();
+
+					buildMesh.setMatrixAt( i, dummy.matrix );
+
+				}
+
+				// lights
+
+				scene.add( new THREE.HemisphereLight( skyColor.value, groundColor.value, 0.5 ) );
+
+				// =========================================================================
+				// NEW: Day/Night Cycle Setup (Words and Math)
+				// =========================================================================
+
+				// A single directional light to act as the sun.
+				const sunLight = new THREE.DirectionalLight(0xffffff, 1.0);
+				sunLight.position.set(0, 50, 0); // Initial position
+				scene.add(sunLight);
+				
+				// NEW WORDS: Create the VISIBLE Sun Object (Geometry and Material)
+				const sunGeometry = new THREE.SphereGeometry( 20, 32, 32 ); // Size 20, basic math definition
+				// Use Emissive material so it glows and ignores ambient light
+				const sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFF00, emissive: 0xFFFF00 } ); 
+				const visibleSun = new THREE.Mesh( sunGeometry, sunMaterial );
+				scene.add( visibleSun ); // Add the visible sun to the scene
+
+				// Math variable: Controls the speed of the day cycle. (~60 second cycle duration)
+				const dayCycleSpeed = 0.017; 
+
+				// Store the light, visible sun, and speed so animate() can access them
+				window.sunLight = sunLight;
+				window.visibleSun = visibleSun;
+				window.dayCycleSpeed = dayCycleSpeed; 
+
+				// =========================================================================
+
+
+				// geometry
+
+				const planeGeometry = new THREE.PlaneGeometry( 200, 200 );
+				const planeMaterial = new THREE.MeshPhongMaterial( {
+					color: 0x999999
+				} );
+
+				const ground = new THREE.Mesh( planeGeometry, planeMaterial );
+				ground.rotation.x = - Math.PI / 2;
+				ground.scale.multiplyScalar( 3 );
+				ground.castShadow = true;
+				ground.receiveShadow = true;
+				scene.add( ground );
+
+				// renderer
+
+				renderer = new THREE.WebGPURenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setAnimationLoop( animate );
+				document.body.appendChild( renderer.domElement );
+
+				// controls
+
+				controls = new OrbitControls( camera, renderer.domElement );
+				controls.target.set( 0, 2, 0 );
+				controls.minDistance = 7;
+				controls.maxDistance = 100;
+				controls.maxPolarAngle = Math.PI / 2;
+				controls.autoRotate = true;
+				controls.autoRotateSpeed = .1;
+				controls.update();
+
+				window.addEventListener( 'resize', resize );
+
+			}
+
+			function resize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function animate() {
+
+				// =========================================================================
+				// NEW: Day/Night Cycle Logic (Math)
+				// =========================================================================
+				const elapsedTime = clock.getElapsedTime(); 
+				const time = elapsedTime * window.dayCycleSpeed; 
+				const theta = time % (Math.PI * 2); 
+
+				// Calculate the sun's position on a vertical circle (X is East/West, Y is Height)
+				const sunX = Math.cos(theta) * 200; 
+				const sunY = Math.sin(theta) * 200; 
+
+				// Update the light's position. Z is fixed at 0.
+				window.sunLight.position.set(sunX, sunY, 0); 
+				// Update the visible sphere's position to match the light
+				window.visibleSun.position.set(sunX, sunY, 0); 
+
+				// Intensity and Color Math
+				const intensityFactor = Math.max(0.1, Math.sin(theta) * 1.0); 
+
+				window.sunLight.intensity = intensityFactor * 1.5; 
+				
+				const sunriseColor = new THREE.Color(0xFF8800); 
+				const noonColor = new THREE.Color(0xFFFFFF); 
+				
+				// Lerp (Linear Interpolation) blends the color based on the factor
+				window.sunLight.color.lerpColors(sunriseColor, noonColor, intensityFactor);
+				// =========================================================================
+
+				controls.update();
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+	</body>
+</html>

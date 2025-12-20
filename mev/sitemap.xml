@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- 
+    Canonical Root URL for this Single Page Application (SPA).
+    Search engines ignore URLs after the '#' hash, so only the base path is needed.
+  -->
+  <url>
+    <loc>https://jehovahsays.github.io/mev/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+
