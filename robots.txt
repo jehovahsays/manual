@@ -1,0 +1,7 @@
+# robots.txt 
+# Index homepage only — block user-generated & dynamic paths.
+User-agent: *
+
+
+# Let crawlers index only the base route
+Allow: /
