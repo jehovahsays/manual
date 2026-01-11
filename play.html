@@ -10,7 +10,6 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta http-equiv="Clear-Site-Data" content="*">
-  <link rel="icon" href="/manual/favicon.ico" />
   
 
 	<style>
@@ -151,32 +150,15 @@
   }
 })();
 </script>	
-<script>
-    // The "Conscious" reporting to the "Subconscious" Radar
-    (function() {
-        const report = {
-            path: window.location.pathname,
-            type: window.location.pathname.endsWith('.html') ? 'html' : 'logic',
-            timestamp: Date.now(),
-            status: 'correct' 
-        };
-        // If the user tries to access a hidden folder or missing nuance
-        if(window.location.hash.includes('admin') || !document.title) {
-            report.status = 'incorrect';
-        }
-        localStorage.setItem('mev_radar_ping', JSON.stringify(report));
-    })();
-</script>
+
 
 </head>
 
 <body>  
 
-		<div id="info">
-
-		
-		</div>
-        
+		<div id="info"></div>
+	
+          
         <div id="orbit-controls-info">
 		<a href="./index.html" target="_blank" rel="noopener"><button class="infobox">home</button></a>
         </div>
@@ -194,8 +176,8 @@
     <script type="importmap">
         {
             "imports": {
-                "three": "/manual/examples/build/three.module.js",
-                "three/addons/": "/manual/examples/jsm/"
+                "three": "./examples/build/three.module.js",
+                "three/addons/": "./examples/jsm/"
             }
         }
     </script>
@@ -506,7 +488,7 @@ function init() {
     createCity();
 
     const loader = new GLTFLoader();
-    loader.load('/manual/examples/models/gltf/RobotExpressive/RobotExpressive.glb', function (gltf) {
+    loader.load('./examples/models/gltf/RobotExpressive/RobotExpressive.glb', function (gltf) {
         model = gltf.scene;
         scene.add(model);
         createGUI( model, gltf.animations );

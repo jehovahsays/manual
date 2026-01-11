@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>index</title>
+		<title>map - AI Day or Night Perception</title>
 		<meta charset="utf-8">
 		<http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="/manual/files/main.css">
- <link rel="icon" href="/manual/favicon.ico" />
 
   <style>
     body { margin: 0; overflow: hidden; background-color: #000; }
@@ -72,6 +69,8 @@
   }
 })();
 </script>
+
+
 	</head>
 	<body>
         <div id="time-container">
@@ -81,16 +80,16 @@
         </div>
 
 		<div id="info">
-		    <a href="/manual/play.html" target="_blank" rel="noopener"><button class="infobox">PLAY</button></a>
+		    <a href="./play.html" target="_blank" rel="noopener"><button class="infobox">play</button></a>
 		</div>
 
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "/manual/examples/build/three.webgpu.js",
-					"three/webgpu": "/manual/examples/build/three.webgpu.js",
-					"three/tsl": "/manual/examples/build/three.tsl.js",
-					"three/addons/": "/manual/examples/jsm/"
+					"three": "./examples/build/three.webgpu.js",
+					"three/webgpu": "./examples/build/three.webgpu.js",
+					"three/tsl": "./examples/build/three.tsl.js",
+					"three/addons/": "./examples/jsm/"
 				}
 			}
 		</script>
@@ -287,7 +286,7 @@
 			function animate() {
                 const dt = clock.getDelta();
                 simulationTime.setSeconds(simulationTime.getSeconds() + dt);
-                timeDisplay.innerText = "GAME CLOCK: " + simulationTime.toLocaleString();
+                timeDisplay.innerText = "AI BRAIN CLOCK: " + simulationTime.toLocaleString();
 
                 const h = simulationTime.getHours();
                 const m = simulationTime.getMinutes();
