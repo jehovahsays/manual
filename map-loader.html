@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Map Loader</title>
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, maximum-scale=1.0">
+    
+    <script src="./voice.js"></script> 
+</head>
+<body>
+    <script>
+        // 1. Get the condition from the URL query string (e.g., ?condition=foggy)
+        const params = new URLSearchParams(window.location.search);
+        const requestedCondition = params.get('condition') || 'day'; // Default to 'day' if none found
+
+        // 2. Generate the dynamic HTML based on the condition
+        if (typeof generateMapSceneHtml === 'function') {
+            const mapContent = generateMapSceneHtml(requestedCondition);
+        
+            // 3. Write the new content to the document, replacing everything
+            document.open();
+            document.write(mapContent);
+            document.close();
+        } else {
+             document.body.innerHTML = '<h1>Error: Map generation script not found. Ensure voice.js is loaded.</h1>';
+        }
+
+    </script>
+</body>
+</html>
