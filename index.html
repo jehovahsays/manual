@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>map - AI Day or Night Perception</title>
+		<title>index</title>
 		<meta charset="utf-8">
 		<http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/manual/files/main.css">
+ <link rel="icon" href="/manual/favicon.ico" />
 
   <style>
     body { margin: 0; overflow: hidden; background-color: #000; }
@@ -33,6 +36,9 @@
         cursor: pointer;
     }
     .infobox { position: fixed; top: 250px; left: 50%; transform: translateX(-50%); z-index: 10; }
+	
+	    .map-loader { position: fixed; top: 300px; left: 50%; transform: translateX(-50%); z-index: 10; }
+
 </style>
 <script>
 (function () {
@@ -69,8 +75,6 @@
   }
 })();
 </script>
-
-
 	</head>
 	<body>
         <div id="time-container">
@@ -80,16 +84,19 @@
         </div>
 
 		<div id="info">
-		    <a href="./play.html" target="_blank" rel="noopener"><button class="infobox">play</button></a>
+		    <a href="./play.html" target="_blank" rel="noopener"><button class="infobox">PLAY</button></a>
+			<br>
+			    <a href="./map-loader.html" target="_blank" rel="noopener"><button class="map-loader">map-loader</button></a>
+		
 		</div>
 
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "./examples/build/three.webgpu.js",
-					"three/webgpu": "./examples/build/three.webgpu.js",
-					"three/tsl": "./examples/build/three.tsl.js",
-					"three/addons/": "./examples/jsm/"
+					"three": "/manual/examples/build/three.webgpu.js",
+					"three/webgpu": "/manual/examples/build/three.webgpu.js",
+					"three/tsl": "/manual/examples/build/three.tsl.js",
+					"three/addons/": "/manual/examples/jsm/"
 				}
 			}
 		</script>
@@ -286,7 +293,7 @@
 			function animate() {
                 const dt = clock.getDelta();
                 simulationTime.setSeconds(simulationTime.getSeconds() + dt);
-                timeDisplay.innerText = "AI BRAIN CLOCK: " + simulationTime.toLocaleString();
+                timeDisplay.innerText = "GAME CLOCK: " + simulationTime.toLocaleString();
 
                 const h = simulationTime.getHours();
                 const m = simulationTime.getMinutes();
