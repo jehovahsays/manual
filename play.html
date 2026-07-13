@@ -72,6 +72,21 @@
             z-index: 100;
         }
 
+        /* Top Center Responsive Minimap */
+        #minimap-ui {
+            position: fixed;
+            top: 0px;
+            left: 60%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.65);
+            border: 2px solid #0f0;
+            border-radius: 8px;
+            z-index: 500;
+            pointer-events: none;
+        }
+
         .lil-gui { z-index: 2 !important; }
 
         @media all and ( max-width: 640px ) {
@@ -82,6 +97,22 @@
                 max-width: 30%;
                 bottom: 0px;
             }
+        }
+		
+		#user-status-display {
+            position: fixed;
+            right: 20px;
+            top: 110px; 
+            width: 140px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #0f0;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            z-index: 1000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 	
@@ -113,13 +144,32 @@
         document.addEventListener('DOMContentLoaded', () => showError('WebGPU not supported.'));
       }
     })();
-    </script>	
+	
+	document.addEventListener("DOMContentLoaded", () => {
+	    if(typeof updateUserStatus === "function") updateUserStatus();
+	});
+    </script>
 </head>
 
+<script src="./dompurify.js" defer></script>
+<script src="./a.js" defer></script>
+
 <body>  
+<div id="container">
+  <nav id="sidebar"></nav>
+
+  <div id="user-status-display" style="font-family: 'Courier New', monospace; color: #0f0; font-weight: bold;"></div>
+
+  <main id="main-content-wrapper" itemscope itemtype="https://schema.org/WebPage">
+    <meta itemprop="url" content="https://jehovahsays.github.io/jehovahsaysnetworth/">
+    <div id="page-container"></div> 
+  </main>
+
+  <canvas id="minimap-ui" width="120" height="120"></canvas>
+
     <div id="info"></div>
     <div id="orbit-controls-info">
-        <a href="./index.html" target="_blank" rel="noopener"><button class="infobox">home</button></a>
+        <a href="./map.html" target="_blank" rel="noopener"><button class="infobox">Exit</button></a>
     </div>
         
     <div id="joystick-left" class="joystick-container"><div id="handle-left" class="handle"></div></div>
@@ -145,22 +195,120 @@
         let container, clock, gui, mixer, actions, activeAction, previousAction, camera, scene, renderer, model;
         let moveX = 0, moveZ = 0, lookX = 0, lookY = 0, characterRotationY = 0; 
         let orbitControls, orbitMode = false;
-        let playerScore = 0, playerHealth = 3, playerSize = 1.0;
-        let bullets = [], boss = null, bossHealth = 5, bossAttackTimer = 0, gameActive = true;
+        let playerScore = 0, playerHealth = 10, playerSize = 1.0;
+        let bullets = [], gameActive = true;
+
+        let bosses = [];
+        let currentRound = 1;
+        let healthPackages = [];
+
+        // Minimap setup
+        const minimapCanvas = document.getElementById('minimap-ui');
+        const minimapCtx = minimapCanvas.getContext('2d');
 
         const api = { state: 'Walking' };
 
         function loadout() {
-            window.location.href = './';
+            window.location.href = './map.html';
         }
 
-        function createBoss() {
-            const geometry = new THREE.BoxGeometry(5, 5, 5);
-            const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-            boss = new THREE.Mesh(geometry, material);
-            boss.position.set(0, 5, -20);
-            scene.add(boss);
-            bossHealth = 5;
+        function createUsername(text, color) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 256; canvas.height = 64;
+            ctx.font = 'Bold 40px Arial';
+            ctx.fillStyle = color;
+            ctx.textAlign = 'center';
+            ctx.fillText(text, 128, 45);
+            const texture = new THREE.CanvasTexture(canvas);
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+            sprite.scale.set(4, 1, 1);
+            return sprite;
+        }
+
+        function getActiveUsername() {
+            try {
+                const storedUser = localStorage.getItem('mev_wiki_auth_key') || localStorage.getItem('mev_active_session');
+                if (storedUser && storedUser.trim() !== '') {
+                    return storedUser.split(':')[0];
+                }
+            } catch (e) {
+                console.error('Failed reading security perimeter token:', e);
+            }
+            return 'Guest';
+        }
+
+        async function logScoreToRecentChanges() {
+            const currentName = getActiveUsername();
+            const storageKey = 'mev_wiki_changes';
+            try {
+                let currentChanges = [];
+                const rawData = localStorage.getItem(storageKey);
+                if (rawData) {
+                    currentChanges = JSON.parse(rawData);
+                }
+                const gameChangeEntry = {
+                    title: `🎯 Game High Score: ${playerScore} pts (${currentName})`,
+                    timestamp: new Date().toISOString(),
+                    type: 'Update'
+                };
+                currentChanges.unshift(gameChangeEntry);
+                localStorage.setItem(storageKey, JSON.stringify(currentChanges));
+            } catch (err) {
+                console.error('Failed writing tracking token:', err);
+            }
+        }
+
+        // Drop dynamic 🎁 item upon boss removal
+        function spawnHealthPackage(position) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 64; canvas.height = 64;
+            ctx.font = '48px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🎁', 32, 32); // Beautiful emoji rendering
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.position.copy(position);
+            sprite.position.y = 1.5; // Hovers at collection level
+            sprite.scale.set(3, 3, 3);
+            
+            scene.add(sprite);
+            healthPackages.push(sprite);
+        }
+
+        function spawnBossRound() {
+            bosses = [];
+            showNotification(`Round ${currentRound}: Spawned ${currentRound} Bosses!`);
+            
+            for (let i = 0; i < currentRound; i++) {
+                const geometry = new THREE.BoxGeometry(5, 5, 5);
+                const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+                const mesh = new THREE.Mesh(geometry, material);
+                
+                const offsetX = (i - (currentRound - 1) / 2) * 20;
+                // Distribute relative to wherever the character currently stands
+                const baseZ = model ? model.position.z - 40 : -20;
+                const baseX = model ? model.position.x + offsetX : offsetX;
+                
+                mesh.position.set(baseX, 5, baseZ);
+                
+                const label = createUsername('a.js', '#ff0000');
+                label.position.y = 4;
+                mesh.add(label);
+                
+                scene.add(mesh);
+                
+                bosses.push({
+                    mesh: mesh,
+                    health: 5,
+                    attackTimer: Math.random() * 2,
+                    seedOffset: i * 500
+                });
+            }
         }
 
         function createBullet(position, direction) {
@@ -175,11 +323,11 @@
             bullets.push(bullet);
         }
 
-        function createBossBullet() {
-            if (!boss || !gameActive || !model) return;
+        function createBossBullet(bossMesh) {
+            if (!bossMesh || !gameActive || !model) return;
             const bullet = new THREE.Mesh(new THREE.SphereGeometry(0.8, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff4500 }));
-            bullet.position.copy(boss.position);
-            const direction = new THREE.Vector3().subVectors(model.position, boss.position).normalize();
+            bullet.position.copy(bossMesh.position);
+            const direction = new THREE.Vector3().subVectors(model.position, bossMesh.position).normalize();
             bullet.direction = direction;
             bullet.speed = 1.0;
             bullet.isPlayerBullet = false;
@@ -192,25 +340,36 @@
                 const bullet = bullets[i];
                 bullet.position.addScaledVector(bullet.direction, bullet.speed);
                 
-                if (model && bullet.position.distanceTo(model.position) > 100) {
+                if (model && bullet.position.distanceTo(model.position) > 120) {
                     scene.remove(bullet);
                     bullets.splice(i, 1);
                     continue;
                 }
                 
                 if (bullet.isPlayerBullet) {
-                    if (boss && bullet.position.distanceTo(boss.position) < 3) {
-                        bossHealth--;
-                        scene.remove(bullet);
-                        bullets.splice(i, 1);
-                        if (bossHealth <= 0) {
-                            scene.remove(boss);
-                            boss = null;
-                            playerScore += 10;
-                            playerSize += 0.2;
-                            updatePlayerSize();
-                            showNotification("Boss Defeated! +10");
-                            setTimeout(createBoss, 5000);
+                    for (let b = bosses.length - 1; b >= 0; b--) {
+                        const targetBoss = bosses[b];
+                        if (bullet.position.distanceTo(targetBoss.mesh.position) < 3) {
+                            targetBoss.health--;
+                            scene.remove(bullet);
+                            bullets.splice(i, 1);
+                            
+                            if (targetBoss.health <= 0) {
+                                spawnHealthPackage(targetBoss.mesh.position);
+                                scene.remove(targetBoss.mesh);
+                                bosses.splice(b, 1);
+                                playerScore += 10;
+                                logScoreToRecentChanges();
+                                playerSize += 0.05;
+                                updatePlayerSize();
+                                showNotification("Boss Defeated! +10");
+                                
+                                if (bosses.length === 0) {
+                                    currentRound++;
+                                    setTimeout(spawnBossRound, 3000);
+                                }
+                            }
+                            break;
                         }
                     }
                 } else {
@@ -228,15 +387,90 @@
         }
 
         function updateBoss(deltaTime) {
-            if (!boss || !gameActive || !model) return;
-            boss.position.y = 5 + Math.sin(Date.now() * 0.001) * 2;
-            boss.position.x = Math.sin(Date.now() * 0.0005) * 10;
-            boss.lookAt(model.position);
-            bossAttackTimer += deltaTime;
-            if (bossAttackTimer > 2) { 
-                createBossBullet();
-                bossAttackTimer = 0;
+            if (!gameActive || !model) return;
+            for (let i = 0; i < bosses.length; i++) {
+                const boss = bosses[i];
+                const timeFactor = Date.now() * 0.001 + boss.seedOffset;
+                boss.mesh.position.y = 5 + Math.sin(timeFactor) * 1.5;
+                boss.mesh.lookAt(model.position);
+                
+                boss.attackTimer += deltaTime;
+                if (boss.attackTimer > 2.5) { 
+                    createBossBullet(boss.mesh);
+                    boss.attackTimer = 0;
+                }
             }
+        }
+
+        function updateHealthPackages() {
+            if (!model || !gameActive) return;
+            for(let i = healthPackages.length - 1; i >= 0; i--) {
+                const pkg = healthPackages[i];
+                pkg.position.y = 1.5 + Math.sin(Date.now() * 0.003 + i) * 0.2;
+                
+                // Detection collision radius
+                if(model.position.distanceTo(pkg.position) < 3.0) {
+                    playerHealth += 25; // Gives exactly 25 health
+                    showNotification("Collected Care Package! +25 HP 🎁");
+                    scene.remove(pkg);
+                    healthPackages.splice(i, 1);
+                }
+            }
+        }
+
+        // Renders the real-time Minimap view cleanly with fixed coordinate positioning
+        function renderMinimap() {
+            minimapCtx.clearRect(0, 0, 120, 120);
+            
+            // Draw background color mapping space
+            minimapCtx.fillStyle = 'rgba(15, 30, 15, 0.7)';
+            minimapCtx.fillRect(0, 0, 120, 120);
+
+            if (!model) return;
+
+            const cx = 60;
+            const cz = 60;
+            const scale = 0.6; // Scale factor maps local coordinates cleanly
+
+            // Draw player centralized precisely at the center
+            minimapCtx.save();
+            minimapCtx.translate(cx, cz);
+            
+            // Rotate the entire radar view matching the character's internal perspective.
+            // This guarantees things forward in Three.js coordinates remain directly forward on the 2D plane layout.
+            minimapCtx.rotate(-characterRotationY);
+
+            // Draw enemies inside radar range relative to player's heading position matrix
+            minimapCtx.fillStyle = '#ff0000';
+            bosses.forEach(b => {
+                // Calculate position relative to the user
+                const dx = b.mesh.position.x - model.position.x;
+                const dz = b.mesh.position.z - model.position.z;
+                
+                // Map local coordinates directly to the 2D orientation grid
+                // In Three.js, -z goes straight forward, so we invert the depth axis projection matrix
+                const radarX = dx * scale;
+                const radarZ = dz * scale;
+                
+                // Keep points locked strictly bounded inside the square grid canvas element view
+                const mapX = Math.max(-54, Math.min(54, radarX));
+                const mapZ = Math.max(-54, Math.min(54, radarZ));
+                
+                minimapCtx.beginPath();
+                minimapCtx.arc(mapX, mapZ, 3.5, 0, Math.PI * 2);
+                minimapCtx.fill();
+            });
+
+            // Draw Green Triangle pointing straight forward (Upwards towards top border frame)
+            minimapCtx.fillStyle = '#00ff00';
+            minimapCtx.beginPath();
+            minimapCtx.moveTo(0, -7);   // Tip pointing front
+            minimapCtx.lineTo(-5, 5);   // Bottom Left
+            minimapCtx.lineTo(5, 5);    // Bottom Right
+            minimapCtx.closePath();
+            minimapCtx.fill();
+            
+            minimapCtx.restore();
         }
 
         function updatePlayerSize() {
@@ -244,22 +478,26 @@
         }
 
         function createUI() {
-            const uiStyle = "position:absolute; color:white; font-family:Arial; font-weight:bold;";
+            const uiStyle = "position:absolute; color:white; font-family:Arial; font-weight:bold; background:rgba(0,0,0,0.7); padding:12px 20px; border-radius:10px;";
+            
             const score = document.createElement('div');
-            score.id = 'scoreDisplay'; score.style = uiStyle + "top:10px; left:10px; font-size:18px;";
+            score.id = 'scoreDisplay'; 
+            score.style = uiStyle + "top:10px; left:10px; font-size:18px;";
             document.body.appendChild(score);
             
             const health = document.createElement('div');
-            health.id = 'healthDisplay'; health.style = uiStyle + "top:40px; left:10px; font-size:18px;";
+            health.id = 'healthDisplay'; 
+            health.style = uiStyle + "top:70px; left:10px; font-size:18px;";
             document.body.appendChild(health);
             
             const notify = document.createElement('div');
-            notify.id = 'notification'; notify.style = uiStyle + "top:50%; left:50%; transform:translate(-50%,-50%); display:none; background:rgba(0,0,0,0.7); padding:20px; border-radius:10px;";
+            notify.id = 'notification'; 
+            notify.style = "position:absolute; color:white; font-family:Arial; font-weight:bold; top:50%; left:50%; transform:translate(-50%,-50%); display:none; background:rgba(0,0,0,0.7); padding:20px; border-radius:10px;";
             document.body.appendChild(notify);
         }
 
         function updateUI() {
-            document.getElementById('scoreDisplay').textContent = `Score: ${playerScore}`;
+            document.getElementById('scoreDisplay').textContent = `Score: ${playerScore} (Round ${currentRound})`;
             document.getElementById('healthDisplay').textContent = `Health: ${playerHealth}`;
         }
 
@@ -276,44 +514,131 @@
             }
         }
 
-        function createCity() {
+        // Generates open world environments containing varied landscape regions, trees, and rocks
+        function createOpenWorld() {
+            // Master city center grid setup
             const buildingMaterial = new THREE.MeshPhongMaterial({ color: 0x555555 });
             for (let i = 0; i < 50; i++) {
                 const h = Math.random() * 10 + 5;
                 const b = new THREE.Mesh(new THREE.BoxGeometry(Math.random()*2+1, h, Math.random()*2+1), buildingMaterial);
-                b.position.set(Math.random()*100-50, h/2, Math.random()*100-50);
+                b.position.set(Math.random()*80-40, h/2, Math.random()*80-40);
                 scene.add(b);
             }
+
+            // Procedural Infinite Biome / Nature generation
+            const treeTrunkGeo = new THREE.CylinderGeometry(0.2, 0.4, 2, 8);
+            const treeTrunkMat = new THREE.MeshPhongMaterial({ color: 0x5c4033 });
+            const treeTopGeo = new THREE.ConeGeometry(1.5, 4, 8);
+            const treeTopMat = new THREE.MeshPhongMaterial({ color: 0x2e8b57 });
+            const rockGeo = new THREE.DodecahedronGeometry(1.5);
+            const rockMat = new THREE.MeshPhongMaterial({ color: 0x888888 });
+
+            // Scattered environment objects over a massive radius 
+            for (let i = 0; i < 350; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                // Position them outside the central city radius core safely
+                const radius = 50 + Math.random() * 450; 
+                const x = Math.cos(angle) * radius;
+                const z = Math.sin(angle) * radius;
+
+                if (Math.random() > 0.45) {
+                    // Assemble a complete procedural low-poly tree structure
+                    const treeFrame = new THREE.Group();
+                    const trunk = new THREE.Mesh(treeTrunkGeo, treeTrunkMat);
+                    trunk.position.y = 1;
+                    const top = new THREE.Mesh(treeTopGeo, treeTopMat);
+                    top.position.y = 3.5;
+                    treeFrame.add(trunk, top);
+                    treeFrame.position.set(x, 0, z);
+                    scene.add(treeFrame);
+                } else {
+                    // Populate varying boulder formations
+                    const rock = new THREE.Mesh(rockGeo, rockMat);
+                    rock.position.set(x, 0.4, z);
+                    rock.scale.set(Math.random() + 0.5, Math.random() * 2 + 0.5, Math.random() + 0.5);
+                    scene.add(rock);
+                }
+            }
+        }
+
+        // Builds dynamic procedural color materials tracking landscape geography variables smoothly
+        function createDynamicTerrain() {
+            const worldSize = 2000;
+            const segments = 120;
+            const geo = new THREE.PlaneGeometry(worldSize, worldSize, segments, segments);
+            
+            // Access configuration mapping arrays to paint colors dynamically based on vector distances
+            const colors = [];
+            const colorObj = new THREE.Color();
+            const pos = geo.attributes.position;
+
+            for (let i = 0; i < pos.count; i++) {
+                const vx = pos.getX(i);
+                const vy = pos.getY(i);
+                const distFromCenter = Math.sqrt(vx * vx + vy * vy);
+
+                if (distFromCenter < 90) {
+                    // Central City Foundation Surface Color
+                    colorObj.setHex(0xcbcbcb);
+                } else if (distFromCenter > 90 && distFromCenter < 280) {
+                    // Vibrant green natural fields exploration zones
+                    colorObj.setHex(0x3b7a57);
+                } else if (distFromCenter >= 280 && distFromCenter < 360) {
+                    // Warm sandy beach coastlines
+                    colorObj.setHex(0xeedd82);
+                } else {
+                    // Endless deep ocean blue boundary spaces
+                    colorObj.setHex(0x1d4e89);
+                }
+                colors.push(colorObj.r, colorObj.g, colorObj.b);
+            }
+
+            geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            
+            const terrainMaterial = new THREE.MeshPhongMaterial({
+                vertexColors: true,
+                flatShading: true,
+                depthWrite: false
+            });
+
+            const floor = new THREE.Mesh(geo, terrainMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            scene.add(floor);
         }
 
         function init() {
             container = document.createElement('div');
             document.body.appendChild(container);
-            camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.25, 100);
+            camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.25, 600);
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xe0e0e0);
-            scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
+            scene.background = new THREE.Color(0xb0e0e6); // Switched to scenic light sky atmosphere colors
+            scene.fog = new THREE.Fog(0xb0e0e6, 60, 500);
             clock = new THREE.Clock();
 
             const hemi = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3);
-            hemi.position.set(0, 20, 0);
+            hemi.position.set(0, 50, 0);
             scene.add(hemi);
             const dir = new THREE.DirectionalLight(0xffffff, 3);
-            dir.position.set(0, 20, 10);
+            dir.position.set(10, 40, 20);
             scene.add(dir);
 
-            const floor = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0xcbcbcb, depthWrite: false }));
-            floor.rotation.x = -Math.PI / 2;
-            scene.add(floor);
-            scene.add(new THREE.GridHelper(200, 40, 0x000000, 0x000000));
+            createDynamicTerrain();
+            createOpenWorld();
+            scene.add(new THREE.GridHelper(180, 30, 0x000000, 0x000000));
             
-            createCity();
             new GLTFLoader().load('./examples/models/gltf/RobotExpressive/RobotExpressive.glb', (gltf) => {
                 model = gltf.scene;
                 scene.add(model);
                 createGUI(model, gltf.animations);
+	
+                const currentSessionName = getActiveUsername();
+                const playerLabel = createUsername(currentSessionName, '#0033ff');
+                playerLabel.position.y = 6;
+                model.add(playerLabel);
                 orbitControls = new OrbitControls(camera, renderer.domElement);
                 orbitControls.enabled = false;
+                
+                spawnBossRound();
             });
 
             renderer = new THREE.WebGLRenderer({ antialias: false });
@@ -324,7 +649,6 @@
 
             window.addEventListener('resize', onWindowResize);
             createUI();
-            createBoss();
             setupDualJoysticks();
 
             document.addEventListener('keydown', (e) => { if(e.code === 'Space') handlePlayerShoot(); });
@@ -373,10 +697,14 @@
                     action.loop = THREE.LoopOnce;
                 }
             });
-
+			
             const sf = gui.addFolder('States');
+            sf.close();
+
             sf.add(api, 'state').options(states).onChange(() => fadeToAction(api.state, 0.5));
             const ef = gui.addFolder('Emotes');
+            ef.close();
+            gui.close();
             emotes.forEach(name => {
                 api[name] = () => { fadeToAction(name, 0.2); mixer.addEventListener('finished', function restore() {
                     mixer.removeEventListener('finished', restore); fadeToAction(api.state, 0.2);
@@ -414,11 +742,14 @@
             }
             updateBullets(dt);
             updateBoss(dt);
+            updateHealthPackages();
             updateUI();
+            renderMinimap();
             renderer.render(scene, camera);
         }
 
         init();
     </script>
+</div>
 </body>
 </html>
